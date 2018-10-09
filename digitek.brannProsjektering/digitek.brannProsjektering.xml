@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>digitek.brannProsjektering</name>
+    </assembly>
+    <members>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get">
+            <summary>
+            This shows the responce from Camunda server
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

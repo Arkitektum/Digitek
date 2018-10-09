@@ -1,0 +1,123 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="CamundaModels\BPMNSubmodelTestDotNet.bpmn" />
+    <None Remove="CamundaModels\Bpmn\BrannJsonOutputModel.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Brannklasse Model.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Brannmotstand Model.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Brannseksjon og Brannmotstand Model.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Krav til branntiltak Model.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Ledesystem Model.bpmn" />
+    <None Remove="CamundaModels\Bpmn\Risikoklasse Model.bpmn" />
+    <None Remove="CamundaModels\BrannklasseModelDotNet.bpmn" />
+    <None Remove="CamundaModels\BrannmotstandModelDotNet.bpmn" />
+    <None Remove="CamundaModels\BrannseksjonOgBrannmotstandDotNet.bpmn" />
+    <None Remove="CamundaModels\BrannTekniskProsjekteringModel.bpmn" />
+    <None Remove="CamundaModels\Dmn\01_RisikoklasseFraTypeVirksomhet.dmn" />
+    <None Remove="CamundaModels\Dmn\01_Risikoklassifisering.dmn" />
+    <None Remove="CamundaModels\Dmn\01_VedleggTilRisikoklasse.dmn" />
+    <None Remove="CamundaModels\Dmn\02a_Brannklasse.dmn" />
+    <None Remove="CamundaModels\Dmn\02b_BrannklasseKonsekvensBeskrivelse.dmn" />
+    <None Remove="CamundaModels\Dmn\02_KonsekvensBrannklassifisering.dmn" />
+    <None Remove="CamundaModels\Dmn\03a_StorrelseBrannseksjonBelastningTiltak.dmn" />
+    <None Remove="CamundaModels\Dmn\03_TiltakStorrelseBrannseksjonBelastning.dmn" />
+    <None Remove="CamundaModels\Dmn\04_ BrannmotstandSeksjoneringsvegg.dmn" />
+    <None Remove="CamundaModels\Dmn\05_TiltakBrannveggHoyeBygg.dmn" />
+    <None Remove="CamundaModels\Dmn\06_BrannmotstandBaerendeBygningsdeler.dmn" />
+    <None Remove="CamundaModels\Dmn\07_BrannmotstandSkillendeKonstruksjon.dmn" />
+    <None Remove="CamundaModels\Dmn\08a_KlassifiseringTrapperom.dmn" />
+    <None Remove="CamundaModels\Dmn\08b_BrannmotstandTrapperom.dmn" />
+    <None Remove="CamundaModels\Dmn\09_TiltakPavirkeRomningstid.dmn" />
+    <None Remove="CamundaModels\Dmn\10a_BrannalarmKategori.dmn" />
+    <None Remove="CamundaModels\Dmn\10b_DetektorBrannalarmKategori.dmn" />
+    <None Remove="CamundaModels\Dmn\10b_KravBranndetektorRom.dmn" />
+    <None Remove="CamundaModels\Dmn\11_TiltakManuellBrannslokking.dmn" />
+    <None Remove="CamundaModels\Dmn\12a_LedesystemEvakuering.dmn" />
+    <None Remove="CamundaModels\Dmn\12b_LedesystemEvakueringVarighet.dmn" />
+    <None Remove="CamundaModels\Dmn\13_OverflateKledningBrannseksjonTEK17_11_9.dmn" />
+    <None Remove="CamundaModels\Dmn\14_OverflaterBranncelleRomningsvei.dmn" />
+    <None Remove="CamundaModels\Dmn\15_BrannmotstandIsolasjon.dmn" />
+    <None Remove="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
+    <None Remove="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
+    <None Remove="CamundaModels\Dmn\18_BrannmotstandMotstaendeVinduerYttervegger.dmn" />
+    <None Remove="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
+    <None Remove="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
+    <None Remove="CamundaModels\LedesystemModelDotNet.bpmn" />
+    <None Remove="CamundaModels\RisikoklassenModelDotNet.bpmn" />
+    <None Remove="CamundaModels\SubmodelDataDictionaryDotNet.bpmn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="CamundaModels\BPMNSubmodelTestDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\BrannJsonOutputModel.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Brannklasse Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Brannmotstand Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Brannseksjon og Brannmotstand Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Krav til branntiltak Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Ledesystem Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Bpmn\Risikoklasse Model.bpmn" />
+    <EmbeddedResource Include="CamundaModels\BrannklasseModelDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\BrannmotstandModelDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\BrannseksjonOgBrannmotstandDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\BrannTekniskProsjekteringModel.bpmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\01_RisikoklasseFraTypeVirksomhet.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\01_Risikoklassifisering.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\01_VedleggTilRisikoklasse.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\02a_Brannklasse.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\02b_BrannklasseKonsekvensBeskrivelse.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\02_KonsekvensBrannklassifisering.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\03a_StorrelseBrannseksjonBelastningTiltak.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\03_TiltakStorrelseBrannseksjonBelastning.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\04_ BrannmotstandSeksjoneringsvegg.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\05_TiltakBrannveggHoyeBygg.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\06_BrannmotstandBaerendeBygningsdeler.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\07_BrannmotstandSkillendeKonstruksjon.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\08a_KlassifiseringTrapperom.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\08b_BrannmotstandTrapperom.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\09_TiltakPavirkeRomningstid.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\10a_BrannalarmKategori.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\10b_DetektorBrannalarmKategori.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\10b_KravBranndetektorRom.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\11_TiltakManuellBrannslokking.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\12a_LedesystemEvakuering.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\12b_LedesystemEvakueringVarighet.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\13_OverflateKledningBrannseksjonTEK17_11_9.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\14_OverflaterBranncelleRomningsvei.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\15_BrannmotstandIsolasjon.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\18_BrannmotstandMotstaendeVinduerYttervegger.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
+    <EmbeddedResource Include="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\LedesystemModelDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\RisikoklassenModelDotNet.bpmn" />
+    <EmbeddedResource Include="CamundaModels\SubmodelDataDictionaryDotNet.bpmn" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CamundaClient\CamundaClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Data\JsonDmn2TEK.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\JsonDmnVariablesNames.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Data\JsonTable2Variables.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

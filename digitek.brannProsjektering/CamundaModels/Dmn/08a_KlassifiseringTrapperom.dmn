@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0oolyrh" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="KlassifiseringTrapperom" name="Klassifisering trapperom">
+    <extensionElements>
+      <biodi:bounds x="567" y="214" width="180" height="80" />
+      <biodi:edge source="InputData_1e2d6bt">
+        <biodi:waypoints x="718" y="157" />
+        <biodi:waypoints x="675" y="214" />
+      </biodi:edge>
+      <biodi:edge source="InputData_01egmwm">
+        <biodi:waypoints x="597" y="159" />
+        <biodi:waypoints x="628" y="214" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_15srpo5">
+        <biodi:waypoints x="808" y="244" />
+        <biodi:waypoints x="747" y="243" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1ml81a2">
+        <biodi:waypoints x="813" y="308" />
+        <biodi:waypoints x="747" y="278" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1e2d6bt" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_01egmwm" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_15srpo5" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1ml81a2" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_1ozwsbp" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1tifg7p" typeRef="string">        <text>rkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_0ibwe18">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6"]]></text>
+</inputValues>
+      </input>
+      <input id="InputClause_0sh33mt" label="Antall etasjer" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_06ec47z" typeRef="integer">        <text>antallEtasjer</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Trapperomklasse" name="trappeRomKlasse" typeRef="string">
+        <outputValues id="UnaryTests_1dsz30l">        <text><![CDATA["TR1","TR2","TR3"]]></text>
+</outputValues>
+      </output>
+      <rule id="row-542513221-1">
+        <inputEntry id="UnaryTests_1rpv7mq">        <text><![CDATA["RKL1","RKL2","RKL4"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1nxgb3h">        <text><![CDATA[<=8]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1vtbcup">        <text><![CDATA["TR1"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-3">
+        <inputEntry id="UnaryTests_1nh4p11">        <text><![CDATA["RKL3","RKL5","RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0wtpv0v">        <text><![CDATA[<=8]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1g4m1qy">        <text><![CDATA["TR2"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="table-377237838-4">
+        <inputEntry id="UnaryTests_12p5bs1">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1oe9qk3">        <text><![CDATA[>8]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_00syhe0">        <text><![CDATA["TR3"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1e2d6bt" name="Antall etasjer">
+    <extensionElements>
+      <biodi:bounds x="665" y="112" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_15srpo5" name="REN §7-27 tab. 6 s. 113">
+    <extensionElements>
+      <biodi:bounds x="808" y="212" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <inputData id="InputData_01egmwm" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="517" y="114" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_1ml81a2" name="TEK17 § 11-8">
+    <extensionElements>
+      <biodi:bounds x="813" y="299" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0oolyrh" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <inputData id="InputData_07y4pjg" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="433" y="119" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <decision id="BrannmotstandTrapperom" name="Brannmotstand trapperom">
+    <extensionElements>
+      <biodi:bounds x="350" y="234" width="180" height="80" />
+      <biodi:edge source="InputData_07y4pjg">
+        <biodi:waypoints x="496" y="164" />
+        <biodi:waypoints x="491" y="234" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1mmd68j">
+        <biodi:waypoints x="596" y="264" />
+        <biodi:waypoints x="530" y="267" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_196vhme">
+        <biodi:waypoints x="603" y="338" />
+        <biodi:waypoints x="530" y="307" />
+      </biodi:edge>
+      <biodi:edge source="InputData_00nsn8g">
+        <biodi:waypoints x="349" y="168" />
+        <biodi:waypoints x="411" y="234" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_07y4pjg" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_00nsn8g" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1mmd68j" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_196vhme" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_1ohh97b">
+      <input id="InputClause_1bseupg" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0i81tqj" typeRef="string">        <text>bkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_1innouu">        <text><![CDATA["BKL1","BKL2","BKL3","BKL4","Ikke krav"]]></text>
+</inputValues>
+      </input>
+      <input id="InputClause_1x78vky" label="Trapperom" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1qnxews" typeRef="string">        <text>trappeRomKlasse</text>
+</inputExpression>
+        <inputValues id="UnaryTests_0w05e0t">        <text><![CDATA["TR1","TR2","TR3"]]></text>
+</inputValues>
+      </input>
+      <output id="OutputClause_1nykj0s" label="Konstruksjoner som omgir trapperom" name="kravBrannmotstandRundtTrapperom" typeRef="string" />
+      <rule id="row-542513221-7">
+        <inputEntry id="UnaryTests_1boaptm">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0eg92bp">        <text><![CDATA["TR1","TR2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_18ttjrw">        <text><![CDATA["EI-30 [B 30]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-8">
+        <inputEntry id="UnaryTests_1195hp5">        <text><![CDATA["BKL1","BKL2","BKL3"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0g0dirn">        <text><![CDATA["TR3"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1y1av0b">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-9">
+        <inputEntry id="UnaryTests_0gb38mr">        <text><![CDATA["BKL2","BKL3"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1nhfz9w">        <text><![CDATA["TR1","TR2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_063vhpa">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-30955691-2">
+        <inputEntry id="UnaryTests_0j8ak5b">        <text><![CDATA["Ikke krav"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_099dgyf">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0oojih2">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <knowledgeSource id="KnowledgeSource_1mmd68j" name="REN §7-24 s. 70-71">
+    <extensionElements>
+      <biodi:bounds x="596" y="230" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <inputData id="InputData_00nsn8g" name="Trapperomklasse">
+    <extensionElements>
+      <biodi:bounds x="286" y="123" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_196vhme" name="TEK17 § 11-8">
+    <extensionElements>
+      <biodi:bounds x="603" y="328" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

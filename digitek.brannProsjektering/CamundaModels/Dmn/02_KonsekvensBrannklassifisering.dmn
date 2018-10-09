@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0iabq3m" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="KonsekvensBrannklassifisering" name="Konsekvens brannklassifisering">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_0fr0u56">
+        <biodi:waypoints x="291" y="127" />
+        <biodi:waypoints x="293" y="200" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0fr0u56" />
+    </informationRequirement>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Konsekvens av brann" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>konsekvensAvBrann</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Brannklasse" name="bkl" typeRef="string" />
+      <rule id="row-953599122-5">
+        <inputEntry id="UnaryTests_17q8pwz">        <text><![CDATA["Liten konsekvens"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1t2bm8z">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-953599122-6">
+        <inputEntry id="UnaryTests_1swvmbe">        <text><![CDATA["Middels konsekvens"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1k8geka">        <text><![CDATA["BKL2"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-953599122-7">
+        <inputEntry id="UnaryTests_1uumetr">        <text><![CDATA["Stor konsekvens"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_08svbl5">        <text><![CDATA["BKL3"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-953599122-8">
+        <inputEntry id="UnaryTests_1hddcgs">        <text><![CDATA["Saerlig stor konsekvens"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1o9hlhw">        <text><![CDATA["BKL4"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0fr0u56" name="Konsekvens av brann">
+    <extensionElements>
+      <biodi:bounds x="228" y="82" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0nbz0v6" name="TEK17 § 11-3 Tabell 1: Brannklasse ">
+    <extensionElements>
+      <biodi:bounds x="438" y="89" width="100" height="63" />
+      <biodi:edge source="KonsekvensBrannklassifisering">
+        <biodi:waypoints x="357" y="200" />
+        <biodi:waypoints x="438" y="151" />
+      </biodi:edge>
+    </extensionElements>
+    <authorityRequirement>
+      <requiredDecision href="#KonsekvensBrannklassifisering" />
+    </authorityRequirement>
+  </knowledgeSource>
+  <textAnnotation id="TextAnnotation_0eipo35">
+    <extensionElements>
+      <biodi:bounds x="447" y="191" width="100" height="80" />
+    </extensionElements>
+    <text>Verdisett brannklasse og beskrivelse</text>
+  </textAnnotation>
+  <association id="Association_17qsn5d">
+    <extensionElements>
+      <biodi:edge source="decision">
+        <biodi:waypoints x="290" y="240" />
+        <biodi:waypoints x="497" y="231" />
+      </biodi:edge>
+    </extensionElements>
+    <sourceRef href="#decision" />
+    <targetRef href="#TextAnnotation_0eipo35" />
+  </association>
+</definitions>

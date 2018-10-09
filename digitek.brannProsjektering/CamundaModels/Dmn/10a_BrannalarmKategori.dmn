@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_12lqiy9" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="BrannalarmKategori" name="Brannalarm alarm kategori">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_0w9g17e">
+        <biodi:waypoints x="245" y="156" />
+        <biodi:waypoints x="249" y="200" />
+      </biodi:edge>
+      <biodi:edge source="InputData_09ptlmz">
+        <biodi:waypoints x="335" y="159" />
+        <biodi:waypoints x="331" y="200" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0w9g17e" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_09ptlmz" />
+    </informationRequirement>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>rkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_06kfxr6">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6"]]></text>
+</inputValues>
+      </input>
+      <input id="InputClause_0bjzlkl" label="Antall etasjer" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0u5dhxa" typeRef="integer">        <text>antallEtasjer</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Brannalarmkategori" name="brannalarmKategori" typeRef="integer" />
+      <rule id="row-181972709-1">
+        <description></description>
+        <inputEntry id="UnaryTests_0176inp">        <text><![CDATA["RKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0rhl9pg">        <text><![CDATA[>0]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0x9prbk">        <text>0</text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_16b93pp">
+        <inputEntry id="UnaryTests_0o7kpyv">        <text><![CDATA["RKL2", "RKL3",  "RKL4", "RKL5"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1no70lc">        <text><![CDATA[<=1]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0blk67n">        <text>1</text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ixytcn">
+        <inputEntry id="UnaryTests_1bdztdo">        <text><![CDATA["RKL2", "RKL3",  "RKL4", "RKL5"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1w84g3s">        <text><![CDATA[>1]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0pn279k">        <text>2</text>
+</outputEntry>
+      </rule>
+      <rule id="row-181972709-6">
+        <inputEntry id="UnaryTests_1714gd2">        <text><![CDATA["RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_17ym584">        <text><![CDATA[>0]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_04ngoy5">        <text>2</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0w9g17e" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="158" y="111" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_09ptlmz" name="Antall etasjer">
+    <extensionElements>
+      <biodi:bounds x="296" y="114" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

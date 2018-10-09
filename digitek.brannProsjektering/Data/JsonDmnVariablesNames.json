@@ -1,0 +1,432 @@
+﻿[
+  {
+    "VariabelId": "brannalarmKategori",
+    "VariabelNavn": "Brannalarmkategori",
+    "VariabelBeskrivelse": "Kategorisering av branndetektering og -alarmering"
+  },
+  {
+    "VariabelId": "kravFriBreddeRomnVei",
+    "VariabelNavn": "Fri bredde rømningsvei",
+    "VariabelBeskrivelse": "Krav til fri bredde i rømningsvei"
+  },
+  {
+    "VariabelId": "kravMinFriDorBredde",
+    "VariabelNavn": "Min fri dør bredde",
+    "VariabelBeskrivelse": "Krav til minste fri bredde på dør"
+  },
+  {
+    "VariabelId": "kravMaxLengdeFluktvei",
+    "VariabelNavn": "Lengste fluktvei",
+    "VariabelBeskrivelse": "Maksimal lengde på fluktvei (m)"
+  },
+  {
+    "VariabelId": "avstandDorIBranncelle1Dor",
+    "VariabelNavn": "Avstand til dør (1)",
+    "VariabelBeskrivelse": "Krav til lengste avstand til dør som er utgang fra branncelle eller til trapp"
+  },
+  {
+    "VariabelId": "kravAvstandDorIBranncelleflereDorer",
+    "VariabelNavn": "Avstand til dør (>1)",
+    "VariabelBeskrivelse": "Krav til lengste avstand til dør som er utgang fra branncelle eller til trapp"
+  },
+  {
+    "VariabelId": "typeVirksomhet",
+    "VariabelNavn": "Type virksomhet",
+    "VariabelBeskrivelse": "Virksomhetstype"
+  },
+  {
+    "VariabelId": "antallEtasjer",
+    "VariabelNavn": "Antall etasjer",
+    "VariabelBeskrivelse": "Antall etasjer i bygget"
+  },
+  {
+    "VariabelId": "brtArealPrEtasje",
+    "VariabelNavn": "Bruttoareal/etasje",
+    "VariabelBeskrivelse": "Bruttoareal pr etasje"
+  },
+  {
+    "VariabelId": "utgangTerrengAlleBoenheter",
+    "VariabelNavn": "Utgang til terreng",
+    "VariabelBeskrivelse": "Utgang til terreng fra alle boenheter"
+  },
+  {
+    "VariabelId": "merknadBkl",
+    "VariabelNavn": "Merknad",
+    "VariabelBeskrivelse": "Merknad til brannklassifisering"
+  },
+  {
+    "VariabelId": "konsekvensAvBrann",
+    "VariabelNavn": "Konsekvens av brann",
+    "VariabelBeskrivelse": "Vurdering av konsekvens av brann for liv"
+  },
+  {
+    "VariabelId": "baerendeHovedSystem",
+    "VariabelNavn": "Bærende hovedsystem",
+    "VariabelBeskrivelse": "Krav til bærende bygningsdelers brannmotstand "
+  },
+  {
+    "VariabelId": "sekundareBaerendeDeler",
+    "VariabelNavn": "Sekundære bærende bygningsdeler",
+    "VariabelBeskrivelse": "Krav til brannmotstand i sekundære"
+  },
+  {
+    "VariabelId": "trappeLop",
+    "VariabelNavn": "Trappeløp",
+    "VariabelBeskrivelse": "Krav til brannmotstand i trappeløp"
+  },
+  {
+    "VariabelId": "baerendeDelerUnderOversteKjeller",
+    "VariabelNavn": "Brannmotstand i bærende bygningsdeler under øverste kjeller",
+    "VariabelBeskrivelse": "Krav til brannmotstand i bærende bygningsdeler under øverste kjeller"
+  },
+  {
+    "VariabelId": "beskytttetUtvTrappeLop",
+    "VariabelNavn": "Utvendig trappeløp",
+    "VariabelBeskrivelse": "Utvendig trappeløp"
+  },
+  {
+    "VariabelId": "kravBrannmotstandDorISeksjvegg",
+    "VariabelNavn": "Brannmotstand",
+    "VariabelBeskrivelse": " dør i seksjoneringsvegg "
+  },
+  {
+    "VariabelId": "kravDorBranncelleTrapperomTr1",
+    "VariabelNavn": "Brannmotstand dør til trapperom (tr1)",
+    "VariabelBeskrivelse": "Krav til brannmotstand i dør fra branncelle til trapperom (tr1)"
+  },
+  {
+    "VariabelId": "kravDorBoenhetTrapperom",
+    "VariabelNavn": "Brannmotstand dør til trapperom",
+    "VariabelBeskrivelse": " boenhet"
+  },
+  {
+    "VariabelId": "kravDorKorridorTrapperomTr2",
+    "VariabelNavn": "Brannmotstand dør",
+    "VariabelBeskrivelse": " korridor til trapperom (tr2)"
+  },
+  {
+    "VariabelId": "kravDorRomTrapperomTr3",
+    "VariabelNavn": "Brannmotstand dør mellomliggende rom til trapperom (tr3)",
+    "VariabelBeskrivelse": "Krav til brannmotstand i dør fra mellomliggende rom til trapperom"
+  },
+  {
+    "VariabelId": "kravDorGarasjeBrannsluse",
+    "VariabelNavn": "Brannmotstand dør garasje til brannsluse",
+    "VariabelBeskrivelse": "Krav til brannmotstand i dør fra garasje til brannsluse"
+  },
+  {
+    "VariabelId": "kravDorBranncelleKorridor",
+    "VariabelNavn": "Brannmotstand dør branncelle til korridor",
+    "VariabelBeskrivelse": "Krav til brannmotstand i dør fra branncelle til korridor"
+  },
+  {
+    "VariabelId": "kravDorKorridorFriLuft",
+    "VariabelNavn": "Brannmotstand dør korridor til fri luft",
+    "VariabelBeskrivelse": "Krav til brannmotstand i dør fra korridor til fri luft"
+  },
+  {
+    "VariabelId": "kravUtvendigOverflate",
+    "VariabelNavn": "Krav til utvendig overflate",
+    "VariabelBeskrivelse": "Krav til brannmotstand utvendig overflate"
+  },
+  {
+    "VariabelId": "kravIsolasjonEureficKlasse",
+    "VariabelNavn": "Krav til isolasjon",
+    "VariabelBeskrivelse": "Krav til brannmotstand isolasjon"
+  },
+  {
+    "VariabelId": "referanseParagrafForskrift",
+    "VariabelNavn": "referanse Paragraf Forskrift",
+    "VariabelBeskrivelse": " "
+  },
+  {
+    "VariabelId": "kravAvstandOver8m",
+    "VariabelNavn": "Brannmotstand yttervegg",
+    "VariabelBeskrivelse": " avstand >8m"
+  },
+  {
+    "VariabelId": "kravAvstandMotstYtterveggMin8m",
+    "VariabelNavn": "Brannmotstand motstænde yttervegg",
+    "VariabelBeskrivelse": " avstand <8m"
+  },
+  {
+    "VariabelId": "kravAvstandInnvHjorneMin5m",
+    "VariabelNavn": "Brannmotstand innvendig hjørne yttervegg",
+    "VariabelBeskrivelse": " avstand <5m"
+  },
+  {
+    "VariabelId": "kravAvstandInnvHjorne5T8m",
+    "VariabelNavn": "Brannmotstand innvendig hjørne yttervegg",
+    "VariabelBeskrivelse": " avstand 5-8m"
+  },
+  {
+    "VariabelId": "kravBrannmotstSeksjVegg",
+    "VariabelNavn": "Brannmotstand seksjoneringsvegg",
+    "VariabelBeskrivelse": "Krav til brannmotstand i seksjoneringsvegg avhengig av spesifikk brannenergi MJ/m2"
+  },
+  {
+    "VariabelId": "kravBranncelleBegrensKonstruksjon",
+    "VariabelNavn": "Branncellebegrensende bygningsdel",
+    "VariabelBeskrivelse": "Krav til brannmotstand i brannbegrensende bygningsdel generelt"
+  },
+  {
+    "VariabelId": "kravBygningRundtTrapperomHeisEtc",
+    "VariabelNavn": "Brannmotstand i sjakter og trapperom",
+    "VariabelBeskrivelse": "Krav til brannmotstand i bygningsdel som omslutter trapperom"
+  },
+  {
+    "VariabelId": "kravHeisMaskinRom",
+    "VariabelNavn": "Brannmotstand i heismaskinrom",
+    "VariabelBeskrivelse": "Krav til brannmotstand i heismaskinrom "
+  },
+  {
+    "VariabelId": "kravFyrromSVAFastBrensel",
+    "VariabelNavn": "Brannmotstand fyrrom for fast brensel",
+    "VariabelBeskrivelse": "Fyrrom for sentralvarmeanlegg eller varmluftsaggregat for fast brensel"
+  },
+  {
+    "VariabelId": "kravFyrromSVAInnfyrtEffektmax50",
+    "VariabelNavn": "Brannmotstand fyrrom for flytende eller gassformig brensel",
+    "VariabelBeskrivelse": " effekt < 50kW"
+  },
+  {
+    "VariabelId": "kravFyrromSVAInnfyrtEffekt50p100",
+    "VariabelNavn": "Brannmotstand fyrrom for flytende eller gassformig brensel",
+    "VariabelBeskrivelse": "Fyrrom for sentralvarmeanlegg eller varmluftsaggregat for flytende og gassformig brensel 50 kW ≤ P ≤ 100 kW"
+  },
+  {
+    "VariabelId": "kravFyrromSVAInnfyrtEffektmin100",
+    "VariabelNavn": "Brannmotstand fyrrom for flytende eller gassformig brensel",
+    "VariabelBeskrivelse": "Fyrrom for sentralvarmeanlegg eller varmluftsaggregat for flytende og gassformig brensel P > 100 kW"
+  },
+  {
+    "VariabelId": "kravBrannmotstandRundtTrapperom",
+    "VariabelNavn": "Brannmotstand i vegger rundt trapperom",
+    "VariabelBeskrivelse": "Krav til brannmotstand i vegger rundt trapperom"
+  },
+  {
+    "VariabelId": "beskrBrannDetektor",
+    "VariabelNavn": "Branndetektortype",
+    "VariabelBeskrivelse": "Typer branndetektering og -alarmering"
+  },
+  {
+    "VariabelId": "trappeRomKlasse",
+    "VariabelNavn": "Trapperomklasse",
+    "VariabelBeskrivelse": "Klassifisering av trapperom"
+  },
+  {
+    "VariabelId": "bkl",
+    "VariabelNavn": "Brannklasse",
+    "VariabelBeskrivelse": "Klassfisering av bygg etter konsekvens av brann for "
+  },
+  {
+    "VariabelId": "kravBranndetektorRomningsvei",
+    "VariabelNavn": "Branndetektering i rømningsvei",
+    "VariabelBeskrivelse": "Krav til branndetektortype i rømningsvei"
+  },
+  {
+    "VariabelId": "kravBranndetektorFellesrom",
+    "VariabelNavn": "Branndetektering i fellesrom",
+    "VariabelBeskrivelse": "Krav til branndetektortype i fellesrom"
+  },
+  {
+    "VariabelId": "kravBrannsetektorSengerom",
+    "VariabelNavn": "Branndetektering i sengerom",
+    "VariabelBeskrivelse": "Krav til branndetektortype i sengerom"
+  },
+  {
+    "VariabelId": "kravBranndetektorTekniskRom",
+    "VariabelNavn": "Branndetektering i tekniske rom",
+    "VariabelBeskrivelse": "Krav til branndetektortype i tekniske rom"
+  },
+  {
+    "VariabelId": "kravBranndetektorLoft",
+    "VariabelNavn": "Branndetektering i loft",
+    "VariabelBeskrivelse": "Krav til branndetektortype på loft"
+  },
+  {
+    "VariabelId": "kravBranndetektorKjeller",
+    "VariabelNavn": "Branndetektering i kjeller",
+    "VariabelBeskrivelse": "Krav til branndetektortype i kjeller"
+  },
+  {
+    "VariabelId": "kravBranndetektorAndre",
+    "VariabelNavn": "Branndetektering i andre rom",
+    "VariabelBeskrivelse": "Krav til branndetektortype i andre rom"
+  },
+  {
+    "VariabelId": "bygningOffentligUnderTerreng",
+    "VariabelNavn": "Off. bygning",
+    "VariabelBeskrivelse": " under terreng"
+  },
+  {
+    "VariabelId": "kravLedesystemEvakuering",
+    "VariabelNavn": "Krav til ledesystem",
+    "VariabelBeskrivelse": "Krav til ledesystem ved evakuering"
+  },
+  {
+    "VariabelId": "kravTrappTekniskRomVarighet",
+    "VariabelNavn": "Krav til varighet rom",
+    "VariabelBeskrivelse": "Brannmotstand i tid for trapperom og tekniske installasjoner som skal fungere under evakuering"
+  },
+  {
+    "VariabelId": "kravLedesystemVarighet",
+    "VariabelNavn": "Krav til varighet ledesystem",
+    "VariabelBeskrivelse": "Krav til tidsrom ledesystem skal fungere under evakuering"
+  },
+  {
+    "VariabelId": "arealBrannseksjonPrEtasje",
+    "VariabelNavn": "Størrelse brannseksjon pr. etasje",
+    "VariabelBeskrivelse": "Størrelse brannseksjon pr. etasje"
+  },
+  {
+    "VariabelId": "kravOverflVegHimlingTakIkkeRomningsvei",
+    "VariabelNavn": "Krav til overflater i rom",
+    "VariabelBeskrivelse": " ikke rømningsvei"
+  },
+  {
+    "VariabelId": "kravOverflSjakHulIkkeRomningsvei",
+    "VariabelNavn": "Krav til overflater i sjakter og hulrom",
+    "VariabelBeskrivelse": " ikke rømningsvei"
+  },
+  {
+    "VariabelId": "kravKledningerIkkeRomningsvei",
+    "VariabelNavn": "Krav til kledning",
+    "VariabelBeskrivelse": " ikke i rømningsvei"
+  },
+  {
+    "VariabelId": "kravGolvIkkeRomningsvei",
+    "VariabelNavn": "Krav til golv",
+    "VariabelBeskrivelse": " ikke rømningsvei"
+  },
+  {
+    "VariabelId": "kravVegHimlingTakErRomningsvei",
+    "VariabelNavn": "Krav til overflater i rom som er rømningsvei",
+    "VariabelBeskrivelse": "Krav til brannmotstand i golv som ikke er i rømningsvei"
+  },
+  {
+    "VariabelId": "kravGolvErRomningsvei",
+    "VariabelNavn": "Krav til golv i rømningsvei",
+    "VariabelBeskrivelse": "Krav til brannmotstand i golv som inngår i rømningsvei"
+  },
+  {
+    "VariabelId": "kravKledningerErRomningsvei",
+    "VariabelNavn": "Krav til kledning i rømningsvei",
+    "VariabelBeskrivelse": "Krav til brannmotstand i kledning som inngår i rømningsvei"
+  },
+  {
+    "VariabelId": "kravYtterkledning",
+    "VariabelNavn": "Krav til ytterkledning",
+    "VariabelBeskrivelse": "Krav til brannmotstand i ytterkledning  etter risiko- og brannklasse"
+  },
+  {
+    "VariabelId": "kravKledningSjaktHulrom",
+    "VariabelNavn": "Krav til kledning i sjakter og hulrom",
+    "VariabelBeskrivelse": "Krav til brannmotstand i kledning i sjakter og hulrom"
+  },
+  {
+    "VariabelId": "kravOverflateVeggerTak",
+    "VariabelNavn": "Krav overflater vegg og tak",
+    "VariabelBeskrivelse": "Krav til brannmotstand i overflater i vegger og tak"
+  },
+  {
+    "VariabelId": "kravOverflateNedforetHimling",
+    "VariabelNavn": "Krav overflate nedforet himling",
+    "VariabelBeskrivelse": "Krav til brannmotstand i overflater i nedforet himling"
+  },
+  {
+    "VariabelId": "rkl",
+    "VariabelNavn": "Risikoklasse",
+    "VariabelBeskrivelse": "Risikovurdering av bygg i tilfelle brann"
+  },
+  {
+    "VariabelId": "langFullstendigEvakuering",
+    "VariabelNavn": "Lang evakuering",
+    "VariabelBeskrivelse": "Lang fullstendig evakuering"
+  },
+  {
+    "VariabelId": "typeVirksomhetMerknad",
+    "VariabelNavn": "Merknad",
+    "VariabelBeskrivelse": "Merknad til type virksomhet"
+  },
+  {
+    "VariabelId": "referanseParagrafForskrift",
+    "VariabelNavn": "Bestemmelse",
+    "VariabelBeskrivelse": "Bestemmelse i forskriften (TEK)"
+  },
+  {
+    "VariabelId": "bareSporadiskPersonopphold",
+    "VariabelNavn": "Kun sporadisk personopphold",
+    "VariabelBeskrivelse": "Bygg der personer av og til oppholder seg"
+  },
+  {
+    "VariabelId": "alleKjennerRomningsVeiene",
+    "VariabelNavn": "Evakuering kjent",
+    "VariabelBeskrivelse": "Alle i bygg kjenner rømningsforhold og kan bringe seg selv i sikkerhet"
+  },
+  {
+    "VariabelId": "beregnetForOvernatting",
+    "VariabelNavn": "Beregnet for overnatting",
+    "VariabelBeskrivelse": "Bygg er beregnet for overnatting"
+  },
+  {
+    "VariabelId": "liteBrannfarligAktivitet",
+    "VariabelNavn": "Liten brannfare",
+    "VariabelBeskrivelse": "Forutsatt bruk av bygg medfører liten brannfare"
+  },
+  {
+    "VariabelId": "kravBrannveggKvalitet",
+    "VariabelNavn": "Brannvegg i høye bygg",
+    "VariabelBeskrivelse": "Brannvegg v/ mønehøyde >9m og nabobygg < 8m avst"
+  },
+  {
+    "VariabelId": "kravManuellSlokking",
+    "VariabelNavn": "Krav til manuell slokking",
+    "VariabelBeskrivelse": "Krav til manuelt slokningsutstyr etter byggets risikoklasse"
+  },
+  {
+    "VariabelId": "maxBrannslangeLengde",
+    "VariabelNavn": "Max brannslangelengde",
+    "VariabelBeskrivelse": "Maksimum lengde på brannslange"
+  },
+  {
+    "VariabelId": "tiltakPavirkeRomningstid",
+    "VariabelNavn": "Påvirkning av rømningstid",
+    "VariabelBeskrivelse": "Tiltak for å påvirke rømningstider"
+  },
+  {
+    "VariabelId": "brannenergi",
+    "VariabelNavn": "Brannenergi MJ/m2",
+    "VariabelBeskrivelse": "Spesifikk brannenergi MJ/m2  på omhyllingsflate"
+  },
+  {
+    "VariabelId": "arealBrannseksjonPrEtasje",
+    "VariabelNavn": "Bruttoareal brannseksjon per etasje",
+    "VariabelBeskrivelse": "Største bruttoareal i m2 pr etasje uten seksjonering"
+  },
+  {
+    "VariabelId": "brannTiltakStrSeksjonBelastning",
+    "VariabelNavn": "Brannbegrensende tiltak",
+    "VariabelBeskrivelse": "Brannbegrensende tiltak som kan påvirke (øke) størrelse på brannseksjon"
+  },
+  {
+    "VariabelId": "bareSporadiskPersonopphold",
+    "VariabelNavn": "Kun sporadisk personopphold",
+    "VariabelBeskrivelse": "Bygg der personer av og til oppholder seg"
+  },
+  {
+    "VariabelId": "alleKjennerRomningsVeiene",
+    "VariabelNavn": "Evakuering kjent",
+    "VariabelBeskrivelse": "Alle i bygg kjenner rømningsforhold og kan bringe seg selv i sikkerhet"
+  },
+  {
+    "VariabelId": "beregnetForOvernatting",
+    "VariabelNavn": "Beregnet for overnatting",
+    "VariabelBeskrivelse": "Bygg er beregnet for overnatting"
+  },
+  {
+    "VariabelId": "liteBrannfarligAktivitet",
+    "VariabelNavn": "Liten brannfare",
+    "VariabelBeskrivelse": "Forutsatt bruk av bygg medfører liten brannfare"
+  }
+]

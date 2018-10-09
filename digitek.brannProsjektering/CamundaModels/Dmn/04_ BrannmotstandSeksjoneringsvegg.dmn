@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_14tvejh" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="BrannmotstandSeksjoneringsvegg" name="Brannmotstand seksjoneringsvegg">
+    <extensionElements>
+      <biodi:bounds x="339" y="195" width="180" height="80" />
+      <biodi:edge source="KnowledgeSource_14qc79g">
+        <biodi:waypoints x="593" y="202" />
+        <biodi:waypoints x="519" y="235" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_091sfyo">
+        <biodi:waypoints x="606" y="305" />
+        <biodi:waypoints x="519" y="264" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0mbexuk">
+        <biodi:waypoints x="312" y="131" />
+        <biodi:waypoints x="410" y="195" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0ynpmym">
+        <biodi:waypoints x="553" y="131" />
+        <biodi:waypoints x="466" y="193" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0mbexuk" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_0ynpmym" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_14qc79g" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_091sfyo" />
+    </authorityRequirement>
+    <decisionTable hitPolicy="FIRST">
+      <input id="InputClause_0bstkbi" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1l4m3ie" typeRef="string">        <text>bkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_0jcddbr">        <text><![CDATA["Ikke krav","BKL1","BKL2","BKL3"]]></text>
+</inputValues>
+      </input>
+      <input id="InputClause_0th5q25" label="Brannenergi, MJ/m2" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_18nstpj" typeRef="integer">        <text>brannenergi</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Brannmotstand Seksjoneringsvegg" name="kravBrannmotstSeksjVegg" typeRef="string">
+        <outputValues id="UnaryTests_14tazup">        <text></text>
+</outputValues>
+      </output>
+      <rule id="row-794237888-57">
+        <inputEntry id="UnaryTests_0ybxf2h">        <text><![CDATA["Ikke krav"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1psadv2">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0vsthcm">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-48">
+        <inputEntry id="UnaryTests_082pp8f">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1i7u7zh">        <text><![CDATA[<400]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_15k5w7b">        <text><![CDATA["REI 90-M A2-s1,d0 [A 90]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-49">
+        <inputEntry id="UnaryTests_1mpnjja">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1g33m2j">        <text>[400..600]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_14pz0he">        <text><![CDATA["REI 120-M A2-s1,d0 [A 120]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-50">
+        <inputEntry id="UnaryTests_1a95rhb">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1gm27fl">        <text>[600..800]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1iv8rkc">        <text><![CDATA["REI 180-M A2-s1,d0 [A 180]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-51">
+        <inputEntry id="UnaryTests_0ua72z9">        <text><![CDATA["BKL2"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0q7c0pl">        <text><![CDATA[<400]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0p5vt5n">        <text><![CDATA["REI 120-M A2-s1,d0 [A 120]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-52">
+        <inputEntry id="UnaryTests_1428arb">        <text><![CDATA["BKL2"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_12vjjf6">        <text>[400..600]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_16n4zx1">        <text><![CDATA["REI 180-M A2-s1,d0 [A 180]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-53">
+        <inputEntry id="UnaryTests_10l2yrp">        <text><![CDATA["BKL2"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_17z35ok">        <text>[600..800]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0wkwjgr">        <text><![CDATA["REI 240-M A2-s1,d0 [A 240]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-54">
+        <inputEntry id="UnaryTests_0hy6kr1">        <text><![CDATA["BKL3"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1u62npp">        <text><![CDATA[<400]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0a3b2ae">        <text><![CDATA["REI 120-M A2-s1,d0 [A 120]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-55">
+        <inputEntry id="UnaryTests_01b8ivp">        <text><![CDATA["BKL3"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1366odm">        <text>[400..600]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1ull2an">        <text><![CDATA["REI 180-M A2-s1,d0 [A 180]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-56">
+        <inputEntry id="UnaryTests_1y9hz5o">        <text><![CDATA["BKL3"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0aa9q77">        <text>[600..800]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1mecyvv">        <text><![CDATA["REI 240-M A2-s1,d0 [A 240]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-58">
+        <inputEntry id="UnaryTests_1wh66lr">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1xwt1cq">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1oesutb">        <text><![CDATA["Ikke definert"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0ynpmym" name="Brannenergi, MJ/m2">
+    <extensionElements>
+      <biodi:bounds x="484" y="86" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_0mbexuk" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="242" y="86" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_14qc79g" name="§ 7-24 tabell 7 s.52">
+    <extensionElements>
+      <biodi:bounds x="593" y="167" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_091sfyo" name="TEK17 § 11-7 tabell 2">
+    <extensionElements>
+      <biodi:bounds x="606" y="296" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

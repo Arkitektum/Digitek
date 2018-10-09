@@ -1,0 +1,620 @@
+﻿[
+  {
+    "DmnId": "kravBrannAlarmKategori",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "kravBrannAlarmKategori",
+    "VariabelId": "antallEtasjer",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "kravBrannAlarmKategori",
+    "VariabelId": "brannalarmKategori",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "kravFriBreddeRomnVei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "kravMinFriDorBredde",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "kravMaxLengdeFluktvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "avstandDorIBranncelle1Dor",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "branncelleRomningUtgang",
+    "VariabelId": "kravAvstandDorIBranncelleflereDorer",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "typeVirksomhet",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "antallEtasjer",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "brtArealPrEtasje",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "utgangTerrengAlleBoenheter",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "bkl",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannklasse",
+    "VariabelId": "merknadBkl",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannklasseKonsekvensBeskrivelse",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannklasseKonsekvensBeskrivelse",
+    "VariabelId": "konsekvensAvBrann",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "antallEtasjer",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "baerendeHovedSystem",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "sekundareBaerendeDeler",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "trappeLop",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "baerendeDelerUnderOversteKjeller",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandBaerendeBygningsdeler",
+    "VariabelId": "beskytttetUtvTrappeLop",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorISeksjoneringsvegg",
+    "VariabelId": "kravBrannmotstSeksjVegg",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandDorISeksjoneringsvegg",
+    "VariabelId": "kravBrannmotstandDorISeksjvegg",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorBranncelleTrapperomTr1",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorBoenhetTrapperom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorKorridorTrapperomTr2",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorRomTrapperomTr3",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorGarasjeBrannsluse",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorBranncelleKorridor",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandDorRomningsvei",
+    "VariabelId": "kravDorKorridorFriLuft",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandIsolasjon",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandIsolasjon",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandIsolasjon",
+    "VariabelId": "kravUtvendigOverflate",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandIsolasjon",
+    "VariabelId": "kravIsolasjonEureficKlasse",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandMotstaendeVinduerYttervegger",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandMotstaendeVinduerYttervegger",
+    "VariabelId": "kravAvstandOver8m",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandMotstaendeVinduerYttervegger",
+    "VariabelId": "kravAvstandMotstYtterveggMin8m",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandMotstaendeVinduerYttervegger",
+    "VariabelId": "kravAvstandInnvHjorneMin5m",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandMotstaendeVinduerYttervegger",
+    "VariabelId": "kravAvstandInnvHjorne5T8m",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSeksjoneringsvegg",
+    "VariabelId": "brannTiltakStrSeksjonBelastning",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandSeksjoneringsvegg",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandSeksjoneringsvegg",
+    "VariabelId": "brannenergi",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandSeksjoneringsvegg",
+    "VariabelId": "kravBrannmotstSeksjVegg",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravBranncelleBegrensKonstruksjon",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravBygningRundtTrapperomHeisEtc",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravHeisMaskinRom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravFyrromSVAFastBrensel",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravFyrromSVAInnfyrtEffektmax50",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravFyrromSVAInnfyrtEffekt50p100",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandSkillendeKonstruksjon",
+    "VariabelId": "kravFyrromSVAInnfyrtEffektmin100",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "brannmotstandTrapperom",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandTrapperom",
+    "VariabelId": "trappeRomKlasse",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "brannmotstandTrapperom",
+    "VariabelId": "kravBrannmotstandRundtTrapperom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "detektorBrannalarmKategori",
+    "VariabelId": "brannalarmKategori",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "detektorBrannalarmKategori",
+    "VariabelId": "beskrBrannDetektor",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "klassifiseringTrapperom",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "klassifiseringTrapperom",
+    "VariabelId": "antallEtasjer",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "klassifiseringTrapperom",
+    "VariabelId": "trappeRomKlasse",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "konsekvensBrannklassifisering",
+    "VariabelId": "konsekvensAvBrann",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "konsekvensBrannklassifisering",
+    "VariabelId": "bkl",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "brannalarmKategori",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorFellesrom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBrannsetektorSengerom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorTekniskRom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorLoft",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorKjeller",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "kravBranndetektorRom",
+    "VariabelId": "kravBranndetektorAndre",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "ledesystemEvakuering",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "ledesystemEvakuering",
+    "VariabelId": "bygningOffentligUnderTerreng",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "ledesystemEvakuering",
+    "VariabelId": "kravLedesystemEvakuering",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "ledesystemEvakueringVarighet",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "ledesystemEvakueringVarighet",
+    "VariabelId": "kravLedesystemEvakuering",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "ledesystemEvakueringVarighet",
+    "VariabelId": "kravTrappTekniskRomVarighet",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "ledesystemEvakueringVarighet",
+    "VariabelId": "kravLedesystemVarighet",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "arealBrannseksjonPrEtasje",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravOverflVegHimlingTakIkkeRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravOverflSjakHulIkkeRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravKledningerIkkeRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravGolvIkkeRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravVegHimlingTakErRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravGolvErRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravKledningerErRomningsvei",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravYtterkledning",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflateKledningBrannseksjon",
+    "VariabelId": "kravKledningSjaktHulrom",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflaterBranncelleRomningsvei",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "overflaterBranncelleRomningsvei",
+    "VariabelId": "bkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "overflaterBranncelleRomningsvei",
+    "VariabelId": "kravOverflateVeggerTak",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "overflaterBranncelleRomningsvei",
+    "VariabelId": "kravOverflateNedforetHimling",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "risikoklasseFraTypeVirksomhet",
+    "VariabelId": "typeVirksomhet",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "risikoklasseFraTypeVirksomhet",
+    "VariabelId": "rkl",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "risikoklasseFraTypeVirksomhet",
+    "VariabelId": "langFullstendigEvakuering",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "risikoklasseFraTypeVirksomhet",
+    "VariabelId": "typeVirksomhetMerknad",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "risikoklassifisering",
+    "VariabelId": "bareSporadiskPersonopphold",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "risikoklassifisering",
+    "VariabelId": "alleKjennerRomningsVeiene",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "risikoklassifisering",
+    "VariabelId": "beregnetForOvernatting",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "risikoklassifisering",
+    "VariabelId": "liteBrannfarligAktivitet",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "risikoklassifisering",
+    "VariabelId": "rkl",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "tiltakBrannveggHoyeBygg",
+    "VariabelId": "brannenergi",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakBrannveggHoyeBygg",
+    "VariabelId": "kravBrannveggKvalitet",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "tiltakManuellBrannslokking",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakManuellBrannslokking",
+    "VariabelId": "kravManuellSlokking",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "tiltakManuellBrannslokking",
+    "VariabelId": "maxBrannslangeLengde",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "tiltakPavirkeRomningstid",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakPavirkeRomningstid",
+    "VariabelId": "tiltakPavirkeRomningstid",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "tiltakStorrelseBrannseksjonBelastning",
+    "VariabelId": "typeVirksomhet",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakStorrelseBrannseksjonBelastning",
+    "VariabelId": "brannenergi",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakStorrelseBrannseksjonBelastning",
+    "VariabelId": "arealBrannseksjonPrEtasje",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "tiltakStorrelseBrannseksjonBelastning",
+    "VariabelId": "brannTiltakStrSeksjonBelastning",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "vedleggTilRisikoklasse",
+    "VariabelId": "rkl",
+    "VariabelType": "input"
+  },
+  {
+    "DmnId": "vedleggTilRisikoklasse",
+    "VariabelId": "bareSporadiskPersonopphold",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "vedleggTilRisikoklasse",
+    "VariabelId": "alleKjennerRomningsVeiene",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "vedleggTilRisikoklasse",
+    "VariabelId": "beregnetForOvernatting",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": "vedleggTilRisikoklasse",
+    "VariabelId": "liteBrannfarligAktivitet",
+    "VariabelType": "output"
+  },
+  {
+    "DmnId": ""
+  }
+]

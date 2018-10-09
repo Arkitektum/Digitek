@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_086uikr" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="TiltakManuellBrannslokking" name="Tiltak manuell brannslokking">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_0gaadtf">
+        <biodi:waypoints x="289" y="135" />
+        <biodi:waypoints x="290" y="199" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0vtbr6t">
+        <biodi:waypoints x="484" y="326" />
+        <biodi:waypoints x="380" y="275" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_10ncwlc">
+        <biodi:waypoints x="487" y="221" />
+        <biodi:waypoints x="380" y="231" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0gaadtf" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0vtbr6t" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_10ncwlc" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_0mt6k0k" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0id1m95" typeRef="string">        <text>rkl</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Manuell brannslokking" name="kravManuellSlokking" typeRef="string" />
+      <output id="OutputClause_1qitw3t" label="Slangelengde" name="maxBrannslangeLengde" typeRef="string" />
+      <rule id="row-542513221-23">
+        <inputEntry id="UnaryTests_03fbnjj">        <text><![CDATA["RKL1","RKL2","RKL4"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1iebn01">        <text><![CDATA["Håndslokkeapparat, evt. brannslange"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1nv2490">        <text><![CDATA["maks 30m lengde"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-24">
+        <inputEntry id="UnaryTests_167dgfg">        <text><![CDATA["RKL3","RKL5","RKL6"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1e7wza7">        <text><![CDATA["Brannslange krav i bygning med trykkvann"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1rduwhr">        <text><![CDATA["maks 30m lengde"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0gaadtf" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="226" y="90" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_10ncwlc" name="REN §7-25 s. 90 ">
+    <extensionElements>
+      <biodi:bounds x="486.7890884896873" y="185.1224218230206" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_0vtbr6t" name="TEK17">
+    <extensionElements>
+      <biodi:bounds x="484" y="319" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

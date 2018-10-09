@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_12lqiy9" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="KravBranndetektorRom" name="Krav branndetektor rom">
+    <extensionElements>
+      <biodi:bounds x="328" y="249" width="180" height="80" />
+      <biodi:edge source="BrannalarmKategori">
+        <biodi:waypoints x="335" y="200" />
+        <biodi:waypoints x="422" y="122" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0w9g17e">
+        <biodi:waypoints x="422" y="161" />
+        <biodi:waypoints x="418" y="249" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0p7kiji">
+        <biodi:waypoints x="589" y="249" />
+        <biodi:waypoints x="508" y="282" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0w9g17e" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0p7kiji" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_0vaxas2">
+      <input id="InputClause_1l8mlvm" label="Krav branndetektor" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0btxo5a" typeRef="integer">
+          <text>brannalarmKategori</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1jkog4m" label="Rømningsvei" name="kravBranndetektorRomningsvei" typeRef="string" />
+      <output id="OutputClause_1samf4h" label="Fellesrom" name="kravBranndetektorFellesrom" typeRef="string" />
+      <output id="OutputClause_11183cd" label="Sengerom" name="kravBrannsetektorSengerom" typeRef="string" />
+      <output id="OutputClause_1dpael4" label="Teknisk rom" name="kravBranndetektorTekniskRom" typeRef="string" />
+      <output id="OutputClause_01oohm7" label="Loft" name="kravBranndetektorLoft" typeRef="string" />
+      <output id="OutputClause_1caw8d0" label="Kjeller" name="kravBranndetektorKjeller" typeRef="string" />
+      <output id="OutputClause_01xfgfv" label="Andre" name="kravBranndetektorAndre" typeRef="string" />
+      <rule id="row-181972709-7">
+        <inputEntry id="UnaryTests_089ue29">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05x53jl">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_134s3ms">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vhxolr">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gfp5xo">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1prbq32">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wrrvcd">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yuznx0">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+      </rule>
+      <rule id="row-181972709-8">
+        <inputEntry id="UnaryTests_1o8k1zp">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jx7i0a">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1rntc57">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0l0n15s">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ehb8ei">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fa4x58">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d9eqpn">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yr6hfz">
+          <text>"Ikke Krav"</text>
+        </outputEntry>
+      </rule>
+      <rule id="row-181972709-9">
+        <inputEntry id="UnaryTests_1rx470y">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c3chsf">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05j59ed">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wd2ge5">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fbxpy1">
+          <text>"Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16r4fzc">
+          <text>"Varme- eller Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ej28p8">
+          <text>"Varme- eller Røykdetektor"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1r0rxaf">
+          <text>"Varme- eller Røykdetektor"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0w9g17e" name="brannalarmKategori">
+    <extensionElements>
+      <biodi:bounds x="360" y="116" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0p7kiji" name="TEK17">
+    <extensionElements>
+      <biodi:bounds x="589" y="197" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

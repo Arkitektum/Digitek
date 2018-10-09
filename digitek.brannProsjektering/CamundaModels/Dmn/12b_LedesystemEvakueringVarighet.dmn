@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0nr94ba" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <inputData id="InputData_0wbgcjn" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="458" y="142" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_17mc1iv" name="TEK17, § 11-12 (3)">
+    <extensionElements>
+      <biodi:bounds x="644" y="242" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <decision id="LedesystemEvakueringVarighet" name="Ledesystem evakuering varighet">
+    <extensionElements>
+      <biodi:bounds x="370" y="249" width="180" height="80" />
+      <biodi:edge source="InputData_0wbgcjn">
+        <biodi:waypoints x="498" y="187" />
+        <biodi:waypoints x="499" y="249" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_17mc1iv">
+        <biodi:waypoints x="644" y="277" />
+        <biodi:waypoints x="550" y="283" />
+      </biodi:edge>
+      <biodi:edge source="InputData_1mmvm4q">
+        <biodi:waypoints x="366" y="179" />
+        <biodi:waypoints x="426" y="249" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0wbgcjn" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_1mmvm4q" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_17mc1iv" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_00w57yy" hitPolicy="FIRST">
+      <input id="InputClause_0w6mtlz" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1wbb8na" typeRef="string">        <text>bkl</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0dgy5jq" label="Krav til ledesystem" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1t3kgrd" typeRef="boolean">        <text>kravLedesystemEvakuering</text>
+</inputExpression>
+      </input>
+      <output id="OutputClause_14nkrdg" label="Trapperom / tekn. inst. som skal fungere under rømning" name="kravTrappTekniskRomVarighet" typeRef="string" />
+      <output id="OutputClause_0ckrwyj" label="Varighet ved krav" name="kravLedesystemVarighet" typeRef="string" />
+      <rule id="row-40789973-2">
+        <inputEntry id="UnaryTests_1ntueef">        <text><![CDATA["Ikke Krav"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1thnyri">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1e1uxcx">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0dlcoql">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-33">
+        <inputEntry id="UnaryTests_1257tl5">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1l02qrd">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0p4wi9l">        <text><![CDATA["minst 30 min./nødv.tid"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1wk2dci">        <text><![CDATA["Ikke Krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-34">
+        <inputEntry id="UnaryTests_0lbw4su">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0ovnw4r">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0lq7bnn">        <text><![CDATA["minst 30 min./nødv.tid"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_02j831m">        <text><![CDATA["minst 30 min./nødv.tid"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-35">
+        <inputEntry id="UnaryTests_0qp1j73">        <text><![CDATA["BKL2", "BKL3", "BKL4"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1l3oi5j">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1ji312w">        <text><![CDATA["minst 60 minutter"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1ueycgv">        <text><![CDATA["minst 60 minutter"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="table-83060396-1">
+        <inputEntry id="UnaryTests_0bdoj62">        <text><![CDATA["BKL2", "BKL3", "BKL4"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_141v0m6">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_11m1vp8">        <text><![CDATA["minst 60 minutter"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0071iyc">        <text><![CDATA["Ikke Krav"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1mmvm4q" name="Krav til ledesystem">
+    <extensionElements>
+      <biodi:bounds x="284" y="134" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

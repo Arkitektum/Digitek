@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0dw8d58" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <knowledgeSource id="KnowledgeSource_1df35f8" name="§ 11-3 Tabell 1: Brannklasse ">
+    <extensionElements>
+      <biodi:bounds x="555" y="127" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <decision id="BrannklasseKonsekvensBeskrivelse" name="Brannklasse konsekvens beskrivelse">
+    <extensionElements>
+      <biodi:bounds x="336" y="266" width="180" height="80" />
+      <biodi:edge source="InputData_1tntji0">
+        <biodi:waypoints x="385" y="191" />
+        <biodi:waypoints x="426" y="265" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1df35f8">
+        <biodi:waypoints x="564" y="190" />
+        <biodi:waypoints x="465" y="266" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1tntji0" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1df35f8" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_0lb7shg">
+      <input id="InputClause_1vrawr6" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1xxbdix" typeRef="string">        <text>bkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_07l4klw">        <text><![CDATA["BKL1","BKL2","BKL3","BKL4","Ikke krav"]]></text>
+</inputValues>
+      </input>
+      <output id="konsekvensAvBrann" label="Konsekvens av brann" name="konsekvensAvBrann" typeRef="string" />
+      <rule id="row-40789973-3">
+        <inputEntry id="UnaryTests_1ccj0qn">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0pztcde">        <text><![CDATA["Liten konsekvens"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-40789973-4">
+        <inputEntry id="UnaryTests_03s96en">        <text><![CDATA["BKL2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_181fqg6">        <text><![CDATA["Middels konsekvens"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-40789973-5">
+        <inputEntry id="UnaryTests_0y2fg48">        <text><![CDATA["BKL3"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_05318y8">        <text><![CDATA["Stor konsekvens"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-40789973-6">
+        <inputEntry id="UnaryTests_1h0z4fb">        <text><![CDATA["BKL4"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1kdig2k">        <text><![CDATA["Særlig stor konsekvens"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-30955691-1">
+        <inputEntry id="UnaryTests_1p4uwwk">        <text><![CDATA["Ikke krav"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0finajp">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0izhi0b">
+        <inputEntry id="UnaryTests_0ilyt27">        <text><![CDATA["Udefinert"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0vjp4e9">        <text><![CDATA["Udefinert"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1tntji0" name="brannklasse">
+    <extensionElements>
+      <biodi:bounds x="322" y="146" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <textAnnotation id="TextAnnotation_1nv594s">
+    <extensionElements>
+      <biodi:bounds x="579" y="248" width="100" height="80" />
+    </extensionElements>
+    <text>Verdisett brannklasse og beskrivelse</text>
+  </textAnnotation>
+  <association id="Association_1tk01ah">
+    <extensionElements>
+      <biodi:edge source="BrannklasseKonsekvens">
+        <biodi:waypoints x="549" y="588" />
+        <biodi:waypoints x="735" y="532" />
+      </biodi:edge>
+    </extensionElements>
+    <sourceRef href="#BrannklasseKonsekvens" />
+    <targetRef href="#TextAnnotation_1nv594s" />
+  </association>
+  <association id="Association_0zi0ugd">
+    <extensionElements>
+      <biodi:edge source="BrannklasseKonsekvensBeskrivelse">
+        <biodi:waypoints x="516" y="293" />
+        <biodi:waypoints x="579" y="285" />
+      </biodi:edge>
+    </extensionElements>
+    <sourceRef href="#BrannklasseKonsekvensBeskrivelse" />
+    <targetRef href="#TextAnnotation_1nv594s" />
+  </association>
+</definitions>

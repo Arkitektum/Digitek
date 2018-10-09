@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0rlgy2y" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="OverflaterBranncelleRomningsvei" name="Overflater branncelle rømningsvei">
+    <extensionElements>
+      <biodi:bounds x="553" y="204" width="180" height="80" />
+      <biodi:edge source="InputData_0nmowzf">
+        <biodi:waypoints x="567" y="136" />
+        <biodi:waypoints x="615" y="204" />
+      </biodi:edge>
+      <biodi:edge source="InputData_1hj1qrf">
+        <biodi:waypoints x="709" y="138" />
+        <biodi:waypoints x="676" y="204" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0grqeml">
+        <biodi:waypoints x="841" y="230" />
+        <biodi:waypoints x="733" y="235" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_17yvbgc">
+        <biodi:waypoints x="843" y="313" />
+        <biodi:waypoints x="733" y="277" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0nmowzf" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_1hj1qrf" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0grqeml" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_17yvbgc" />
+    </authorityRequirement>
+    <decisionTable hitPolicy="FIRST">
+      <input id="InputClause_02pt7zy" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_15v9qat" typeRef="string">        <text>rkl</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0e4b392" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0nn14e7" typeRef="string">        <text>bkl</text>
+</inputExpression>
+      </input>
+      <output id="output_2" label="Vegger, tak" name="kravOverflateVeggerTak" typeRef="string" />
+      <output id="OutputClause_1jen752" label="Overflater i nedforet himling" name="kravOverflateNedforetHimling" typeRef="string" />
+      <rule id="row-948887753-4">
+        <inputEntry id="UnaryTests_1rfhh70">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_07y9347">        <text><![CDATA["BKL2", "BKL3", "BKL4"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1uiae5v">        <text><![CDATA["In1 på begr. brennbar"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0jz01j3">        <text><![CDATA["In1 på begr. brennbar"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-5">
+        <inputEntry id="UnaryTests_0jfbwyg">        <text><![CDATA["RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1772tne">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_143kqcg">        <text><![CDATA["In1 på begr. brennbar"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1lth70f">        <text><![CDATA["In1 på begr. brennbar"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-6">
+        <inputEntry id="UnaryTests_06m7j9a">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1d1proz">        <text><![CDATA["Ikke krav", "BKL1"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1j8hs4e">        <text><![CDATA["In1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_02wu2la">        <text><![CDATA["In1"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1hj1qrf" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="646" y="93" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_0nmowzf" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="488" y="91" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0grqeml" name="REN §7-24 s. 59,60">
+    <extensionElements>
+      <biodi:bounds x="841" y="196" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_17yvbgc" name="TEK17 § 11-9">
+    <extensionElements>
+      <biodi:bounds x="843" y="297" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

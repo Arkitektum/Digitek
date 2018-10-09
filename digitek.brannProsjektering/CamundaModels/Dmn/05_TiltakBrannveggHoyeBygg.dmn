@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_15rxf4d" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="TiltakBrannveggHoyeBygg" name="Tiltak brannvegg hoye bygg">
+    <extensionElements>
+      <biodi:bounds x="316" y="210" width="180" height="80" />
+      <biodi:edge source="InputData_0rlafwl">
+        <biodi:waypoints x="397" y="140" />
+        <biodi:waypoints x="396" y="210" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0c94nsy">
+        <biodi:waypoints x="610" y="314" />
+        <biodi:waypoints x="496" y="272" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1hre37s">
+        <biodi:waypoints x="604" y="228" />
+        <biodi:waypoints x="496" y="238" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0rlafwl" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0c94nsy" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1hre37s" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_10bynak" label="brannenergi MJ/m2" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_138545q" typeRef="integer">        <text>brannenergi</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Brannveggkvalitet v/mønehøyde over 9m og nabobyggg nærmere enn 8m" name="kravBrannveggKvalitet" typeRef="string" />
+      <rule id="row-794237888-59">
+        <inputEntry id="UnaryTests_0sttirz">        <text><![CDATA[<=400]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1jrr7uh">        <text><![CDATA["REI 120-M A2-s1, d0 [A 120]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-60">
+        <inputEntry id="UnaryTests_05wysi6">        <text>]400..600]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1ug9nuw">        <text><![CDATA["REI 180-M A2-s1, d0 [A 180]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-61">
+        <inputEntry id="UnaryTests_0y92yo5">        <text>]600..800]</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0bfawsf">        <text><![CDATA["REI 240-M A2-s1, d0 [A 240]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-794237888-62">
+        <inputEntry id="UnaryTests_0o8arq6">        <text><![CDATA[>800]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1n82zi4">        <text><![CDATA["For nært nabobygg"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <knowledgeSource id="KnowledgeSource_1hre37s" name="§ 7-26 tabell 1 s.56">
+    <extensionElements>
+      <biodi:bounds x="604" y="192" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <inputData id="InputData_0rlafwl" name="brannenergi MJ/m2">
+    <extensionElements>
+      <biodi:bounds x="329" y="95" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0c94nsy" name="TEK17 § 11-6 tabell 1">
+    <extensionElements>
+      <biodi:bounds x="610" y="300" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_0bthkq7" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="StorrelseBrannseksjonBelastningTiltak" name="Størrelse brannseksjon etter belastning og tiltak">
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
+      <input id="input_1" label="Brannenergi MJ/m2">
+        <inputExpression id="inputExpression_1" typeRef="integer">        <text>brannenergi</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0s0okny" label="Brannbegrensende tiltak">
+        <inputExpression id="LiteralExpression_083ig3c" typeRef="string">        <text>brannBegrensendeTiltak</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Maks. brt.areal før seksjonering" name="maxBrtArealFørSeksjonering" typeRef="integer" />
+      <output id="OutputClause_1l5jfd4" label="Bemerkning" name="bemerkning" typeRef="string" />
+      <rule id="DecisionRule_14yxtwd">
+        <inputEntry id="UnaryTests_0h0feli">        <text><![CDATA[<50]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1vqozow">        <text><![CDATA["Normalt"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1jt7ker">        <text>1800</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_14nc7j0">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tvwfov">
+        <inputEntry id="UnaryTests_0vydfct">        <text>[50..400]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0k4niy8">        <text><![CDATA["Normalt"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1f0nuty">        <text>1200</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1rftfim">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0f7dv7r">
+        <inputEntry id="UnaryTests_0imr3hc">        <text><![CDATA[>400]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0iyhze1">        <text><![CDATA["Normalt"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0tmc6sf">        <text>800</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_06xmldt">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ssqv2q">
+        <inputEntry id="UnaryTests_00i6heo">        <text><![CDATA[<50]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1uoa5m1">        <text><![CDATA["Brannalarmanlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_195dvp6">        <text>2700</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_04qyy7w">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_1thm3qb">
+        <inputEntry id="UnaryTests_1rl57tz">        <text>[50..400]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0vmkz7b">        <text><![CDATA["Brannalarmanlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0l77u24">        <text>1800</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_09wguo0">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0uc4fkt">
+        <inputEntry id="UnaryTests_1a9t93k">        <text><![CDATA[>400]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ij4mb3">        <text><![CDATA["Brannalarmanlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_132c7gp">        <text>1200</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0b2wag0">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_176ybjr">
+        <inputEntry id="UnaryTests_1p38kl5">        <text><![CDATA[<50]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1rw7ido">        <text><![CDATA["Med sprinkleranlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0m2c67y">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_19oznag">        <text><![CDATA["Ubegrenset"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_16wzwcf">
+        <inputEntry id="UnaryTests_1x4r2n8">        <text>[50..400]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1mxr4hi">        <text><![CDATA["Med sprinkleranlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ox8mia">        <text>10000</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0nuipno">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_147vsp9">
+        <inputEntry id="UnaryTests_16yb9ks">        <text><![CDATA[>400]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0cseptp">        <text><![CDATA["Med sprinkleranlegg"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1qoj8iy">        <text>5000</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0xneypm">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_03a17xf">
+        <inputEntry id="UnaryTests_02vpejx">        <text><![CDATA[<50]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1i5r6zd">        <text><![CDATA["Med røykventilasjon"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0i48i4i">        <text>10000</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0dmjp7p">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0o8dcoo">
+        <inputEntry id="UnaryTests_0o2lbnr">        <text>[50..400]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ey5wcc">        <text><![CDATA["Med røykventilasjon"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1wxdhhz">        <text>4000</text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0z2k2po">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_0p98raa">
+        <inputEntry id="UnaryTests_1w963du">        <text><![CDATA[>400]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0ls707b">        <text><![CDATA["Med røykventilasjon"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0o6jj5l">        <text></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0cpnh82">        <text><![CDATA["Uegnet"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

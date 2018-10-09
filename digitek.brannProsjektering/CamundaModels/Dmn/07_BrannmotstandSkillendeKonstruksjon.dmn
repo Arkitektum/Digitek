@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_125v0p1" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="BrannmotstandSkillendeKonstruksjon" name="Brannmotstand skillende konstruksjoner">
+    <extensionElements>
+      <biodi:bounds x="351" y="207" width="180" height="80" />
+      <biodi:edge source="InputData_1474aih">
+        <biodi:waypoints x="440" y="129" />
+        <biodi:waypoints x="441" y="207" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1vqgq2b">
+        <biodi:waypoints x="619" y="308" />
+        <biodi:waypoints x="531" y="272" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0ldfjr0">
+        <biodi:waypoints x="611" y="230" />
+        <biodi:waypoints x="531" y="235" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1474aih" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1vqgq2b" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0ldfjr0" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_151z0jf" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_02suqda" typeRef="string">        <text>bkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_0fsjp4w">        <text><![CDATA["BKL1","BKL2","BKL3","BKL4"]]></text>
+</inputValues>
+      </input>
+      <output id="output_1" label="Branncellebegrensende konstruksjon" name="kravBranncelleBegrensKonstruksjon" typeRef="string" />
+      <output id="OutputClause_0ndb6gl" label="Bygningsdel som omslutter trapperom, heissjakt mm. over flere plan" name="kravBygningRundtTrapperomHeisEtc" typeRef="string" />
+      <output id="OutputClause_00p3pt7" label="Heismaskinrom" name="kravHeisMaskinRom" typeRef="string" />
+      <output id="OutputClause_0xdcpmt" label="Fyrrom for sentralvarmeanlegg fast brensel" name="kravFyrromSVAFastBrensel" typeRef="string" />
+      <output id="OutputClause_1mrbr5o" label="Fyrrom for sentralvarmeanlegg flytende / gassbrensel, innfyrt effekt P&#60;50 kW" name="kravFyrromSVAInnfyrtEffektmax50" typeRef="string" />
+      <output id="OutputClause_05yxgcv" label="Fyrrom for sentralvarmeanlegg flytende / gassbrensel, innfyrt effekt 50&#60;P&#60;100 kW" name="kravFyrromSVAInnfyrtEffekt50p100" typeRef="string" />
+      <output id="OutputClause_0a2zfkc" label="Fyrrom for&#10;  sentralvarmeanlegg flytende / gassbrensel, innfyrt effekt P&#62;100 kW" name="kravFyrromSVAInnfyrtEffektmin100" typeRef="string" />
+      <rule id="row-542513221-10">
+        <inputEntry id="UnaryTests_0lfzcnr">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0vqzklw">        <text><![CDATA["EI-30 [B 30]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_15vtmqm">        <text><![CDATA["EI-30 [B 30]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1ore2mb">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0ozq504">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0cq3k89">        <text><![CDATA["K 2 10 A2-s1,d0 [K1-A]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_13jvb3j">        <text><![CDATA["EI 30 [B 30]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_173o50l">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-11">
+        <inputEntry id="UnaryTests_10ehr79">        <text><![CDATA["BKL2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ei62ss">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0j85btv">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0xzo3vm">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0nqfcj4">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1pbqd73">        <text><![CDATA["K 2 10 A2-s1,d0 [K1-A]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1laf906">        <text><![CDATA["EI-60 [B 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_00im0n9">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-12">
+        <inputEntry id="UnaryTests_1qla28c">        <text><![CDATA["BKL3"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1ufcd92">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_06xn1a4">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1w68bkf">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1d70hhw">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0winafj">        <text><![CDATA["K 2 10 A2-s1,d0 [K1-A]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1u4ognw">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0qwe5ro">        <text><![CDATA["EI 60 A2-s1,d0 [A 60]"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-13">
+        <inputEntry id="UnaryTests_176xmxe">        <text><![CDATA["Ikke krav"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1od57oa">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1yjo0fj">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0msfcgm">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0yz79nq">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0qp02ie">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1sol65k">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_07gl7la">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1474aih" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="363" y="84" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0ldfjr0" name="REN §7-24 tab. 2 s. 67">
+    <extensionElements>
+      <biodi:bounds x="611" y="195" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_1vqgq2b" name="TEK17 § 11-8 tabell 1">
+    <extensionElements>
+      <biodi:bounds x="619" y="296" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

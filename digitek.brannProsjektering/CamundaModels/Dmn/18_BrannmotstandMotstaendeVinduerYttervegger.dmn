@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_11dm4nw" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="BrannmotstandMotstaendeVinduerYttervegger" name="Brannmotstand motstående vinduer i yttervegger">
+    <extensionElements>
+      <biodi:bounds x="293" y="322" width="180" height="80" />
+      <biodi:edge source="InputData_1ka0d83">
+        <biodi:waypoints x="373" y="269" />
+        <biodi:waypoints x="372" y="322" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_04tnp6r">
+        <biodi:waypoints x="531" y="344" />
+        <biodi:waypoints x="473" y="347" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1fuo7eu">
+        <biodi:waypoints x="533" y="415" />
+        <biodi:waypoints x="473" y="390" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1ka0d83" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_04tnp6r" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1fuo7eu" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_1ugrexs" label="Brannklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_03ihtk3" typeRef="string">        <text>bkl</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Motstående yttervegger&#10; eller innvendig hjørne, avstand &#62; 8m" name="kravAvstandOver8m" typeRef="string" />
+      <output id="OutputClause_1y3odnv" label="Motstående yttervegger, avstand &#60; 8m" name="kravAvstandMotstYtterveggMin8m" typeRef="string" />
+      <output id="OutputClause_1hoj400" label="Innvendig hjørne yttervegger, avstand &#60; 5m" name="kravAvstandInnvHjorneMin5m" typeRef="string" />
+      <output id="OutputClause_0u1med5" label="Innvendig hjørne yttervegger, avstand 5 til 8m" name="kravAvstandInnvHjorne5T8m" typeRef="string" />
+      <rule id="row-948887753-27">
+        <description>TEK17, 11-7, tabell 2</description>
+        <inputEntry id="UnaryTests_17sr35l">        <text><![CDATA["Ikke Krav"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_01nxvsc">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0xjvamq">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1lnmo8m">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1e7zygj">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-28">
+        <inputEntry id="UnaryTests_0gotlpj">        <text><![CDATA["BKL1"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_058k5ts">        <text><![CDATA["Ikke Krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1aamnov">        <text><![CDATA["Ett EI-30 evt. begge EI-15"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1ngt4mq">        <text><![CDATA["Ett EI-30 evt. begge EI-15"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0wv8smd">        <text><![CDATA["Ett EI-15"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-29">
+        <inputEntry id="UnaryTests_1nbaccz">        <text><![CDATA["BKL2", "BKL3", "BKL4"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0iipv0v">        <text><![CDATA["Ikke Krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0rl6884">        <text><![CDATA["Ett EI-60 evt. begge EI-30"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0grvd62">        <text><![CDATA["Ett EI-60 evt. begge EI-30"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_17sbzpm">        <text><![CDATA["Ett EI-30"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1ka0d83" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="304" y="224" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_04tnp6r" name="§7-24 tabell 4 s. 75">
+    <extensionElements>
+      <biodi:bounds x="531" y="310" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_1fuo7eu" name="TEK17 § 11-8 tabell 3">
+    <extensionElements>
+      <biodi:bounds x="533" y="404" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

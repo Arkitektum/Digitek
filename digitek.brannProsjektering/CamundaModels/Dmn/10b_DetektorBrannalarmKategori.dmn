@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_0254xpl" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="DetektorBrannalarmKategori" name="Detektor brannalarm kategori">
+    <extensionElements>
+      <biodi:bounds x="348" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_1ilnc67">
+        <biodi:waypoints x="445" y="129" />
+        <biodi:waypoints x="438" y="200" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1ilnc67" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="Brannalarmkategori" camunda:inputVariable="">
+        <inputExpression id="inputExpression_1" typeRef="integer">
+          <text>brannalarmKategori</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Beskrivelse detektor" name="beskrBrannDetektor" typeRef="string" />
+      <output id="OutputClause_1e6bd2v" label="Referanse forskrift" name="referanseParagrafForskrift" typeRef="string" />
+      <rule id="DecisionRule_0shwv3m">
+        <inputEntry id="UnaryTests_1dbr3ep">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0z4ro3a">
+          <text>"Ikke kategorisert"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0uusl5q">
+          <text>"§ 11-12"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bpvo9o">
+        <inputEntry id="UnaryTests_0s2yzap">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_163eg9z">
+          <text>"Optiske røykdetektorer i rømningsveier og fellesarealer"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rhd1s1">
+          <text>"§ 11-12"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11bwpwa">
+        <inputEntry id="UnaryTests_0gyf3ye">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ueluvj">
+          <text>"Heldekkende brannalarmanlegg med optiske røykdetektorer i alle områder"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04xg0v3">
+          <text>"§ 11-12"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1ilnc67" name="Brannalarmkategori">
+    <extensionElements>
+      <biodi:bounds x="384" y="84" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

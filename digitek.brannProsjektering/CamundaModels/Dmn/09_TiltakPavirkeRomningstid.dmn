@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0avlsup" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="TiltakPavirkeRomningstid" name="Tiltak påvirke rømningstid">
+    <extensionElements>
+      <biodi:bounds x="285" y="192" width="180" height="80" />
+      <biodi:edge source="KnowledgeSource_1y0m3ip">
+        <biodi:waypoints x="575" y="213" />
+        <biodi:waypoints x="465" y="231" />
+      </biodi:edge>
+      <biodi:edge source="InputData_11xxixy">
+        <biodi:waypoints x="901" y="247" />
+        <biodi:waypoints x="903" y="318" />
+      </biodi:edge>
+      <biodi:edge source="rkl">
+        <biodi:waypoints x="378" y="121" />
+        <biodi:waypoints x="394" y="192" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0dl75eq">
+        <biodi:waypoints x="583" y="298" />
+        <biodi:waypoints x="465" y="257" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_11xxixy" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#rkl" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1y0m3ip" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0dl75eq" />
+    </authorityRequirement>
+    <decisionTable>
+      <input id="InputClause_1cooutk" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1fok9g1" typeRef="string">        <text>rkl</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Tiltak for å påvirke rømningstider" name="tiltakPavirkeRomningstid" typeRef="string" />
+      <rule id="row-542513221-14">
+        <inputEntry id="UnaryTests_1t8z3f5">        <text><![CDATA["RKL1","RKL2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_16h4sgs">        <text><![CDATA["Slukkesystem*"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-15">
+        <inputEntry id="UnaryTests_0mfjsse">        <text><![CDATA["RKL3","RKL4"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_17fjpuj">        <text><![CDATA["Røykvarsler/Slukkesystem*"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-542513221-16">
+        <inputEntry id="UnaryTests_01gr7yb">        <text><![CDATA["RKL5","RKL6"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1xo4ikw">        <text><![CDATA["Br.alarm/lede-, slukkesyst*"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="rkl" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="310" y="76" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_1y0m3ip" name="REN §7-27 tab. 1 s. 96">
+    <extensionElements>
+      <biodi:bounds x="575" y="173" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_0dl75eq" name="TEK17 § ">
+    <extensionElements>
+      <biodi:bounds x="583" y="284" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+</definitions>

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0dw8d58" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Brannklasse" name="Brannklasse">
+    <extensionElements>
+      <biodi:bounds x="385" y="341" width="180" height="80" />
+      <biodi:edge source="InputData_0lwihqp">
+        <biodi:waypoints x="186" y="178" />
+        <biodi:waypoints x="385" y="342" />
+      </biodi:edge>
+      <biodi:edge source="InputData_189ia57">
+        <biodi:waypoints x="316" y="176" />
+        <biodi:waypoints x="432" y="341" />
+      </biodi:edge>
+      <biodi:edge source="InputData_18rob3q">
+        <biodi:waypoints x="474" y="179" />
+        <biodi:waypoints x="475" y="341" />
+      </biodi:edge>
+      <biodi:edge source="InputData_1etls2r">
+        <biodi:waypoints x="623" y="181" />
+        <biodi:waypoints x="522" y="341" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0a1edr8">
+        <biodi:waypoints x="777" y="180" />
+        <biodi:waypoints x="560" y="341" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1df35f8">
+        <biodi:waypoints x="649" y="372" />
+        <biodi:waypoints x="565" y="372" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_0gwphnb">
+        <biodi:waypoints x="284" y="376" />
+        <biodi:waypoints x="385" y="381" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0lwihqp" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_189ia57" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_18rob3q" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_1etls2r" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_0a1edr8" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1df35f8" />
+    </authorityRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0gwphnb" />
+    </authorityRequirement>
+    <decisionTable id="decisionTable" hitPolicy="FIRST">
+      <input id="typeVirksomhet" label="Type virksomhet" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>typeVirksomhet</text>
+</inputExpression>
+      </input>
+      <input id="antallEtasjer" label="Antall etasjer" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_084ezb1" typeRef="integer">        <text>antallEtasjer</text>
+</inputExpression>
+      </input>
+      <input id="rkl" label="Risikoklasse" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_1hr913m" typeRef="string">        <text>rkl</text>
+</inputExpression>
+        <inputValues id="UnaryTests_0sscs4n">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6"]]></text>
+</inputValues>
+      </input>
+      <input id="brtarealPrEtasje" label="Bruttoareal per etasje" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0ivlagw" typeRef="integer">        <text>brtArealPrEtasje</text>
+</inputExpression>
+      </input>
+      <input id="utgangTerrengAlleBoenheter" label="Har hver boenhet egen utgang til terreng" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0sbk9vg" typeRef="boolean">        <text>utgangTerrengAlleBoenheter</text>
+</inputExpression>
+      </input>
+      <output id="bkl" label="Brannklasse" name="bkl" typeRef="string">
+        <outputValues id="UnaryTests_0gnc3ys">        <text><![CDATA["Ikke krav","BKL1","BKL2","BKL3","BKL4","Udefinert"]]></text>
+</outputValues>
+      </output>
+      <output id="merknadBkl" label="Merknad brannklasse" name="merknadBkl" typeRef="string" />
+      <rule id="row-279083498-72">
+        <inputEntry id="UnaryTests_0cac7rh">        <text><![CDATA["Driftsbygning i landbruk"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0q689pq">        <text>2</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_19ozkoo">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0kxugxa">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0ixac1v">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_19k4s4z">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_149qf6o">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-279083498-73">
+        <inputEntry id="UnaryTests_1ehr31e">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1596bqa">        <text><![CDATA[<3]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0fxo62b">        <text><![CDATA["RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_07uw7tb">        <text><![CDATA[<300]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0vix2ki">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0g3ovgi">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0xp85tx">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-740086734-2">
+        <inputEntry id="UnaryTests_0q74bp3">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1lm5s1z">        <text>2</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0firilb">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1y8731o">        <text><![CDATA[< 800]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ojk1io">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_15vm5id">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_04sb1ut">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-740086734-3">
+        <inputEntry id="UnaryTests_1l82eii">        <text><![CDATA["Forsamlingslokale", "Salgslokale"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_04b0iuc">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0432lys">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1oh2bji">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0esnplp">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ocxizb">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1lqg4ft">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-279083498-74">
+        <inputEntry id="UnaryTests_0zzmv4d">        <text><![CDATA["Arbeidsbrakke", "Skur"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ap4krh">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0jge2ue">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1tspskk">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1akxyvl">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0unmbat">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1blode0">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-279083498-76">
+        <inputEntry id="UnaryTests_0mmfe75">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_142on8p">        <text><![CDATA[<4]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_17jxz2h">        <text><![CDATA["RKL4"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_13x1su3">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0rzcfsf">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_16uoudk">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1gjl3v8">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-1">
+        <inputEntry id="UnaryTests_0o56wdw">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ycor88">        <text>1</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1kzgwpl">        <text><![CDATA["RKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1lh6xw8">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_171x8ii">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_13hnl66">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0cms11w">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-2">
+        <inputEntry id="UnaryTests_13eabku">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1gen427">        <text>1</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_18a5enr">        <text><![CDATA["RKL2","RKL3","RKL4","RKL5"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1h6oqr3">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_14cccpy">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1vzwxbu">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1fm9wav">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="table-83060396-3">
+        <inputEntry id="UnaryTests_06xc1a0">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1vozqvy">        <text>1</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1r2bsc1">        <text><![CDATA["RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_18jtso0">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0hob0jo">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1vfzreo">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1lge24w">        <text><![CDATA["Kfr. merkn REN s. 50"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-3">
+        <inputEntry id="UnaryTests_0628ds2">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1rtn1j0">        <text>2</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_11dflo5">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1aprtlx">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1nll1ys">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_06kzrlo">        <text><![CDATA["BKL1"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1pfon67">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-4">
+        <inputEntry id="UnaryTests_1rjg1xm">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0i5w5th">        <text>2</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1dgbrta">        <text><![CDATA["RKL5","RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0v99fwx">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_15im4gv">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0iefqyy">        <text><![CDATA["BKL2"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1l6udsi">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-5">
+        <inputEntry id="UnaryTests_01ofy85">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1dlha54">        <text>[3..4]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1gmaojm">        <text><![CDATA["RKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1n2awwm">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0gr2fbi">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_151yhy6">        <text><![CDATA["BKL2"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_1yy6bxt">        <text><![CDATA["Øverste etg.BKL1 evt. ubrennbar bærekonstr."]]></text>
+</outputEntry>
+      </rule>
+      <rule id="table-83060396-2">
+        <inputEntry id="UnaryTests_1rrqy8k">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_08wn3ya">        <text>[3..4]</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1bxpvq8">        <text><![CDATA["RKL2", "RKL3", "RKL4", "RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_183feb3">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1fa7p7g">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_141dz5d">        <text><![CDATA["BKL2"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0jj7b1d">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-6">
+        <inputEntry id="UnaryTests_0t22tpb">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_11faanc">        <text><![CDATA[> 2]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_09gq3w1">        <text><![CDATA["RKL5"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0pnrb6m">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1y74a1j">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0z7rnb4">        <text><![CDATA["BKL3"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0kltxma">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-7">
+        <inputEntry id="UnaryTests_0h8r22d">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0jtz6uj">        <text><![CDATA[>=5]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1bxxcw2">        <text><![CDATA["RKL1"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1nh6on1">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_150llff">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ukw2rs">        <text><![CDATA["BKL2"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0qga4l4">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="row-573550739-8">
+        <inputEntry id="UnaryTests_1o7noc6">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_19tt0n8">        <text><![CDATA[>=5]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0n5kl8a">        <text><![CDATA["RKL2", "RKL3", "RKL4", "RKL6"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_12pf3pk">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_14llbcy">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_05erupm">        <text><![CDATA["BKL3"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0htfibr">        <text></text>
+</outputEntry>
+      </rule>
+      <rule id="DecisionRule_1y03owg">
+        <inputEntry id="UnaryTests_0aikua4">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0omxdeh">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1nwz2m7">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1xil4pn">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_15mln23">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0vzdamw">        <text><![CDATA["Udefinert"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_0k6t5wg">        <text></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_18rob3q" name="Risikoklasse">
+    <extensionElements>
+      <biodi:bounds x="411" y="133" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_0lwihqp" name="Type virksomhet">
+    <extensionElements>
+      <biodi:bounds x="123" y="131" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_189ia57" name="Antall etasjer">
+    <extensionElements>
+      <biodi:bounds x="262" y="131" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_1etls2r" name="Bruttoareal per etasje">
+    <extensionElements>
+      <biodi:bounds x="560" y="135" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_0a1edr8" name="Har hver boenhet egen utgang til terreng">
+    <extensionElements>
+      <biodi:bounds x="714" y="133" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0gwphnb" name="REN §7-22 tab. 2 s. 50">
+    <extensionElements>
+      <biodi:bounds x="184" y="343" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_1df35f8" name="TEK17 § 11-3 Tabell 1: Brannklasse ">
+    <extensionElements>
+      <biodi:bounds x="650" y="340" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <association id="Association_1tk01ah">
+    <extensionElements>
+      <biodi:edge source="BrannklasseKonsekvens">
+        <biodi:waypoints x="549" y="588" />
+        <biodi:waypoints x="735" y="532" />
+      </biodi:edge>
+    </extensionElements>
+    <sourceRef href="#BrannklasseKonsekvens" />
+    <targetRef href="#TextAnnotation_1nv594s" />
+  </association>
+</definitions>

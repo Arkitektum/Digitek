@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_1a6uss9" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="BrannmotstandDorISeksjoneringsvegg" name="Brannmotstand dør i seksjoneringsvegg">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_1kkf40z">
+        <biodi:waypoints x="289" y="141" />
+        <biodi:waypoints x="286" y="200" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1rhnpd4">
+        <biodi:waypoints x="491" y="198" />
+        <biodi:waypoints x="380" y="228" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1kkf40z" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1rhnpd4" />
+    </authorityRequirement>
+    <decisionTable hitPolicy="FIRST">
+      <input id="InputClause_1q7oe6k" label="Brannmotstand Seksjoneringsvegg" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_0bqunv5" typeRef="string">        <text>kravBrannmotstSeksjVegg</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Krav brannmotstand dør i seksjoneringsvegg" name="kravBrannmotstandDorISeksjvegg" typeRef="string" />
+      <rule id="row-948887753-21">
+        <inputEntry id="UnaryTests_074gv1d">        <text><![CDATA["REI 90-M A2-s1,d0 [A 90]"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1hx7l75">        <text><![CDATA["EI-90C"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-22">
+        <inputEntry id="UnaryTests_0q46alt">        <text><![CDATA["REI 120-M A2-s1,d0 [A 120]"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0qneafh">        <text><![CDATA["EI-120C"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-23">
+        <inputEntry id="UnaryTests_1mbssav">        <text><![CDATA["REI 180-M A2-s1,d0 [A 180]"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1e24bxz">        <text><![CDATA["EI-180C"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-24">
+        <inputEntry id="UnaryTests_15yg9cm">        <text><![CDATA["REI 240-M A2-s1,d0 [A 240]"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0ft2hnr">        <text><![CDATA["EI-240C"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-948887753-26">
+        <inputEntry id="UnaryTests_1b8wweg">        <text><![CDATA["Ikke krav"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0o7o2sc">        <text><![CDATA["Ikke krav"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-811958445-1">
+        <inputEntry id="UnaryTests_17r6opa">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0bi6zvn">        <text><![CDATA["Ikke definert"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1kkf40z" name="Brannmotstand Seksjoneringsvegg">
+    <extensionElements>
+      <biodi:bounds x="223" y="96" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_1rhnpd4" name="Etter TEK17, samme motstand i dør som vegg. 2. ledd, veiledning B.2">
+    <extensionElements>
+      <biodi:bounds x="491" y="152" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <knowledgeSource id="KnowledgeSource_0ehj0zs" name="Beslutning flyttes til tabell 04???">
+    <extensionElements>
+      <biodi:bounds x="133" y="332" width="100" height="63" />
+      <biodi:edge source="BrannmotstandDorISeksjoneringsvegg">
+        <biodi:waypoints x="255" y="280" />
+        <biodi:waypoints x="211" y="332" />
+      </biodi:edge>
+    </extensionElements>
+    <authorityRequirement>
+      <requiredDecision href="#BrannmotstandDorISeksjoneringsvegg" />
+    </authorityRequirement>
+  </knowledgeSource>
+</definitions>

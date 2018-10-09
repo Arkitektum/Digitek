@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace digitek.brannProsjektering.Models
 {
@@ -29,5 +31,19 @@ namespace digitek.brannProsjektering.Models
         public long? arealBrannseksjonPrEtasje { get; set; }
         public long? brannenergi { get; set; }
         public bool? bygningOffentligUnderTerreng { get; set; }
+
+        //Outputs from other DMN
+
+        [StringLength(4)]
+        public string rkl { get; set; }
+        [StringLength(4)]
+        public string bkl { get; set; }
+        public string brannalarmKategori { get; set; }
+        public string brannTiltakStrSeksjonBelastning { get; set; }
+        public string kravBrannmotstSeksjVegg { get; set; }
+        public string kravLedesystemEvakuering { get; set; }
+        public string trappeRomKlasse { get; set; }
+
+
     }
 }

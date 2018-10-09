@@ -4,7 +4,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0zwpeao</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:subProcess id="SubProcess_0kcmalf" name="Branklasse">
+    <bpmn:subProcess id="SubProcess_0kcmalf" name="BrannKlasse">
       <bpmn:incoming>SequenceFlow_0zwpeao</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pu1t7k</bpmn:outgoing>
       <bpmn:startEvent id="StartEvent_09i08px">

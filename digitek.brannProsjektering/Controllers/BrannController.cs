@@ -9,9 +9,13 @@ namespace digitek.brannProsjektering.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DigiTek17K11Controller : ControllerBase
+    public class DigiTekK11Controller : ControllerBase
     {
         // GET: api/DigiTek17K11
+        /// <summary>
+        /// This shows the responce from Camunda server
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -19,6 +23,11 @@ namespace digitek.brannProsjektering.Controllers
         }
 
         // GET: api/DigiTek17K11/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {

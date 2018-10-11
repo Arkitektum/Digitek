@@ -67,6 +67,29 @@ namespace CamundaClient.Service
                 throw new EngineException("Could not load variable: " + response.ReasonPhrase);
             }
         }
+        public Dictionary<string, object> GetProcessVariables(string executionId)
+        {
+            var http = helper.HttpClient();
+
+            var response = http.GetAsync("process-instance/" + executionId + "/variables").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                // Successful - parse the response body
+                var variableResponse = JsonConvert.DeserializeObject< Dictionary<string, Variable>>(response.Content.ReadAsStringAsync().Result);
+
+                var variables = new Dictionary<string, object>();
+                foreach (var variable in variableResponse)
+                {
+                    variables.Add(variable.Key, variable.Value.Value);
+                }
+                return variables;
+            }
+            else
+            {
+                //throw new EngineException("Could not load variable: " + response.ReasonPhrase);
+                return new Dictionary<string, object>(){{ "Could not load variable: ", response.ReasonPhrase } };
+            }
+        }
 
         public IList<ProcessInstance> LoadProcessInstances(IDictionary<string, string> queryParameters)
         {

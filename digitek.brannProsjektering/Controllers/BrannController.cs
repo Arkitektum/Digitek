@@ -27,7 +27,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <returns></returns>
         // POST: api/DigiTek17K11
         [HttpPost, Route("RisikoklassenModel")]
-        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringModel brannteknisk)
+        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringVariables brannteknisk)
         {
             var key = "RisikoklassenModel.Net";
 
@@ -50,7 +50,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <returns></returns>
         // POST: api/DigiTek17K11
         [HttpPost, Route("BrannklasseModel")]
-        public IActionResult PostBKL([FromBody] BranntekniskProsjekteringModel brannteknisk)
+        public IActionResult PostBKL([FromBody] BrannklasseModel brannteknisk)
         {
             var key = "BrannklasseModel.Net";
 
@@ -71,8 +71,26 @@ namespace digitek.brannProsjektering.Controllers
         /// </summary>
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
+        [HttpPost, Route("BrannmotstandModel")]
+        public IActionResult PostBM([FromBody] BrannmotstandModel brannteknisk)
+        {
+            var key = "BrannmotstandModel.Net";
+
+            var dictionary = brannteknisk.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
+            var camunda = new CamundaEngineClient();
+            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(responce);
+        }
+
         [HttpPost, Route("BrannseksjonOgBrannmotstand")]
-        public IActionResult PostBB([FromBody] BranntekniskProsjekteringModel brannteknisk)
+        public IActionResult PostBB([FromBody] BrannseksjonOgBrannmotstandModel brannteknisk)
         {
             var key = "BrannseksjonOgBrannmotstand.Net";
 
@@ -94,7 +112,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         [HttpPost, Route("KravTilBranntiltaktModel")]
-        public IActionResult PostKB([FromBody] BranntekniskProsjekteringModel brannteknisk)
+        public IActionResult PostKB([FromBody] BranntekniskProsjekteringVariables brannteknisk)
         {
             var key = "KravTilBranntiltaktModel.Net";
 
@@ -116,7 +134,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         [HttpPost, Route("LedesystemModel")]
-        public IActionResult PostL([FromBody] BranntekniskProsjekteringModel brannteknisk)
+        public IActionResult PostL([FromBody] BranntekniskProsjekteringVariables brannteknisk)
         {
             var key = "LedesystemModel.Net";
 

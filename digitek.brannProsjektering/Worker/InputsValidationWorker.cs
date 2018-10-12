@@ -19,7 +19,7 @@ namespace digitek.brannProsjektering.Worker
         {
             var inputsDictionary = new Dictionary<string, object>();
             // just create an id for demo purposes here
-            BranntekniskProsjekteringModel branntekniskProsjektering = new BranntekniskProsjekteringModel();
+            BranntekniskProsjekteringVariables branntekniskProsjektering = new BranntekniskProsjekteringVariables();
 
             try { branntekniskProsjektering.typeVirksomhet = (string)externalTask.Variables["typeVirksomhet"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.antallEtasjer = Convert.ToInt64(externalTask.Variables["antallEtasjer"].Value); } catch {/*ignored*/}
@@ -33,6 +33,8 @@ namespace digitek.brannProsjektering.Worker
             try { branntekniskProsjektering.brannenergi = Convert.ToInt64(externalTask.Variables["brannenergi"].Value); } catch {/*ignored*/}
             try { branntekniskProsjektering.bygningOffentligUnderTerreng = (Boolean)externalTask.Variables["bygningOffentligUnderTerreng"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.arealBrannseksjonPrEtasje = Convert.ToInt64(externalTask.Variables["arealBrannseksjonPrEtasje"].Value); } catch {/*ignored*/}
+            try { branntekniskProsjektering.avstandMellomMotstVinduerIMeter = Convert.ToInt64(externalTask.Variables["avstandMellomMotstVinduerIMeter"].Value); } catch {/*ignored*/}
+
             //Outputs from other DMN
             try { branntekniskProsjektering.rkl = (string)externalTask.Variables["rkl"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.bkl = (string)externalTask.Variables["bkl"].Value; } catch {/*ignored*/}

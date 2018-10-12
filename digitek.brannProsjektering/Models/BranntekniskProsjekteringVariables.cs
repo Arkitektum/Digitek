@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace digitek.brannProsjektering.Models
 {
-    public class BranntekniskProsjekteringModel
+    public class BranntekniskProsjekteringVariables
     {
         //Opt1 to RKL and To Opt1 BKL
         public string typeVirksomhet { get; set; }
@@ -31,6 +31,9 @@ namespace digitek.brannProsjektering.Models
         public long? arealBrannseksjonPrEtasje { get; set; }
         public long? brannenergi { get; set; }
         public bool? bygningOffentligUnderTerreng { get; set; }
+
+        public long? avstandMellomMotstVinduerIMeter { get; set; }
+
 
         //Outputs from other DMN
         public string rkl { get; set; }

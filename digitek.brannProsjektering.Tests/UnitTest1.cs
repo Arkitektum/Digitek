@@ -17,7 +17,7 @@ namespace digitek.brannProsjektering.Tests
         [Fact]
         public void Test1()
         {
-            var branntekniskProsjektering = new BranntekniskProsjekteringModel()
+            var branntekniskProsjektering = new BranntekniskProsjekteringVariables()
             {
                 typeVirksomhet = "Bolig",
             };
@@ -96,7 +96,7 @@ namespace digitek.brannProsjektering.Tests
         [Fact]
         public void RisikoklassenModelTest()
         {
-            var branntekniskProsjektering = new BranntekniskProsjekteringModel()
+            var branntekniskProsjektering = new BranntekniskProsjekteringVariables()
             {
                 typeVirksomhet = "Sykehus",
             };

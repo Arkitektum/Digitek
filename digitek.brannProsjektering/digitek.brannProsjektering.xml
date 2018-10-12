@@ -4,35 +4,35 @@
         <name>digitek.brannProsjektering</name>
     </assembly>
     <members>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
             <summary>
             
             </summary>
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBKL(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBKL(digitek.brannProsjektering.Models.BrannklasseModel)">
             <summary>
             
             </summary>
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBB(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBM(digitek.brannProsjektering.Models.BrannmotstandModel)">
             <summary>
             
             </summary>
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostKB(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostKB(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
             <summary>
             Krav til branntiltak
             </summary>
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostL(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostL(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
             <summary>
             Ledesystem
             </summary>

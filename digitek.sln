@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "digitek.brannProsjektering", "digitek.brannProsjektering\digitek.brannProsjektering.csproj", "{CF06B488-6877-462E-AB8C-8FEFEA9A98E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digitek.brannProsjektering", "digitek.brannProsjektering\digitek.brannProsjektering.csproj", "{CF06B488-6877-462E-AB8C-8FEFEA9A98E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamundaClient", "CamundaClient\CamundaClient.csproj", "{710836EE-FF64-4E37-AF18-626387D62D32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CamundaClient", "CamundaClient\CamundaClient.csproj", "{710836EE-FF64-4E37-AF18-626387D62D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "digitek.brannProsjektering.Tests", "digitek.brannProsjektering.Tests\digitek.brannProsjektering.Tests.csproj", "{A942D68B-AEAC-478A-B8E4-02154F58C27D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{710836EE-FF64-4E37-AF18-626387D62D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{710836EE-FF64-4E37-AF18-626387D62D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{710836EE-FF64-4E37-AF18-626387D62D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A942D68B-AEAC-478A-B8E4-02154F58C27D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A942D68B-AEAC-478A-B8E4-02154F58C27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A942D68B-AEAC-478A-B8E4-02154F58C27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A942D68B-AEAC-478A-B8E4-02154F58C27D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Excel2Dmn_12-09-18" name="19_BrannmotstandVinduInnvHjørne" namespace="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
+  <decision id="BrannmotstandVinduInnvendigHjorne" name="Brannmotstand vinduer i yttervegg innvendig hjørne">
+    <decisionTable id="decisionTable" hitPolicy="FIRST">
+      <input id="bkl" label="Brannklasse">
+        <inputExpression id="exp_bkl" label="label_bkl" typeRef="string">
+          <text>bkl</text>
+        </inputExpression>
+      </input>
+      <input id="avstandMellomMotstVinduerIMeter" label="Avstand mellom motstående vinduer i m">
+        <inputExpression id="exp_avstandMellomMotstVinduerIMeter" label="label_avstandMellomMotstVinduerIMeter" typeRef="integer">
+          <text>avstandMellomMotstVinduerIMeter</text>
+        </inputExpression>
+      </input>
+      <output id="kravAvstandInnvHjorne1Vindu_Id" label="Innvendig hjørne yttervegger, 1 vindu" name="kravAvstandInnvHjorne1Vindu" typeRef="string" />
+      <output id="kravAvstandInnvHjorneBegge_Id" label="Innvendig hjørne yttervegger, begge" name="kravAvstandInnvHjorneBegge" typeRef="string" />
+      <rule id="rowRule_7">
+        <inputEntry id="B7">
+          <text>"Ikke angitt"</text>
+        </inputEntry>
+        <inputEntry id="C7">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D7">
+          <text>"Ikke angitt"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E7">
+          <text>"Ikke angitt"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_8">
+        <inputEntry id="B8">
+          <text>"BKL1"</text>
+        </inputEntry>
+        <inputEntry id="C8">
+          <text>&lt;2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D8">
+          <text>"EI 30"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E8">
+          <text>"EI 15"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_9">
+        <inputEntry id="B9">
+          <text>"BKL1"</text>
+        </inputEntry>
+        <inputEntry id="C9">
+          <text>[2..4[</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D9">
+          <text>"E 30 [F 30]"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E9">
+          <text>"EI 15"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_10">
+        <inputEntry id="B10">
+          <text>"BKL1"</text>
+        </inputEntry>
+        <inputEntry id="C10">
+          <text>&gt;=4</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D10">
+          <text>"Uspesifisert"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E10">
+          <text>"Uspesifisert"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_11">
+        <inputEntry id="B11">
+          <text>"BKL2","BKL3"</text>
+        </inputEntry>
+        <inputEntry id="C11">
+          <text>&lt;2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D11">
+          <text>"EI 60"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E11">
+          <text>"EI 30"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_12">
+        <inputEntry id="B12">
+          <text>"BKL2","BKL3"</text>
+        </inputEntry>
+        <inputEntry id="C12">
+          <text>[2..4[</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D12">
+          <text>"E 60 [F 60]"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E12">
+          <text>"E 30 [F 30]"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_13">
+        <inputEntry id="B13">
+          <text>"BKL2","BKL3"</text>
+        </inputEntry>
+        <inputEntry id="C13">
+          <text>&gt;=4</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_D13">
+          <text>"Uspesifisert"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E13">
+          <text>"Uspesifisert"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

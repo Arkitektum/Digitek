@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Code\DiBK\digitek\digitek.brannProsjektering\digitek.brannProsjektering.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="CamundaModels\BPMNSubmodelTestDotNet.bpmn" />
     <None Remove="CamundaModels\Bpmn\BrannJsonOutputModel.bpmn" />
@@ -38,13 +42,14 @@
     <None Remove="CamundaModels\Dmn\11_TiltakManuellBrannslokking.dmn" />
     <None Remove="CamundaModels\Dmn\12a_LedesystemEvakuering.dmn" />
     <None Remove="CamundaModels\Dmn\12b_LedesystemEvakueringVarighet.dmn" />
-    <None Remove="CamundaModels\Dmn\13_OverflateKledningBrannseksjonTEK17_11_9.dmn" />
+    <None Remove="CamundaModels\Dmn\13_OverflateKledning.dmn" />
     <None Remove="CamundaModels\Dmn\14_OverflaterBranncelleRomningsvei.dmn" />
     <None Remove="CamundaModels\Dmn\15_BrannmotstandIsolasjon.dmn" />
     <None Remove="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
     <None Remove="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
-    <None Remove="CamundaModels\Dmn\18_BrannmotstandMotstaendeVinduerYttervegger.dmn" />
+    <None Remove="CamundaModels\Dmn\18_BrannmotstandVinduMotstParallellYttervegg.dmn" />
     <None Remove="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
+    <None Remove="CamundaModels\Dmn\19_BrannmotstandVinduInnvHjørne.dmn" />
     <None Remove="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
     <None Remove="CamundaModels\LedesystemModelDotNet.bpmn" />
     <None Remove="CamundaModels\RisikoklassenModelDotNet.bpmn" />
@@ -85,13 +90,14 @@
     <EmbeddedResource Include="CamundaModels\Dmn\11_TiltakManuellBrannslokking.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\12a_LedesystemEvakuering.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\12b_LedesystemEvakueringVarighet.dmn" />
-    <EmbeddedResource Include="CamundaModels\Dmn\13_OverflateKledningBrannseksjonTEK17_11_9.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\13_OverflateKledning.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\14_OverflaterBranncelleRomningsvei.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\15_BrannmotstandIsolasjon.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
-    <EmbeddedResource Include="CamundaModels\Dmn\18_BrannmotstandMotstaendeVinduerYttervegger.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\18_BrannmotstandVinduMotstParallellYttervegg.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\19_BrannmotstandVinduInnvHjørne.dmn" />
     <EmbeddedResource Include="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
     <EmbeddedResource Include="CamundaModels\LedesystemModelDotNet.bpmn" />
     <EmbeddedResource Include="CamundaModels\RisikoklassenModelDotNet.bpmn" />
@@ -102,6 +108,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

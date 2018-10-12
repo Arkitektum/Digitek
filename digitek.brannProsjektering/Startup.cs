@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace digitek.brannProsjektering
 {
@@ -33,6 +34,14 @@ namespace digitek.brannProsjektering
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v3", new Info { Title = "DigiTEK17", Description = "Brann API" });
+                    var xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + @"digitek.brannProsjektering.xml";
+                    c.IncludeXmlComments(xmlPath);
+                }
+                );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +67,13 @@ namespace digitek.brannProsjektering
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v3/swagger.json","Core API");
+                }
+                
+                );
         }
     }
 }

@@ -33,15 +33,12 @@ namespace digitek.brannProsjektering.Models
         public bool? bygningOffentligUnderTerreng { get; set; }
 
         //Outputs from other DMN
-
-        [StringLength(4)]
         public string rkl { get; set; }
-        [StringLength(4)]
         public string bkl { get; set; }
-        public string brannalarmKategori { get; set; }
+        public long? brannalarmKategori { get; set; }
         public string brannTiltakStrSeksjonBelastning { get; set; }
         public string kravBrannmotstSeksjVegg { get; set; }
-        public string kravLedesystemEvakuering { get; set; }
+        public bool? kravLedesystemEvakuering { get; set; }
         public string trappeRomKlasse { get; set; }
 
 

@@ -4,15 +4,44 @@
         <name>digitek.brannProsjektering</name>
     </assembly>
     <members>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get">
-            <summary>
-            This shows the responce from Camunda server
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get(System.Int32)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
             <summary>
             
+            </summary>
+            <param name="brannteknisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBKL(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+            <summary>
+            
+            </summary>
+            <param name="brannteknisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostBB(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+            <summary>
+            
+            </summary>
+            <param name="brannteknisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostKB(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+            <summary>
+            Krav til branntiltak
+            </summary>
+            <param name="brannteknisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostL(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
+            <summary>
+            Ledesystem
+            </summary>
+            <param name="brannteknisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get(System.String)">
+            <summary>
+            Get model output
             </summary>
             <param name="id"></param>
             <returns></returns>

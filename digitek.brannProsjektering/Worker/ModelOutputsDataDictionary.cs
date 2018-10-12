@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 namespace digitek.brannProsjektering.Worker
 {
     [ExternalTaskTopic("modelOutputDataDictionary")]
-    //[ExternalTaskVariableRequirements("modelOutputs")]
+    [ExternalTaskVariableRequirements("modelOutputs")]
     public class ModelOutputsDataDictionary : IExternalTaskAdapter
     {
         public void Execute(ExternalTask externalTask, ref Dictionary<string, object> resultVariables)

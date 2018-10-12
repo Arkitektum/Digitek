@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CamundaClient.Dto;
 using CamundaClient.Worker;
 using Newtonsoft.Json;
@@ -6,7 +8,6 @@ using Newtonsoft.Json;
 namespace digitek.brannProsjektering.Worker
 {
     [ExternalTaskTopic("outputConsolidation")]
-    //[ExternalTaskVariableRequirements("rklOutputs")]
     public class OutputConsolidation : IExternalTaskAdapter
     {
         public void Execute(ExternalTask externalTask, ref Dictionary<string, object> resultVariables)
@@ -15,11 +16,21 @@ namespace digitek.brannProsjektering.Worker
             var variables = externalTask.Variables;
             foreach (var variable in variables)
             {
-                var type = variable.Value.ValueInfo.ToString();
-                if (!type.Contains("HashMap") || variable.Key.Contains("modelInputs")) continue;
-                var variableValue =variable.Value.Value;
-                var json = JsonConvert.DeserializeObject(variableValue.ToString());
-                dmnsDictionary.Add(variable.Key, json);
+                var value = variable.Value.Value;
+                if (value != null)
+                {
+                    try
+                    {
+                        if (variable.Key.Contains("modelInputs")) continue;
+                        var dictionaryTemp = JsonConvert.DeserializeObject<Dictionary<string, object>>(value.ToString());
+                        if (dictionaryTemp.Any())
+                            dmnsDictionary.Add(variable.Key, new Variable(){Value = value});
+                    }
+                    catch
+                    {
+                        //nada
+                    }
+                }
             }
             resultVariables.Add("modelOutputs", dmnsDictionary);
         }

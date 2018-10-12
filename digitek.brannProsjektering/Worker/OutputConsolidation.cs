@@ -24,7 +24,7 @@ namespace digitek.brannProsjektering.Worker
                         if (variable.Key.Contains("modelInputs")) continue;
                         var dictionaryTemp = JsonConvert.DeserializeObject<Dictionary<string, object>>(value.ToString());
                         if (dictionaryTemp.Any())
-                            dmnsDictionary.Add(variable.Key, new Variable(){Value = value});
+                            dmnsDictionary.Add(variable.Key, JsonConvert.DeserializeObject(value.ToString()));
                     }
                     catch
                     {

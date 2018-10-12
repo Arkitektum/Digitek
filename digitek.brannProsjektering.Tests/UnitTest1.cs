@@ -14,7 +14,7 @@ namespace digitek.brannProsjektering.Tests
 {
     public class UnitTest1
     {
-        [Fact]
+        [Fact(Skip = "update with server url")]
         public void Test1()
         {
             var branntekniskProsjektering = new BranntekniskProsjekteringVariables()
@@ -92,8 +92,7 @@ namespace digitek.brannProsjektering.Tests
                 camunda.RepositoryService.DeleteDeployment(deploymentId);
             }
         }
-
-        [Fact]
+        [Fact(Skip = "update with server url")]
         public void RisikoklassenModelTest()
         {
             var branntekniskProsjektering = new BranntekniskProsjekteringVariables()

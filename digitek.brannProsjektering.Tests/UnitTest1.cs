@@ -14,7 +14,7 @@ namespace digitek.brannProsjektering.Tests
 {
     public class UnitTest1
     {
-        [Fact(Skip = "update with server url")]
+        [Fact(DisplayName = "integration Test", Skip = "Update to Server URL")]
         public void Test1()
         {
             var branntekniskProsjektering = new BranntekniskProsjekteringVariables()

@@ -35,7 +35,7 @@
         <bpmn:incoming>SequenceFlow_16rkoww</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0dgwgcm</bpmn:outgoing>
       </bpmn:businessRuleTask>
-      <bpmn:businessRuleTask id="BusinessRuleTask_0kdf6nx" name="18_BrannmotstandMotstaendeVinduerYttervegger" camunda:resultVariable="brannmotstandMotstaendeVinduerYttervegger" camunda:decisionRef="BrannmotstandMotstaendeVinduerYttervegger" camunda:mapDecisionResult="singleResult">
+      <bpmn:businessRuleTask id="BusinessRuleTask_0kdf6nx" name="18_BrannmotstandVinduMotstParallellYttervegg" camunda:resultVariable="brannmotstandMotstaendeVinduerYttervegger" camunda:decisionRef="BrannmotstandMotstaendeVinduerYttervegger" camunda:mapDecisionResult="singleResult">
         <bpmn:incoming>SequenceFlow_1wdgniv</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_13ekymw</bpmn:outgoing>
       </bpmn:businessRuleTask>
@@ -46,6 +46,7 @@
         <bpmn:outgoing>SequenceFlow_12okzo6</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_16rkoww</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_1wdgniv</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_04epklr</bpmn:outgoing>
       </bpmn:parallelGateway>
       <bpmn:sequenceFlow id="SequenceFlow_1we85sf" sourceRef="Task_1eje345" targetRef="BusinessRuleTask_0mlunff" />
       <bpmn:scriptTask id="Task_1eje345" name="_kravBrannmotstSeksjVegg" scriptFormat="groovy" camunda:resultVariable="kravBrannmotstSeksjVegg">
@@ -61,6 +62,7 @@
         <bpmn:incoming>SequenceFlow_0dgwgcm</bpmn:incoming>
         <bpmn:incoming>SequenceFlow_13ekymw</bpmn:incoming>
         <bpmn:incoming>SequenceFlow_19skbpo</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_0xusd31</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_19g0hc9</bpmn:outgoing>
       </bpmn:parallelGateway>
       <bpmn:sequenceFlow id="SequenceFlow_0lnk2di" sourceRef="BusinessRuleTask_18fklbk" targetRef="ExclusiveGateway_1tb7d76" />
@@ -86,6 +88,12 @@
         <bpmn:incoming>SequenceFlow_02dgbb3</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_19skbpo</bpmn:outgoing>
       </bpmn:parallelGateway>
+      <bpmn:businessRuleTask id="Task_08fa2y8" name="19_BrannmotstandVinduInnvHjørne.dmn" camunda:resultVariable="brannmotstandVinduInnvendigHjorne" camunda:decisionRef="BrannmotstandVinduInnvendigHjorne" camunda:mapDecisionResult="singleResult">
+        <bpmn:incoming>SequenceFlow_04epklr</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0xusd31</bpmn:outgoing>
+      </bpmn:businessRuleTask>
+      <bpmn:sequenceFlow id="SequenceFlow_04epklr" sourceRef="ExclusiveGateway_0tjegas" targetRef="Task_08fa2y8" />
+      <bpmn:sequenceFlow id="SequenceFlow_0xusd31" sourceRef="Task_08fa2y8" targetRef="ExclusiveGateway_1tb7d76" />
       <bpmn:textAnnotation id="TextAnnotation_09i2ghy">      <bpmn:text><![CDATA[arealBrannseksjonPrEtasje?
 brannBelasting?
 typeVirksomhet?
@@ -122,7 +130,7 @@ arealBrannseksjonPrEtasje?
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_0aj8ly3_di" bpmnElement="SubProcess_0aj8ly3" isExpanded="true">
-        <dc:Bounds x="369" y="238" width="960" height="567" />
+        <dc:Bounds x="369" y="238" width="960" height="667" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_11enmmi_di" bpmnElement="BusinessRuleTask_11enmmi">
         <dc:Bounds x="706" y="304" width="100" height="80" />
@@ -194,9 +202,11 @@ arealBrannseksjonPrEtasje?
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0hs5equ_di" bpmnElement="SequenceFlow_0hs5equ">
         <di:waypoint xsi:type="dc:Point" x="334" y="539" />
-        <di:waypoint xsi:type="dc:Point" x="369" y="539" />
+        <di:waypoint xsi:type="dc:Point" x="352" y="539" />
+        <di:waypoint xsi:type="dc:Point" x="352" y="592" />
+        <di:waypoint xsi:type="dc:Point" x="369" y="592" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="306.5" y="518" width="90" height="12" />
+          <dc:Bounds x="322" y="559.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1we85sf_di" bpmnElement="SequenceFlow_1we85sf">
@@ -283,10 +293,12 @@ arealBrannseksjonPrEtasje?
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1vwsd23_di" bpmnElement="SequenceFlow_1vwsd23">
-        <di:waypoint xsi:type="dc:Point" x="1329" y="537" />
-        <di:waypoint xsi:type="dc:Point" x="1374" y="539" />
+        <di:waypoint xsi:type="dc:Point" x="1329" y="565" />
+        <di:waypoint xsi:type="dc:Point" x="1352" y="565" />
+        <di:waypoint xsi:type="dc:Point" x="1352" y="540" />
+        <di:waypoint xsi:type="dc:Point" x="1375" y="540" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1306.5" y="517" width="90" height="12" />
+          <dc:Bounds x="1322" y="546.5" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1pfusg2_di" bpmnElement="SequenceFlow_1pfusg2">
@@ -303,18 +315,18 @@ arealBrannseksjonPrEtasje?
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BoundaryEvent_0n3a6mo_di" bpmnElement="BoundaryEvent_1x51u60">
-        <dc:Bounds x="1228" y="787" width="36" height="36" />
+        <dc:Bounds x="1228" y="887" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1201" y="827" width="90" height="12" />
+          <dc:Bounds x="1201" y="927" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_09saovk_di" bpmnElement="SequenceFlow_09saovk">
-        <di:waypoint xsi:type="dc:Point" x="1246" y="823" />
-        <di:waypoint xsi:type="dc:Point" x="1246" y="843" />
-        <di:waypoint xsi:type="dc:Point" x="1399" y="843" />
+        <di:waypoint xsi:type="dc:Point" x="1246" y="923" />
+        <di:waypoint xsi:type="dc:Point" x="1246" y="945" />
+        <di:waypoint xsi:type="dc:Point" x="1399" y="945" />
         <di:waypoint xsi:type="dc:Point" x="1399" y="564" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1277.5" y="822" width="90" height="12" />
+          <dc:Bounds x="1277.5" y="924" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1cu5scm_di" bpmnElement="SequenceFlow_1cu5scm">
@@ -361,6 +373,26 @@ arealBrannseksjonPrEtasje?
           <dc:Bounds x="1090" y="373" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_10g6rd9_di" bpmnElement="Task_08fa2y8">
+        <dc:Bounds x="656" y="800" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04epklr_di" bpmnElement="SequenceFlow_04epklr">
+        <di:waypoint xsi:type="dc:Point" x="520" y="563" />
+        <di:waypoint xsi:type="dc:Point" x="520" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="656" y="840" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="535" y="695.5" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xusd31_di" bpmnElement="SequenceFlow_0xusd31">
+        <di:waypoint xsi:type="dc:Point" x="756" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="1172" y="840" />
+        <di:waypoint xsi:type="dc:Point" x="1172" y="538" />
+        <di:waypoint xsi:type="dc:Point" x="1197" y="538" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1187" y="683" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

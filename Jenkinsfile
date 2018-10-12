@@ -22,9 +22,6 @@
       }
     }
     stage('Build package') {
-      when {
-        branch 'master'
-      }
       steps {
         bat "dotnet publish --configuration Release ${PROJECT_WEB}/${PROJECT_WEB}.csproj --no-build --output output-app"
         dir("${PROJECT_WEB}\\output-app") {
@@ -34,9 +31,6 @@
       }
     }
     stage('Deploy') {
-      when {
-        branch 'master'
-      }
       steps {
         bat "octo create-release --project \"${OCTOPUS_PROJECT_NAME}\" --version ${VERSION_NUMBER} --packageversion ${VERSION_NUMBER} --server http://localhost:8081/ --apiKey ${OCTOPUS_API_KEY} --releaseNotes \"Jenkins build [${VERSION_NUMBER}](https://ci.arkitektum.no/blue/organizations/jenkins/${PACKAGE_NAME}/detail/master/${currentBuild.getNumber()}/changes/)\" --deployto=Dev --progress"
       }

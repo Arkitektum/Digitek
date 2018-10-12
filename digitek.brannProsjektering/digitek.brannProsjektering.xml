@@ -4,7 +4,7 @@
         <name>digitek.brannProsjektering</name>
     </assembly>
     <members>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.RisikoklasseModel)">
             <summary>
             
             </summary>
@@ -25,14 +25,14 @@
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostKB(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostKB(digitek.brannProsjektering.Models.KravTilBranntiltakModel)">
             <summary>
             Krav til branntiltak
             </summary>
             <param name="brannteknisk"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostL(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostL(digitek.brannProsjektering.Models.LedesystemModel)">
             <summary>
             Ledesystem
             </summary>

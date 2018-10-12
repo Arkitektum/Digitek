@@ -27,7 +27,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <returns></returns>
         // POST: api/DigiTek17K11
         [HttpPost, Route("RisikoklassenModel")]
-        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringVariables brannteknisk)
+        public IActionResult PostRkl([FromBody] RisikoklasseModel brannteknisk)
         {
             var key = "RisikoklassenModel.Net";
 
@@ -112,7 +112,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         [HttpPost, Route("KravTilBranntiltaktModel")]
-        public IActionResult PostKB([FromBody] BranntekniskProsjekteringVariables brannteknisk)
+        public IActionResult PostKB([FromBody] KravTilBranntiltakModel brannteknisk)
         {
             var key = "KravTilBranntiltaktModel.Net";
 
@@ -134,7 +134,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         [HttpPost, Route("LedesystemModel")]
-        public IActionResult PostL([FromBody] BranntekniskProsjekteringVariables brannteknisk)
+        public IActionResult PostL([FromBody] LedesystemModel brannteknisk)
         {
             var key = "LedesystemModel.Net";
 

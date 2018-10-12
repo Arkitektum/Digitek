@@ -25,7 +25,7 @@ namespace digitek.brannProsjektering.Worker
             try { branntekniskProsjektering.antallEtasjer = Convert.ToInt64(externalTask.Variables["antallEtasjer"].Value); } catch {/*ignored*/}
             try { branntekniskProsjektering.brtArealPrEtasje = Convert.ToInt64(externalTask.Variables["brtArealPrEtasje"].Value); } catch {/*ignored*/}
             try { branntekniskProsjektering.utgangTerrengAlleBoenheter = (bool)externalTask.Variables["utgangTerrengAlleBoenheter"].Value; } catch {/*ignored*/}
-            try { branntekniskProsjektering.bareSporadiskPersonopphold = (string)externalTask.Variables["bareSporadiskPersonopphold"].Value; } catch {/*ignored*/}
+            try { branntekniskProsjektering.bareSporadiskPersonopphold = (bool)externalTask.Variables["bareSporadiskPersonopphold"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.alleKjennerRomningsVeiene = (bool)externalTask.Variables["alleKjennerRomningsVeiene"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.beregnetForOvernatting = (bool)externalTask.Variables["beregnetForOvernatting"].Value; } catch {/*ignored*/}
             try { branntekniskProsjektering.liteBrannfarligAktivitet = (bool)externalTask.Variables["liteBrannfarligAktivitet"].Value; } catch {/*ignored*/}

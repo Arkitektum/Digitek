@@ -1,132 +1,133 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_1jien0d" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Excel2Dmn_12-36-18" name="01_VedleggTilRisikoklasse" namespace="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
   <decision id="VedleggTilRisikoklasse" name="Vedlegg Til Risikoklasse">
-    <extensionElements>
-      <biodi:bounds x="200" y="200" width="180" height="80" />
-      <biodi:edge source="InputData_01mp03j">
-        <biodi:waypoints x="308" y="128" />
-        <biodi:waypoints x="304" y="200" />
-      </biodi:edge>
-    </extensionElements>
-    <informationRequirement>
-      <requiredInput href="#InputData_01mp03j" />
-    </informationRequirement>
     <decisionTable id="decisionTable" hitPolicy="FIRST">
-      <input id="input1" label="Risikoklasse" camunda:inputVariable="">
-        <inputExpression id="inputExpression1" typeRef="string">        <text>rkl</text>
-</inputExpression>
-        <inputValues id="UnaryTests_12ij2im">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6"]]></text>
-</inputValues>
+      <input id="rkl" label="Risikoklasse">
+        <inputExpression id="exp_rkl" label="label_rkl" typeRef="string">
+          <text>rkl</text>
+        </inputExpression>
       </input>
-      <output id="output1" label="Bare sporadisk personopphold" name="bareSporadiskPersonopphold" typeRef="string" />
-      <output id="OutputClause_0cuk9jh" label="Alle kjenner rømningsveiene" name="alleKjennerRomningsVeiene" typeRef="boolean" />
-      <output id="OutputClause_0hwdn2d" label="beregnet for overnatting" name="beregnetForOvernatting" typeRef="boolean" />
-      <output id="OutputClause_05vie8f" label="Lite brannfarlig aktivitet" name="liteBrannfarligAktivitet" typeRef="boolean" />
-      <rule id="row-150327175-1">
-        <inputEntry id="UnaryTests_1b5kkrg">        <text><![CDATA["RKL1"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_02cauvt">        <text><![CDATA["true"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1rw18al">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0xjepai">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0n2cny1">        <text>true</text>
-</outputEntry>
+      <output id="bareSporadiskPersonopphold_Id" label="Bare sporadisk personopphold" name="bareSporadiskPersonopphold" typeRef="boolean" />
+      <output id="alleKjennerRomningsVeiene_Id" label="Alle kjenner rømningsveiene" name="alleKjennerRomningsVeiene" typeRef="boolean" />
+      <output id="beregnetForOvernatting_Id" label="beregnet for overnatting" name="beregnetForOvernatting" typeRef="boolean" />
+      <output id="liteBrannfarligAktivitet_Id" label="Lite brannfarlig aktivitet" name="liteBrannfarligAktivitet" typeRef="boolean" />
+      <rule id="rowRule_7">
+        <inputEntry id="B7">
+          <text>"RKL1"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C7">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D7">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E7">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F7">
+          <text>true</text>
+        </outputEntry>
       </rule>
-      <rule id="row-150327175-2">
-        <inputEntry id="UnaryTests_04du6pn">        <text><![CDATA["RKL2"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1rn63ta">        <text><![CDATA["begge"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1ggjb4b">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_07iz1qq">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1kl4rnw">        <text>false</text>
-</outputEntry>
+      <rule id="rowRule_8">
+        <inputEntry id="B8">
+          <text>"RKL2"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C8" />
+        <outputEntry id="LiteralExpression_D8">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E8">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F8">
+          <text>false</text>
+        </outputEntry>
       </rule>
-      <rule id="row-150327175-3">
-        <inputEntry id="UnaryTests_14xcz0o">        <text><![CDATA["RKL3"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_12pvt28">        <text><![CDATA["false"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_18gea75">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1lo303p">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0z0hm0d">        <text>true</text>
-</outputEntry>
+      <rule id="rowRule_9">
+        <inputEntry id="B9">
+          <text>"RKL3"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C9">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D9">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E9">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F9">
+          <text>true</text>
+        </outputEntry>
       </rule>
-      <rule id="row-150327175-4">
-        <inputEntry id="UnaryTests_17baply">        <text><![CDATA["RKL4"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0g5r3xw">        <text><![CDATA["false"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0s95rep">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_085zzde">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1f8h7yi">        <text>true</text>
-</outputEntry>
+      <rule id="rowRule_10">
+        <inputEntry id="B10">
+          <text>"RKL4"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C10">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D10">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E10">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F10">
+          <text>true</text>
+        </outputEntry>
       </rule>
-      <rule id="row-150327175-5">
-        <inputEntry id="UnaryTests_1mtng77">        <text><![CDATA["RKL5"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0xv6n73">        <text><![CDATA["false"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_10yk199">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ldk3gc">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0359lpx">        <text>true</text>
-</outputEntry>
+      <rule id="rowRule_11">
+        <inputEntry id="B11">
+          <text>"RKL5"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C11">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D11">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E11">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F11">
+          <text>true</text>
+        </outputEntry>
       </rule>
-      <rule id="row-150327175-6">
-        <inputEntry id="UnaryTests_017to2k">        <text><![CDATA["RKL6"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0oomz1i">        <text><![CDATA["false"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ycn94p">        <text>false</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_06j0apy">        <text>true</text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0yhbpxm">        <text>true</text>
-</outputEntry>
+      <rule id="rowRule_12">
+        <inputEntry id="B12">
+          <text>"RKL6"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C12">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D12">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E12">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F12">
+          <text>true</text>
+        </outputEntry>
       </rule>
-      <rule id="row-953599122-1">
-        <inputEntry id="UnaryTests_0612yjx">        <text><![CDATA["Ukjent"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1upr4zw">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0vmr0gq">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1c9pbuj">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1bqfgbs">        <text></text>
-</outputEntry>
+      <rule id="rowRule_13">
+        <inputEntry id="B13">
+          <text>"Ukjent"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C13">
+          <text />
+        </outputEntry>
+        <outputEntry id="LiteralExpression_D13">
+          <text />
+        </outputEntry>
+        <outputEntry id="LiteralExpression_E13">
+          <text />
+        </outputEntry>
+        <outputEntry id="LiteralExpression_F13">
+          <text />
+        </outputEntry>
       </rule>
     </decisionTable>
   </decision>
-  <inputData id="InputData_01mp03j" name="Risikoklasse">
-    <extensionElements>
-      <biodi:bounds x="247" y="83" width="125" height="45" />
-    </extensionElements>
-  </inputData>
-  <textAnnotation id="TextAnnotation_1neielx">
-    <extensionElements>
-      <biodi:bounds x="461" y="145" width="100" height="80" />
-    </extensionElements>
-    <text>TEK 17 § 11-2. Risikoklasser</text>
-  </textAnnotation>
-  <association id="Association_0gwj9bn">
-    <extensionElements>
-      <biodi:edge source="VedleggTilRisikoklasse">
-        <biodi:waypoints x="381" y="240" />
-        <biodi:waypoints x="461" y="206" />
-      </biodi:edge>
-    </extensionElements>
-    <sourceRef href="#VedleggTilRisikoklasse" />
-    <targetRef href="#TextAnnotation_1neielx" />
-  </association>
 </definitions>

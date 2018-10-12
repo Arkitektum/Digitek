@@ -1,669 +1,533 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="DmnRKL" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Excel2Dmn_12-36-18" name="01_RisikoklasseFraTypeVirksomhet" namespace="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
   <decision id="RisikoklasseFraTypeVirksomhet" name="Risikoklasse fra type virksomhet">
-    <extensionElements>
-      <biodi:bounds x="187" y="133" width="180" height="80" />
-      <biodi:edge source="KnowledgeSource_02yr8dx">
-        <biodi:waypoints x="456" y="178" />
-        <biodi:waypoints x="368" y="176" />
-      </biodi:edge>
-      <biodi:edge source="InputData_1rb892x">
-        <biodi:waypoints x="278" y="80" />
-        <biodi:waypoints x="277" y="133" />
-      </biodi:edge>
-      <biodi:edge source="KnowledgeSource_0xm7uxk">
-        <biodi:waypoints x="466" y="242" />
-        <biodi:waypoints x="367" y="200" />
-      </biodi:edge>
-    </extensionElements>
-    <informationRequirement>
-      <requiredInput href="#InputData_1rb892x" />
-    </informationRequirement>
-    <authorityRequirement>
-      <requiredAuthority href="#KnowledgeSource_02yr8dx" />
-    </authorityRequirement>
-    <authorityRequirement>
-      <requiredAuthority href="#KnowledgeSource_0xm7uxk" />
-    </authorityRequirement>
-    <decisionTable hitPolicy="FIRST">
-      <input id="typeVirksomhet" label="Type virksomhet" camunda:inputVariable="">
-        <inputExpression id="LiteralExpression_1nv2797" typeRef="string">        <text>typeVirksomhet</text>
-</inputExpression>
+    <decisionTable id="decisionTable" hitPolicy="FIRST">
+      <input id="typeVirksomhet" label="Type virksomhet">
+        <inputExpression id="exp_typeVirksomhet" label="label_typeVirksomhet" typeRef="string">
+          <text>typeVirksomhet</text>
+        </inputExpression>
       </input>
-      <output id="rkl" label="Risikoklasse" name="rkl" typeRef="string">
-        <outputValues id="UnaryTests_09x1utx">        <text><![CDATA["RKL1","RKL2","RKL3","RKL4","RKL5","RKL6","Ukjent"]]></text>
-</outputValues>
-      </output>
-      <output id="OutputClause_03z2918" label="Lang fullstendig evakuering" name="langFullstendigEvakuering" typeRef="string" />
-      <output id="OutputClause_02ur6u2" label="Merknad" name="typeVirksomhetMerknad" typeRef="string" />
-      <rule id="row-279083498-3">
-        <description>§ 11-2</description>
-        <inputEntry id="UnaryTests_1ku6r80">        <text><![CDATA["Annen (egen vurd.risikokl.)"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_13iensx">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0cpv9co">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0kan4q1">        <text></text>
-</outputEntry>
+      <output id="rkl_Id" label="Risikoklasse" name="rkl" typeRef="string" />
+      <rule id="rowRule_7">
+        <inputEntry id="B7">
+          <text>"Arbeidsbrakke"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C7">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-4">
-        <description></description>
-        <inputEntry id="UnaryTests_1xbe7qy">        <text><![CDATA["Arbeidsbrakke"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0wcq8px">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0qhrj3y">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0zof4d3">        <text></text>
-</outputEntry>
+      <rule id="rowRule_8">
+        <inputEntry id="B8">
+          <text>"Båtnaust"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C8">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-5">
-        <description></description>
-        <inputEntry id="UnaryTests_0f0luif">        <text><![CDATA["Arrestlokaler"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0immwsw">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1cwk60v">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1a3cde5">        <text></text>
-</outputEntry>
+      <rule id="rowRule_9">
+        <inputEntry id="B9">
+          <text>"Carport"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C9">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-6">
-        <description></description>
-        <inputEntry id="UnaryTests_0bkjc71">        <text><![CDATA["Barnehage"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1njdhg3">        <text><![CDATA["RKL3"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_094pbsb">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_02mz9ns">        <text><![CDATA["Maks.600m2/etg/seksjon"]]></text>
-</outputEntry>
+      <rule id="rowRule_10">
+        <inputEntry id="B10">
+          <text>"Flyhangar"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C10">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-11">
-        <description></description>
-        <inputEntry id="UnaryTests_0ju48rs">        <text><![CDATA["Bolig"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0p4md94">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0hktz3b">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_bob">        <text></text>
-</outputEntry>
+      <rule id="rowRule_11">
+        <inputEntry id="B11">
+          <text>"Fryselager"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C11">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-12">
-        <description></description>
-        <inputEntry id="UnaryTests_0rdtzc6">        <text><![CDATA["Bolig, funk.hemmede"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_04gx1ia">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_055lqgj">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1qx22q9">        <text></text>
-</outputEntry>
+      <rule id="rowRule_12">
+        <inputEntry id="B12">
+          <text>"Garasje"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C12">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-13">
-        <description></description>
-        <inputEntry id="UnaryTests_1523vvt">        <text><![CDATA["Bolig, sterkt pleietrengende"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1n7mxci">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1q82zr1">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1mcs8s6">        <text></text>
-</outputEntry>
+      <rule id="rowRule_13">
+        <inputEntry id="B13">
+          <text>"Parkeringshus med én etasje"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C13">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-14">
-        <description></description>
-        <inputEntry id="UnaryTests_1yhaut3">        <text><![CDATA["Boligbrakke"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_15is5l8">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1bse4oc">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0poyrah">        <text></text>
-</outputEntry>
+      <rule id="rowRule_14">
+        <inputEntry id="B14">
+          <text>"Sagbruk"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C14">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-15">
-        <description></description>
-        <inputEntry id="UnaryTests_0p5ddzo">        <text><![CDATA["Båtnaust"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1q9senp">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1mur7uq">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_13fwimx">        <text></text>
-</outputEntry>
+      <rule id="rowRule_15">
+        <inputEntry id="B15">
+          <text>"Skur"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C15">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-16">
-        <description></description>
-        <inputEntry id="UnaryTests_10r14tl">        <text><![CDATA["Carport"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_15mtq27">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0me5i2l">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_19n009l">        <text></text>
-</outputEntry>
+      <rule id="rowRule_16">
+        <inputEntry id="B16">
+          <text>"Trelastopplag"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C16">
+          <text>"RKL1"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-17">
-        <description></description>
-        <inputEntry id="UnaryTests_1nsgxt7">        <text><![CDATA["Driftsbygning i landbruk"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1y0j9ta">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_06bnub5">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1458dv3">        <text></text>
-</outputEntry>
+      <rule id="rowRule_17">
+        <inputEntry id="B17">
+          <text>"Brannstasjon uten døgnbemanning"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C17">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-18">
-        <description></description>
-        <inputEntry id="UnaryTests_1qef0wa">        <text><![CDATA["Fengsel"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1mj7thy">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0za5xfe">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_11q1jqb">        <text></text>
-</outputEntry>
+      <rule id="rowRule_18">
+        <inputEntry id="B18">
+          <text>"Driftsbygning med husdyrrom"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C18">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-19">
-        <description></description>
-        <inputEntry id="UnaryTests_0usiniz">        <text><![CDATA["Feriekoloni"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_10gfmd6">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1egqvcz">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_14el2gf">        <text></text>
-</outputEntry>
+      <rule id="rowRule_19">
+        <inputEntry id="B19">
+          <text>"Industri"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C19">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-20">
-        <description></description>
-        <inputEntry id="UnaryTests_04e5voc">        <text><![CDATA["Flyhangar"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_12ipq91">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0jtalbc">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_01jf4wo">        <text></text>
-</outputEntry>
+      <rule id="rowRule_20">
+        <inputEntry id="B20">
+          <text>"Kantine beregnet for egne ansatte til og med 150 personer"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C20">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-21">
-        <description></description>
-        <inputEntry id="UnaryTests_15hs2xw">        <text><![CDATA["Fritidsbolig"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_06jtmhj">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0gd54vh">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1sit7co">        <text></text>
-</outputEntry>
+      <rule id="rowRule_21">
+        <inputEntry id="B21">
+          <text>"Kjemisk fabrikk"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C21">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-22">
-        <description></description>
-        <inputEntry id="UnaryTests_1qntnch">        <text><![CDATA["Fordelingsstasjon/trafo"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1lax9dh">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_06t5cnb">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_102qwov">        <text><![CDATA["Økt motst.v.stor betydn."]]></text>
-</outputEntry>
+      <rule id="rowRule_22">
+        <inputEntry id="B22">
+          <text>"kjemikalielager"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C22">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-23">
-        <description></description>
-        <inputEntry id="UnaryTests_0k1ysra">        <text><![CDATA["Forsamlingslokale"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1j12vbn">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1qb4642">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0xphdey">        <text></text>
-</outputEntry>
+      <rule id="rowRule_23">
+        <inputEntry id="B23">
+          <text>"Kontor"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C23">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-24">
-        <description></description>
-        <inputEntry id="UnaryTests_1b83q6k">        <text><![CDATA["Fryselager"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_02ogn7w">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1uyh6qv">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_10tep3p">        <text></text>
-</outputEntry>
+      <rule id="rowRule_24">
+        <inputEntry id="B24">
+          <text>"Laboratorium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C24">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-25">
-        <description></description>
-        <inputEntry id="UnaryTests_11tv5g4">        <text><![CDATA["Garasje, lukket"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_02ne8eu">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0tkqy6a">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0k18y0n">        <text></text>
-</outputEntry>
+      <rule id="rowRule_25">
+        <inputEntry id="B25">
+          <text>"Lager"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C25">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-26">
-        <description></description>
-        <inputEntry id="UnaryTests_18vlrrs">        <text><![CDATA["Garasje, åpen"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0j36jaq">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1ek68f5">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ezsw25">        <text></text>
-</outputEntry>
+      <rule id="rowRule_26">
+        <inputEntry id="B26">
+          <text>"Parkeringshus med to eller flere etasjer eller plan"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C26">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-27">
-        <description></description>
-        <inputEntry id="UnaryTests_1orfolf">        <text><![CDATA["Idrettshall"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0i26rc8">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1kqwfmc">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0862u34">        <text></text>
-</outputEntry>
+      <rule id="rowRule_27">
+        <inputEntry id="B27">
+          <text>"Garasje med to eller flere etasjer eller plan"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C27">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-28">
-        <description></description>
-        <inputEntry id="UnaryTests_0th9znl">        <text><![CDATA["Industri"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0r5wa1v">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1cqx0si">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_12k8mdt">        <text><![CDATA["Økt krav belstn.>400MJ/m2"]]></text>
-</outputEntry>
+      <rule id="rowRule_28">
+        <inputEntry id="B28">
+          <text>"Parkeringskjeller under terreng"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C28">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-29">
-        <description></description>
-        <inputEntry id="UnaryTests_0ixl1yf">        <text><![CDATA["Internat"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_03wl5ww">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1a7gi8o">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1kuu39s">        <text></text>
-</outputEntry>
+      <rule id="rowRule_29">
+        <inputEntry id="B29">
+          <text>"Garasje under terreng"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C29">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-30">
-        <description></description>
-        <inputEntry id="UnaryTests_1lq4ubn">        <text><![CDATA["Kinolokale"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_089yupa">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1tz49ul">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_03mbfn8">        <text></text>
-</outputEntry>
+      <rule id="rowRule_30">
+        <inputEntry id="B30">
+          <text>"Sprengstoffindustri"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C30">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-31">
-        <description></description>
-        <inputEntry id="UnaryTests_0yts1ii">        <text><![CDATA["Kirke"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0mt3j7q">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0agd19w">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_15wbzdg">        <text></text>
-</outputEntry>
+      <rule id="rowRule_31">
+        <inputEntry id="B31">
+          <text>"Trafo eller fordelingsstasjon"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C31">
+          <text>"RKL2"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-32">
-        <description></description>
-        <inputEntry id="UnaryTests_1dh9dnn">        <text><![CDATA["Kjem. fabrikk/kjem.lager"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1hm177w">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0gb1554">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0im30ow">        <text><![CDATA["Økt krav belstn.>400MJ/m2"]]></text>
-</outputEntry>
+      <rule id="rowRule_32">
+        <inputEntry id="B32">
+          <text>"Barnehage"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C32">
+          <text>"RKL3"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-33">
-        <description></description>
-        <inputEntry id="UnaryTests_1le9f42">        <text><![CDATA["Kongressenter"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_188v7yw">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ghj7yu">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_12dp7ve">        <text></text>
-</outputEntry>
+      <rule id="rowRule_33">
+        <inputEntry id="B33">
+          <text>"Skole"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C33">
+          <text>"RKL3"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-34">
-        <description></description>
-        <inputEntry id="UnaryTests_10yvsw1">        <text><![CDATA["Kontor"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1w2j8gf">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1if19f0">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_02hugtp">        <text></text>
-</outputEntry>
+      <rule id="rowRule_34">
+        <inputEntry id="B34">
+          <text>"Barnehjem"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C34">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-35">
-        <description></description>
-        <inputEntry id="UnaryTests_0uzx56p">        <text><![CDATA["Laboratorium"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0sehw9n">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_01ub49x">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1wific8">        <text><![CDATA["Økt krav belstn.>400MJ/m2"]]></text>
-</outputEntry>
+      <rule id="rowRule_35">
+        <inputEntry id="B35">
+          <text>"Bolig"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C35">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-36">
-        <description></description>
-        <inputEntry id="UnaryTests_14qpcx6">        <text><![CDATA["Lager"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1qbh00n">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1nu0w4r">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1w11a0m">        <text></text>
-</outputEntry>
+      <rule id="rowRule_36">
+        <inputEntry id="B36">
+          <text>"Boligbrakke"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C36">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-37">
-        <description></description>
-        <inputEntry id="UnaryTests_1egebpi">        <text><![CDATA["Leirskole"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1rr8aft">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0gl01gv">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_16lyw0m">        <text></text>
-</outputEntry>
+      <rule id="rowRule_37">
+        <inputEntry id="B37">
+          <text>"Brannstasjon med døgnbemanning"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C37">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-38">
-        <description></description>
-        <inputEntry id="UnaryTests_11f64os">        <text><![CDATA["Messelokale"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0u87fy2">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1vk1s6c">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_13ae18d">        <text></text>
-</outputEntry>
+      <rule id="rowRule_38">
+        <inputEntry id="B38">
+          <text>"Fritidsbolig"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C38">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-39">
-        <description></description>
-        <inputEntry id="UnaryTests_1groovg">        <text><![CDATA["Museum"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_03fow2i">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_18jzzxp">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0jt9uzf">        <text></text>
-</outputEntry>
+      <rule id="rowRule_39">
+        <inputEntry id="B39">
+          <text>"Selvbetjente hytter"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C39">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-40">
-        <description></description>
-        <inputEntry id="UnaryTests_1njn50j">        <text><![CDATA["Omsorgsbolig"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0ndaowt">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_04cowiq">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0k9fwda">        <text></text>
-</outputEntry>
+      <rule id="rowRule_40">
+        <inputEntry id="B40">
+          <text>"Campinghytter"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C40">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-41">
-        <description></description>
-        <inputEntry id="UnaryTests_0frnkp7">        <text><![CDATA["Omsorgsbolig, sterkt pleietr."]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_16n2568">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0wcyox5">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_01f4ke3">        <text></text>
-</outputEntry>
+      <rule id="rowRule_41">
+        <inputEntry id="B41">
+          <text>"Campingenheter"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C41">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-42">
-        <description></description>
-        <inputEntry id="UnaryTests_0qnloh4">        <text><![CDATA["Overnattingssted"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_09bxq40">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1or8ue6">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_07o5s3o">        <text></text>
-</outputEntry>
+      <rule id="rowRule_42">
+        <inputEntry id="B42">
+          <text>"Internat"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C42">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-43">
-        <description></description>
-        <inputEntry id="UnaryTests_0yz79h6">        <text><![CDATA["Parkeringshus > 1 etasje"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_10lo5jt">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1vm8lzj">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0po7374">        <text></text>
-</outputEntry>
+      <rule id="rowRule_43">
+        <inputEntry id="B43">
+          <text>"Studentbolig"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C43">
+          <text>"RKL4"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-44">
-        <description></description>
-        <inputEntry id="UnaryTests_13rqoan">        <text><![CDATA["Pleieinstitusjon"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0bz2x1m">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0h5oyve">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0md1yrb">        <text><![CDATA["Min.2 brannseksj. vertikalt"]]></text>
-</outputEntry>
+      <rule id="rowRule_44">
+        <inputEntry id="B44">
+          <text>"Forsamlingslokale"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C44">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-45">
-        <description></description>
-        <inputEntry id="UnaryTests_18333l6">        <text><![CDATA["Psykiatrisk pleieinstitusjon"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1vgaijq">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0hkakd8">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ctcdv7">        <text><![CDATA["Min.2 brannseksj. vertikalt"]]></text>
-</outputEntry>
+      <rule id="rowRule_45">
+        <inputEntry id="B45">
+          <text>"Idrettshall"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C45">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-46">
-        <description></description>
-        <inputEntry id="UnaryTests_1bpqxk8">        <text><![CDATA["Sagbruk"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0f15dzd">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0xdp2ej">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0qxy593">        <text></text>
-</outputEntry>
+      <rule id="rowRule_46">
+        <inputEntry id="B46">
+          <text>"Kantine beregnet for utleie eller for mer enn 150 personer"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C46">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-47">
-        <description></description>
-        <inputEntry id="UnaryTests_0qfy8mk">        <text><![CDATA["Salgslokale"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_149qlx8">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1q161sr">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0v03zij">        <text></text>
-</outputEntry>
+      <rule id="rowRule_47">
+        <inputEntry id="B47">
+          <text>"Kinolokale"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C47">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-48">
-        <description></description>
-        <inputEntry id="UnaryTests_1mcs1rx">        <text><![CDATA["Skole"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0h6g0b1">        <text><![CDATA["RKL3"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0kzsl57">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_088flx6">        <text></text>
-</outputEntry>
+      <rule id="rowRule_48">
+        <inputEntry id="B48">
+          <text>"Kirke"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C48">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-49">
-        <description></description>
-        <inputEntry id="UnaryTests_1i4rs4g">        <text><![CDATA["Skoleinternat"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0htepwo">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_09zz4hg">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0j2kpgd">        <text></text>
-</outputEntry>
+      <rule id="rowRule_49">
+        <inputEntry id="B49">
+          <text>"Kongressenter"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C49">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-50">
-        <description></description>
-        <inputEntry id="UnaryTests_0g1zdgx">        <text><![CDATA["Skur"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1y3ocyx">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1brgplm">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_14p0gbe">        <text></text>
-</outputEntry>
+      <rule id="rowRule_50">
+        <inputEntry id="B50">
+          <text>"Messelokale"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C50">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-51">
-        <description></description>
-        <inputEntry id="UnaryTests_0vndq4w">        <text><![CDATA["Sprengstoffindustri"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1rup8kk">        <text><![CDATA["RKL2"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0idpk3l">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1dqhl55">        <text><![CDATA["Med rom for brannf. varer"]]></text>
-</outputEntry>
+      <rule id="rowRule_51">
+        <inputEntry id="B51">
+          <text>"Museum"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C51">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-52">
-        <description></description>
-        <inputEntry id="UnaryTests_1lppaxs">        <text><![CDATA["Studenterbolig"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0dwwxaz">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1nc2j6m">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_05waql1">        <text></text>
-</outputEntry>
+      <rule id="rowRule_52">
+        <inputEntry id="B52">
+          <text>"Salgslokale"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C52">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-53">
-        <description></description>
-        <inputEntry id="UnaryTests_1fh7jlu">        <text><![CDATA["Sykehus"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0q3gv5j">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_12p2yx9">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_19rcmql">        <text><![CDATA["Min.2 brannseksj. vertikalt"]]></text>
-</outputEntry>
+      <rule id="rowRule_53">
+        <inputEntry id="B53">
+          <text>"Teaterlokale"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C53">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-54">
-        <description></description>
-        <inputEntry id="UnaryTests_16bilrv">        <text><![CDATA["Teaterlokale"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1hph5o5">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0oeojwv">        <text><![CDATA["Ja"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0dbdt3n">        <text></text>
-</outputEntry>
+      <rule id="rowRule_54">
+        <inputEntry id="B54">
+          <text>"Trafikkterminal"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C54">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-55">
-        <description></description>
-        <inputEntry id="UnaryTests_1e0m8jt">        <text><![CDATA["Trafikkterminal"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0u5zu4e">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0tiztpk">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1ddw1n2">        <text></text>
-</outputEntry>
+      <rule id="rowRule_55">
+        <inputEntry id="B55">
+          <text>"Tribuneanlegg for mer enn 150 personer"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C55">
+          <text>"RKL5"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-56">
-        <description></description>
-        <inputEntry id="UnaryTests_057t2br">        <text><![CDATA["Trelastopplag"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1j4wrl5">        <text><![CDATA["RKL1"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_038qgnt">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0twqcm0">        <text></text>
-</outputEntry>
+      <rule id="rowRule_56">
+        <inputEntry id="B56">
+          <text>"Arrestlokaler"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C56">
+          <text>"RKL6"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-57">
-        <description></description>
-        <inputEntry id="UnaryTests_067v4fk">        <text><![CDATA["Tribuneanlegg > 150 pers."]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1bxcmrl">        <text><![CDATA["RKL5"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0p7lxag">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_08tncbe">        <text></text>
-</outputEntry>
+      <rule id="rowRule_57">
+        <inputEntry id="B57">
+          <text>"Fengsel"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C57">
+          <text>"RKL6"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-58">
-        <description></description>
-        <inputEntry id="UnaryTests_1jn14qa">        <text><![CDATA["Turisthytte/vandrehjem"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_078yt6q">        <text><![CDATA["RKL6"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1jk4qh0">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_000n561">        <text></text>
-</outputEntry>
+      <rule id="rowRule_58">
+        <inputEntry id="B58">
+          <text>"Asylmottak"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C58">
+          <text>"RKL6"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-279083498-59">
-        <description></description>
-        <inputEntry id="UnaryTests_1oy3joi">        <text><![CDATA["Turisthytte/vandrehj, selvbetj"]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_01bjmpl">        <text><![CDATA["RKL4"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0lt3p79">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1i2bmej">        <text></text>
-</outputEntry>
+      <rule id="rowRule_59">
+        <inputEntry id="B59">
+          <text>"Transittmottak"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C59">
+          <text>"RKL6"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-949241528-1">
-        <inputEntry id="UnaryTests_0pwjahl">        <text></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_153buvw">        <text><![CDATA["Ukjent"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_00hfcj4">        <text></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0fnry31">        <text></text>
-</outputEntry>
+      <rule id="rowRule_60">
+        <inputEntry id="B60">
+          <text>"Bolig beregnet for personer med behov for heldøgns pleie og omsorg"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C60">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_61">
+        <inputEntry id="B61">
+          <text>"Bolig spesielt tilrettelagt og beregnet for personer med funksjonsnedsettelse, inkl. alders- og seniorboliger"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C61">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_62">
+        <inputEntry id="B62">
+          <text>"Feriekoloni"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C62">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_63">
+        <inputEntry id="B63">
+          <text>"Leirskole"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C63">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_64">
+        <inputEntry id="B64">
+          <text>"Overnattingssted"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C64">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_65">
+        <inputEntry id="B65">
+          <text>"Hotell"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C65">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_66">
+        <inputEntry id="B66">
+          <text>"Pleieinstitusjon"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C66">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_67">
+        <inputEntry id="B67">
+          <text>"Sykehus"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C67">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_68">
+        <inputEntry id="B68">
+          <text>"Sykehjem"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C68">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_69">
+        <inputEntry id="B69">
+          <text>"Turisthytte"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C69">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_70">
+        <inputEntry id="B70">
+          <text>"Vandrerhjem"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C70">
+          <text>"RKL6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_71">
+        <inputEntry id="B71">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_C71">
+          <text>"Ukjent"</text>
+        </outputEntry>
       </rule>
     </decisionTable>
   </decision>
-  <inputData id="InputData_1rb892x" name="Type virksomhet">
-    <extensionElements>
-      <biodi:bounds x="215" y="35" width="125" height="45" />
-    </extensionElements>
-  </inputData>
-  <knowledgeSource id="KnowledgeSource_02yr8dx" name="REN §7-22 tab. 1 s. 49">
-    <extensionElements>
-      <biodi:bounds x="456" y="146" width="100" height="63" />
-      <biodi:edge source="RisikoklasseFraTypeVirksomhet">
-        <biodi:waypoints x="925" y="292" />
-        <biodi:waypoints x="1030" y="279" />
-      </biodi:edge>
-    </extensionElements>
-  </knowledgeSource>
-  <knowledgeSource id="KnowledgeSource_0xm7uxk" name="TEK17 §11-2, tabell 2">
-    <extensionElements>
-      <biodi:bounds x="466" y="231" width="100" height="63" />
-    </extensionElements>
-  </knowledgeSource>
-  <textAnnotation id="TextAnnotation_06zn9t0">
-    <extensionElements>
-      <biodi:bounds x="434" y="28" width="100" height="80" />
-    </extensionElements>
-    <text>Kobling mellom definerte typer virksomhet bygg og risikoklasse</text>
-  </textAnnotation>
-  <association id="Association_06b1nkz">
-    <extensionElements>
-      <biodi:edge source="RisikoVurdering">
-        <biodi:waypoints x="211" y="57" />
-        <biodi:waypoints x="418" y="-48" />
-      </biodi:edge>
-    </extensionElements>
-    <sourceRef href="#RisikoVurdering" />
-    <targetRef href="#TextAnnotation_06zn9t0" />
-  </association>
 </definitions>

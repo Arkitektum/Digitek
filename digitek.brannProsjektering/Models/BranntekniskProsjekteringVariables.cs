@@ -19,7 +19,7 @@ namespace digitek.brannProsjektering.Models
 
         //Opt2 to RKL
 
-        public string bareSporadiskPersonopphold { get; set; }
+        public bool? bareSporadiskPersonopphold { get; set; }
         public bool? alleKjennerRomningsVeiene { get; set; }
         public bool? beregnetForOvernatting { get; set; }
         public bool? liteBrannfarligAktivitet { get; set; }

@@ -88,7 +88,7 @@
         <bpmn:incoming>SequenceFlow_02dgbb3</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_19skbpo</bpmn:outgoing>
       </bpmn:parallelGateway>
-      <bpmn:businessRuleTask id="Task_08fa2y8" name="19_BrannmotstandVinduInnvHjørne.dmn" camunda:resultVariable="brannmotstandVinduInnvendigHjorne" camunda:decisionRef="BrannmotstandVinduInnvendigHjorne" camunda:mapDecisionResult="singleResult">
+      <bpmn:businessRuleTask id="Task_08fa2y8" name="20_BrannmotstandVinduInnvHjørne.dmn" camunda:resultVariable="brannmotstandVinduInnvendigHjorne" camunda:decisionRef="BrannmotstandVinduInnvendigHjorne" camunda:mapDecisionResult="singleResult">
         <bpmn:incoming>SequenceFlow_04epklr</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0xusd31</bpmn:outgoing>
       </bpmn:businessRuleTask>

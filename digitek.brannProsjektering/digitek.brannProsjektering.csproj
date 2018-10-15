@@ -27,7 +27,6 @@
     <None Remove="CamundaModels\Dmn\02a_Brannklasse.dmn" />
     <None Remove="CamundaModels\Dmn\02b_BrannklasseKonsekvensBeskrivelse.dmn" />
     <None Remove="CamundaModels\Dmn\02_KonsekvensBrannklassifisering.dmn" />
-    <None Remove="CamundaModels\Dmn\03a_StorrelseBrannseksjonBelastningTiltak.dmn" />
     <None Remove="CamundaModels\Dmn\03_TiltakStorrelseBrannseksjonBelastning.dmn" />
     <None Remove="CamundaModels\Dmn\04_ BrannmotstandSeksjoneringsvegg.dmn" />
     <None Remove="CamundaModels\Dmn\05_TiltakBrannveggHoyeBygg.dmn" />
@@ -48,8 +47,8 @@
     <None Remove="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
     <None Remove="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
     <None Remove="CamundaModels\Dmn\18_BrannmotstandVinduMotstParallellYttervegg.dmn" />
-    <None Remove="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
     <None Remove="CamundaModels\Dmn\19_BrannmotstandVinduInnvHjørne.dmn" />
+    <None Remove="CamundaModels\Dmn\20_BranncelleRomningUtgang.dmn" />
     <None Remove="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
     <None Remove="CamundaModels\LedesystemModelDotNet.bpmn" />
     <None Remove="CamundaModels\RisikoklassenModelDotNet.bpmn" />
@@ -75,7 +74,6 @@
     <EmbeddedResource Include="CamundaModels\Dmn\02a_Brannklasse.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\02b_BrannklasseKonsekvensBeskrivelse.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\02_KonsekvensBrannklassifisering.dmn" />
-    <EmbeddedResource Include="CamundaModels\Dmn\03a_StorrelseBrannseksjonBelastningTiltak.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\03_TiltakStorrelseBrannseksjonBelastning.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\04_ BrannmotstandSeksjoneringsvegg.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\05_TiltakBrannveggHoyeBygg.dmn" />
@@ -96,7 +94,7 @@
     <EmbeddedResource Include="CamundaModels\Dmn\16_BrannmotstandDorRomningsvei.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\17_BrannmotstandDorISeksjvegg.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\18_BrannmotstandVinduMotstParallellYttervegg.dmn" />
-    <EmbeddedResource Include="CamundaModels\Dmn\19_BranncelleRomningUtgang.dmn" />
+    <EmbeddedResource Include="CamundaModels\Dmn\20_BranncelleRomningUtgang.dmn" />
     <EmbeddedResource Include="CamundaModels\Dmn\19_BrannmotstandVinduInnvHjørne.dmn" />
     <EmbeddedResource Include="CamundaModels\KravTilBranntiltaktModelDotNet.bpmn" />
     <EmbeddedResource Include="CamundaModels\LedesystemModelDotNet.bpmn" />

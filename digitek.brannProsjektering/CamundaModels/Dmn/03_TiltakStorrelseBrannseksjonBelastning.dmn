@@ -1,253 +1,249 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0blx29q" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Excel2Dmn_15-54-18" name="03_TiltakStorrelseBrannseksjonBelastning" namespace="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
   <decision id="TiltakStorrelseBrannseksjonBelastning" name="Tiltak størrelse brannseksjon belastning">
-    <extensionElements>
-      <biodi:bounds x="406" y="247" width="180" height="80" />
-      <biodi:edge source="KnowledgeSource_030fpmu">
-        <biodi:waypoints x="695" y="268" />
-        <biodi:waypoints x="586" y="273" />
-      </biodi:edge>
-      <biodi:edge source="InputData_11pra94">
-        <biodi:waypoints x="664" y="169" />
-        <biodi:waypoints x="555" y="247" />
-      </biodi:edge>
-      <biodi:edge source="InputData_0of58b4">
-        <biodi:waypoints x="375" y="166" />
-        <biodi:waypoints x="433.99901283316876" y="243.9822309970384" />
-      </biodi:edge>
-      <biodi:edge source="InputData_15xdrjd">
-        <biodi:waypoints x="516" y="169" />
-        <biodi:waypoints x="496" y="246.9822309970384" />
-      </biodi:edge>
-      <biodi:edge source="KnowledgeSource_1ba1hmz">
-        <biodi:waypoints x="698" y="346" />
-        <biodi:waypoints x="586" y="302" />
-      </biodi:edge>
-    </extensionElements>
-    <informationRequirement>
-      <requiredInput href="#InputData_11pra94" />
-    </informationRequirement>
-    <informationRequirement>
-      <requiredInput href="#InputData_0of58b4" />
-    </informationRequirement>
-    <informationRequirement>
-      <requiredInput href="#InputData_15xdrjd" />
-    </informationRequirement>
-    <authorityRequirement>
-      <requiredAuthority href="#KnowledgeSource_030fpmu" />
-    </authorityRequirement>
-    <authorityRequirement>
-      <requiredAuthority href="#KnowledgeSource_1ba1hmz" />
-    </authorityRequirement>
     <decisionTable id="decisionTable" hitPolicy="FIRST">
-      <input id="InputClause_10gvasy" label="Type virksomhet" camunda:inputVariable="">
-        <inputExpression id="LiteralExpression_146j68k" typeRef="string">        <text>typeVirksomhet</text>
-</inputExpression>
+      <input id="typeVirksomhet" label="Type virksomhet">
+        <inputExpression id="exp_typeVirksomhet" label="label_typeVirksomhet" typeRef="string">
+          <text>typeVirksomhet</text>
+        </inputExpression>
       </input>
-      <input id="InputClause_1eet5lo" label="Brannenergi, MJ/m2" camunda:inputVariable="">
-        <inputExpression id="LiteralExpression_01rrq7v" typeRef="integer">        <text>brannenergi</text>
-</inputExpression>
+      <input id="brannenergi" label="Brannenergi, MJ/m2">
+        <inputExpression id="exp_brannenergi" label="label_brannenergi" typeRef="integer">
+          <text>brannenergi</text>
+        </inputExpression>
       </input>
-      <input id="InputClause_0dsqdiv" label="Størrelse brannseksjon pr. etasje, m2" camunda:inputVariable="">
-        <inputExpression id="LiteralExpression_0ojvs6x" typeRef="integer">        <text>arealBrannseksjonPrEtasje</text>
-</inputExpression>
+      <input id="arealBrannseksjonPrEtasje" label="Størrelse brannseksjon pr. etasje, m2">
+        <inputExpression id="exp_arealBrannseksjonPrEtasje" label="label_arealBrannseksjonPrEtasje" typeRef="integer">
+          <text>arealBrannseksjonPrEtasje</text>
+        </inputExpression>
       </input>
-      <output id="output1" label="Tiltak etter størrelse brannseksjon/brannbelastning" name="brannTiltakStrSeksjonBelastning" typeRef="string" />
-      <output id="OutputClause_0oj4dmk" label="Referanse forskrift" name="referanseParagrafForskrift" typeRef="string" />
-      <rule id="row-573550739-10">
-        <description>Ut her fra? Barnehage, maks, 600 m2 brannseksjon, men hva er relevant tiltak?</description>
-        <inputEntry id="UnaryTests_1uu8oyo">        <text><![CDATA["Barnehage"]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0e11q5e">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0wgfper">        <text></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0prk30k">        <text><![CDATA["Maks 600m2 pr.etg/seksjon"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1dkrxg8">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <output id="brannTiltakStrSeksjonBelastning_Id" label="Tiltak etter størrelse brannseksjon/brannbelastning" name="brannTiltakStrSeksjonBelastning" typeRef="string" />
+      <rule id="rowRule_7">
+        <inputEntry id="B7">
+          <text>"Barnehage"</text>
+        </inputEntry>
+        <inputEntry id="C7">
+          <text />
+        </inputEntry>
+        <inputEntry id="D7">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E7">
+          <text>"Maks 600m2 per etasje/seksjon"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-34">
-        <inputEntry id="UnaryTests_0s1uee0">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_10oerr2">        <text><![CDATA[<50]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_14hv3jg">        <text><![CDATA[<=1800]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1v1mm06">        <text><![CDATA["Ikke krav"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_15iaj51">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_8">
+        <inputEntry id="B8">
+          <text />
+        </inputEntry>
+        <inputEntry id="C8">
+          <text>&lt;50</text>
+        </inputEntry>
+        <inputEntry id="D8">
+          <text>&lt;=1800</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E8">
+          <text>"Normalt"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-35">
-        <inputEntry id="UnaryTests_0yrfvik">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0ce3ed5">        <text><![CDATA[<50]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_17urb95">        <text>]1800..2700]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1prfaef">        <text><![CDATA["Br.alarmanl/alarm br.vesen"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_119ofy0">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_9">
+        <inputEntry id="B9">
+          <text />
+        </inputEntry>
+        <inputEntry id="C9">
+          <text>&lt;50</text>
+        </inputEntry>
+        <inputEntry id="D9">
+          <text>]1800..2700]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E9">
+          <text>"Brannalarmanlegg/nødalarmsentral"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-36">
-        <inputEntry id="UnaryTests_1ilxee9">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_049h33g">        <text><![CDATA[<50]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1j1ht5f">        <text>]2700..10000]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0mpm2xe">        <text><![CDATA["Br.vent./best 1-etg.bygn."]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0gze07v">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_10">
+        <inputEntry id="B10">
+          <text />
+        </inputEntry>
+        <inputEntry id="C10">
+          <text>&lt;50</text>
+        </inputEntry>
+        <inputEntry id="D10">
+          <text>]2700..10000]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E10">
+          <text>"Røykventilasjon"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-46">
-        <inputEntry id="UnaryTests_11e4662">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0jr0m6j">        <text><![CDATA[<50]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_11kogn7">        <text><![CDATA[>10000]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1hoss3w">        <text><![CDATA["Sprinkleranlegg"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0mk56ud">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_11">
+        <description>?</description>
+        <inputEntry id="B11">
+          <text />
+        </inputEntry>
+        <inputEntry id="C11">
+          <text>&lt;50</text>
+        </inputEntry>
+        <inputEntry id="D11">
+          <text>&gt;10000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E11">
+          <text>"Ubegrenset"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-37">
-        <inputEntry id="UnaryTests_14uth7g">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_099n2nr">        <text>[50..400]</text>
-</inputEntry>
-        <inputEntry id="UnaryTests_05v2j9l">        <text><![CDATA[<=1200]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0g9qnn9">        <text><![CDATA["Ikke krav"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0pu22jz">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_12">
+        <inputEntry id="B12">
+          <text />
+        </inputEntry>
+        <inputEntry id="C12">
+          <text>[50..400]</text>
+        </inputEntry>
+        <inputEntry id="D12">
+          <text>&lt;=1200</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E12">
+          <text>"Normalt"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-38">
-        <inputEntry id="UnaryTests_1hb2r6t">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1fq9ua6">        <text>[50..400]</text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1u62r3x">        <text>]1200..1800]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_066tyvv">        <text><![CDATA["Br.alarmanl/alarm br.vesen"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0la1q9s">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_13">
+        <inputEntry id="B13">
+          <text />
+        </inputEntry>
+        <inputEntry id="C13">
+          <text>[50..400]</text>
+        </inputEntry>
+        <inputEntry id="D13">
+          <text>]1200..1800]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E13">
+          <text>"Brannalarmanlegg/nødalarmsentral"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-39">
-        <inputEntry id="UnaryTests_17170sd">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1jfbp3j">        <text>[50..400]</text>
-</inputEntry>
-        <inputEntry id="UnaryTests_08ogjp7">        <text>]1800..4000]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_051rarf">        <text><![CDATA["Br.vent./best 1-etg.bygn."]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_020u5jj">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_14">
+        <inputEntry id="B14">
+          <text />
+        </inputEntry>
+        <inputEntry id="C14">
+          <text>[50..400]</text>
+        </inputEntry>
+        <inputEntry id="D14">
+          <text>]1800..4000]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E14">
+          <text>"Røykventilasjon"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-40">
-        <inputEntry id="UnaryTests_19ow4o5">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0iv5o8s">        <text>[50..400]</text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1qp5qbh">        <text>]4000..10000]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_0g7om18">        <text><![CDATA["Sprinkleranlegg"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_09yk6j4">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_15">
+        <inputEntry id="B15">
+          <text />
+        </inputEntry>
+        <inputEntry id="C15">
+          <text>[50..400]</text>
+        </inputEntry>
+        <inputEntry id="D15">
+          <text>]4000..10000]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E15">
+          <text>"Sprinkleranlegg"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-41">
-        <inputEntry id="UnaryTests_0vtxude">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0l52dnv">        <text>[50..400]</text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1a8ga1i">        <text><![CDATA[>10000]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1o1890e">        <text><![CDATA["For stor brannseksjon"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_10uqc0r">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_16">
+        <inputEntry id="B16">
+          <text />
+        </inputEntry>
+        <inputEntry id="C16">
+          <text>&gt;400</text>
+        </inputEntry>
+        <inputEntry id="D16">
+          <text>&lt;=800</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E16">
+          <text>"Normalt"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-42">
-        <inputEntry id="UnaryTests_0hxdib3">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0ynlb2a">        <text><![CDATA[>400]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1gkxnyd">        <text><![CDATA[<=800]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1d08qzf">        <text><![CDATA["Ikke krav"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0j90u3e">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_17">
+        <inputEntry id="B17">
+          <text />
+        </inputEntry>
+        <inputEntry id="C17">
+          <text>&gt;400</text>
+        </inputEntry>
+        <inputEntry id="D17">
+          <text>]800..1200]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E17">
+          <text>"Brannalarmanlegg/nødalarmsentral"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-43">
-        <inputEntry id="UnaryTests_0ksrhtn">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_1js7isf">        <text><![CDATA[>400]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_19wicty">        <text>]800..1200]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_06j1yxq">        <text><![CDATA["Br.alarmanl/alarm br.vesen"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_1xm0tk2">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_18">
+        <inputEntry id="B18">
+          <text />
+        </inputEntry>
+        <inputEntry id="C18">
+          <text>&gt;400</text>
+        </inputEntry>
+        <inputEntry id="D18">
+          <text>]1200..5000]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E18">
+          <text>"Sprinkleranlegg"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-44">
-        <inputEntry id="UnaryTests_1ylu3bg">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0vs2qy2">        <text><![CDATA[>400]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_14vm3a7">        <text>]1200..5000]</text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1el749n">        <text><![CDATA["Sprinkleranlegg"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_17z209q">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_19">
+        <description>?</description>
+        <inputEntry id="B19">
+          <text />
+        </inputEntry>
+        <inputEntry id="C19">
+          <text>&gt;400</text>
+        </inputEntry>
+        <inputEntry id="D19">
+          <text>&gt;5000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E19">
+          <text>"Uegnet"</text>
+        </outputEntry>
       </rule>
-      <rule id="row-794237888-45">
-        <inputEntry id="UnaryTests_0csrpp5">        <text></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_0lxrqco">        <text><![CDATA[>400]]></text>
-</inputEntry>
-        <inputEntry id="UnaryTests_00ytpw0">        <text><![CDATA[>5000]]></text>
-</inputEntry>
-        <outputEntry id="LiteralExpression_1v3apbs">        <text><![CDATA["For stor brannseksjon"]]></text>
-</outputEntry>
-        <outputEntry id="LiteralExpression_0ceiltc">        <text><![CDATA["§ 7-24 tabell 6 s. 51"]]></text>
-</outputEntry>
+      <rule id="rowRule_20">
+        <inputEntry id="B20">
+          <text>"Sykehjem"</text>
+        </inputEntry>
+        <inputEntry id="C20">
+          <text />
+        </inputEntry>
+        <inputEntry id="D20">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E20">
+          <text>"Minst to brannseksjoner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_21">
+        <inputEntry id="B21">
+          <text>"Pleieinstitusjoner"</text>
+        </inputEntry>
+        <inputEntry id="C21">
+          <text />
+        </inputEntry>
+        <inputEntry id="D21">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E21">
+          <text>"Minst to brannseksjoner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="rowRule_22">
+        <inputEntry id="B22">
+          <text>"Sykehus"</text>
+        </inputEntry>
+        <inputEntry id="C22">
+          <text />
+        </inputEntry>
+        <inputEntry id="D22">
+          <text />
+        </inputEntry>
+        <outputEntry id="LiteralExpression_E22">
+          <text>"Minst to brannseksjoner"</text>
+        </outputEntry>
       </rule>
     </decisionTable>
   </decision>
-  <inputData id="InputData_0of58b4" name="Type virksomhet">
-    <extensionElements>
-      <biodi:bounds x="312" y="121" width="125" height="45" />
-    </extensionElements>
-  </inputData>
-  <inputData id="InputData_15xdrjd" name="Brannenergi MJ/m 2">
-    <extensionElements>
-      <biodi:bounds x="458" y="124" width="125" height="45" />
-    </extensionElements>
-  </inputData>
-  <inputData id="InputData_11pra94" name="Størrelse brannseksjon per etasje ">
-    <extensionElements>
-      <biodi:bounds x="601" y="122" width="125" height="45" />
-    </extensionElements>
-  </inputData>
-  <knowledgeSource id="KnowledgeSource_030fpmu" name="REN §7-24 tab. 7 s. 79">
-    <extensionElements>
-      <biodi:bounds x="695" y="234" width="100" height="63" />
-    </extensionElements>
-  </knowledgeSource>
-  <knowledgeSource id="KnowledgeSource_1ba1hmz" name="TEK17 § 11-7?">
-    <extensionElements>
-      <biodi:bounds x="698" y="333" width="100" height="63" />
-    </extensionElements>
-  </knowledgeSource>
 </definitions>

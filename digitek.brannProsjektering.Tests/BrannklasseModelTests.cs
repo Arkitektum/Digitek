@@ -14,13 +14,13 @@ namespace digitek.brannProsjektering.Tests
 {
     public class BrannklasseModelTests
     {
-        private readonly string _camundaUrl = "http://localhost:8080/engine-rest/engine/default/";
         private readonly string _resourcePath1 = "digitek.brannProsjektering.CamundaModels.";
 
         [Fact(DisplayName = "Brannklasse Model Core Test Opt1")]
         public void BrannklasseModelTest()
         {
             BpmnTestModel bpmnTestModel = new BpmnTestModel();
+
             //Model to Test
             var modelName = "BrannklasseModelDotNet.bpmn";
             var TestName = BpmnTestServices.CreateTestName(modelName);
@@ -38,67 +38,48 @@ namespace digitek.brannProsjektering.Tests
             var dictionary = BpmnTestServices.CreateDictionaryFromModel(brannklasseModel);
 
             //Start Camunda in debug mode
-            var camunda = new CamundaEngineClient(new System.Uri(_camundaUrl), null, null);
+            var camunda = BpmnTestServices.CamundaEngineClient();
 
-            // Get Model and Assembly
-            var modelPath = string.Concat(_resourcePath1, modelName);
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("digitek.brannProsjektering")).ToArray();
-            var assembly = (Assembly)assemblies[1];
+            // Get brann project Assembly
+            var assembly = BpmnTestServices.GetAssembly("digitek.brannProsjektering,");
 
             // Deploy the models under test
-            bpmnTestModel.DeploymentId = camunda.RepositoryService.Deploy(TestName,
-                new List<object>
-                {
-                    FileParameter.FromManifestResource(assembly, modelPath)
-                });
-
-            //check that can start the sub model
-            bpmnTestModel.DeploymentId.Should().NotBeNullOrEmpty();
+            bpmnTestModel.DeploymentId = BpmnTestServices.DeployModelToCamunda(camunda, string.Concat(_resourcePath1, modelName), assembly, TestName);
 
             try
             {
                 var externalTask = new ExternalTask();
-                var modelVariables = new Dictionary<string, object>();
 
                 // Start Instance
-                bpmnTestModel.ProcessInstanceId = camunda.BpmnWorkflowService.StartProcessInstance("BrannklasseModel.Net", dictionary);
-                //check porcess is started
-                bpmnTestModel.ProcessInstanceId.Should().NotBeNullOrEmpty();
+                bpmnTestModel.ProcessInstanceId = BpmnTestServices.StartInstance(camunda, "BrannklasseModel.Net", dictionary);
 
                 //Check that external task for Inputs validation is there and can runs
                 BpmnTestServices.CheckExternalTask(camunda, TestName, "brannInputsValidation", "branninputsVariablesValidation", ref dictionary);
 
-                //Execute external task model inputs 
-                new InputsValidationWorker().Execute(externalTask, ref modelVariables);
-                bpmnTestModel.BrannInputsValidationExternalTasks = BpmnTestServices.CheckOutputAndUpdateExternalTask(modelVariables, "modelInputs");
-                bpmnTestModel.BrannInputsValidationExternalTasks.Count().Should().Be(1);
+                //Execute external task model inputs
+                bpmnTestModel.BrannInputsValidationExternalTasks = BpmnTestServices.GetModelInputsExternalTaskOutput(externalTask);
 
                 // Get process variables and set to ExternalTask variables
-                var processVariables = camunda.BpmnWorkflowService.GetProcessVariables(bpmnTestModel.ProcessInstanceId);
-                externalTask.Variables = CamundaClientHelper.ConvertVariables(processVariables);
+                externalTask.Variables = BpmnTestServices.GetProcessVariables(camunda, bpmnTestModel.ProcessInstanceId);
+
                 //Update ExternalTask
                 BpmnTestServices.UpdateExternalTaskWithTheResult(externalTask, bpmnTestModel.BrannInputsValidationExternalTasks);
 
                 // Check that External Task for output Consolidation is there
                 BpmnTestServices.CheckExternalTask(camunda, TestName, "outputConsolidation", "VariablesOutputConsolidation", ref dictionary);
 
-                // Consolidate Outputs method
-                new OutputConsolidation().Execute(externalTask, ref modelVariables);
-                bpmnTestModel.OutputConsolidationExternalTasks = BpmnTestServices.CheckOutputAndUpdateExternalTask(modelVariables, "modelOutputs");
-                bpmnTestModel.OutputConsolidationExternalTasks.Count().Should().Be(1);
+                // Execute Consolidate Outputs method
+                bpmnTestModel.OutputConsolidationExternalTasks =BpmnTestServices.GetOutputConsolidationExternalTaskOutput(externalTask);
 
                 // Check that External Task for data Dictionary is there
                 BpmnTestServices.CheckExternalTask(camunda, TestName, "modelOutputDataDictionary", "dataDictionary", ref dictionary);
 
                 //Creat Dictionary to model method
-                new ModelOutputsDataDictionary().Execute(externalTask, ref modelVariables);
-                bpmnTestModel.ModelOutputDataDictionaryExternalTasks = BpmnTestServices.CheckOutputAndUpdateExternalTask(modelVariables, "modelDataDictionary");
-                bpmnTestModel.ModelOutputDataDictionaryExternalTasks.Count().Should().Be(1);
+                bpmnTestModel.ModelOutputDataDictionaryExternalTasks = BpmnTestServices.GetModelOutputsDataDictionaryExternalTaskOutput(externalTask);
 
-                //Check that runs all the DMN
+                //Check that all the DMN tables were executed
                 var ModelValue = (Dictionary<string, object>)bpmnTestModel.OutputConsolidationExternalTasks.FirstOrDefault().Value;
                 ModelValue.Count().Should().Be(2);
-
             }
             finally
             {
@@ -107,101 +88,72 @@ namespace digitek.brannProsjektering.Tests
             }
         }
 
-
-
-
         [Fact(DisplayName = "Brannklasse Model Core Test Opt2")]
-        public void BrannklasseModelTest02()
+        public void BrannklasseModelTestOpt02()
         {
+            BpmnTestModel bpmnTestModel = new BpmnTestModel();
+
+            //Model to Test
+            var modelName = "BrannklasseModelDotNet.bpmn";
+            var TestName = BpmnTestServices.CreateTestName(modelName);
+
+            //Model inputs
             var brannklasseModel = new BrannklasseModel()
             {
-                konsekvensAvBrann = "Stor konsekvens",
+                konsekvensAvBrann = "Middels konsekvens"
             };
+            var dictionary = BpmnTestServices.CreateDictionaryFromModel(brannklasseModel);
 
-            var dictionary = brannklasseModel.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannklasseModel, null));
+            //Start Camunda in debug mode
+            var camunda = BpmnTestServices.CamundaEngineClient();
 
-            var camunda = new CamundaEngineClient(new System.Uri(_camundaUrl), null, null);
-
-            var modelName = "BrannklasseModelDotNet.bpmn";
-            var name = modelName.Substring(0, modelName.IndexOf("."));
-            string TestName = name + "_Testcase";
+            // Get brann project Assembly
+            var assembly = BpmnTestServices.GetAssembly("digitek.brannProsjektering,");
 
             // Deploy the models under test
-            var modelPath = string.Concat(_resourcePath1, modelName);
-            var assemblys = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("digitek.brannProsjektering")).ToArray();
-            var assembly = (Assembly)assemblys[1];
-
-            //check that can start the sub model
-            string deploymentId = camunda.RepositoryService.Deploy(TestName,
-                new List<object>
-                {
-                    FileParameter.FromManifestResource(assembly, modelPath)
-                });
-
-            deploymentId.Should().NotBeNullOrEmpty();
+            bpmnTestModel.DeploymentId = BpmnTestServices.DeployModelToCamunda(camunda, string.Concat(_resourcePath1, modelName), assembly, TestName);
 
             try
             {
-                // Start Instance
-                string processInstanceId = camunda.BpmnWorkflowService.StartProcessInstance("BrannklasseModel.Net", dictionary);
-                processInstanceId.Should().NotBeNullOrEmpty();
-
                 var externalTask = new ExternalTask();
-                var modelVariables = new Dictionary<string, object>();
 
-                //Check that External Task for Inputs Validation is there
-                var externalTasks = camunda.ExternalTaskService.FetchAndLockTasks(TestName, 100, "brannInputsValidation", 1000, new List<string>());
-                externalTasks.Count.Should().Be(1);
-                externalTasks.First().ActivityId.Should().Be("branninputsVariablesValidation");
-                camunda.ExternalTaskService.Complete(TestName, externalTasks.First().Id, dictionary);
+                // Start Instance
+                bpmnTestModel.ProcessInstanceId = BpmnTestServices.StartInstance(camunda, "BrannklasseModel.Net", dictionary);
+
+                //Check that external task for Inputs validation is there and can runs
+                BpmnTestServices.CheckExternalTask(camunda, TestName, "brannInputsValidation", "branninputsVariablesValidation", ref dictionary);
+
+                //Execute external task model inputs
+                bpmnTestModel.BrannInputsValidationExternalTasks = BpmnTestServices.GetModelInputsExternalTaskOutput(externalTask);
 
                 // Get process variables and set to ExternalTask variables
-                var processVariables = camunda.BpmnWorkflowService.GetProcessVariables(processInstanceId);
-                externalTask.Variables = CamundaClientHelper.ConvertVariables(processVariables);
+                externalTask.Variables = BpmnTestServices.GetProcessVariables(camunda, bpmnTestModel.ProcessInstanceId);
 
-                //validate Input method
-                new InputsValidationWorker().Execute(externalTask, ref modelVariables);
-                if (modelVariables.TryGetValue("modelInputs", out var modelInputs))
-                    externalTask.Variables.Add("modelInputs", new Variable() { Value = modelInputs });
+                //Update ExternalTask
+                BpmnTestServices.UpdateExternalTaskWithTheResult(externalTask, bpmnTestModel.BrannInputsValidationExternalTasks);
 
                 // Check that External Task for output Consolidation is there
-                externalTasks = camunda.ExternalTaskService.FetchAndLockTasks(TestName, 100, "outputConsolidation", 1000, new List<string>());
-                externalTasks.Count.Should().Be(1);
-                externalTasks.First().ActivityId.Should().Be("VariablesOutputConsolidation");
-                camunda.ExternalTaskService.Complete(TestName, externalTasks.First().Id, new Dictionary<string, object>());
+                BpmnTestServices.CheckExternalTask(camunda, TestName, "outputConsolidation", "VariablesOutputConsolidation", ref dictionary);
 
-                // Consolidate Outputs method
-                new OutputConsolidation().Execute(externalTask, ref modelVariables);
-                var ModelOutputsDictionary = new Dictionary<string, object>();
-                if (modelVariables.TryGetValue("modelOutputs", out var modelOutputs))
-                {
-                    externalTask.Variables.Add("modeloOutputs", new Variable() { Value = modelOutputs });
-                    ModelOutputsDictionary = (Dictionary<string, object>)modelOutputs;
-                }
+                // Execute Consolidate Outputs method
+                bpmnTestModel.OutputConsolidationExternalTasks = BpmnTestServices.GetOutputConsolidationExternalTaskOutput(externalTask);
 
                 // Check that External Task for data Dictionary is there
-                externalTasks = camunda.ExternalTaskService.FetchAndLockTasks(TestName, 100, "modelOutputDataDictionary", 1000, new List<string>());
-                externalTasks.Count.Should().Be(1);
-                externalTasks.First().ActivityId.Should().Be("dataDictionary");
-                camunda.ExternalTaskService.Complete(TestName, externalTasks.First().Id, new Dictionary<string, object>());
+                BpmnTestServices.CheckExternalTask(camunda, TestName, "modelOutputDataDictionary", "dataDictionary", ref dictionary);
 
                 //Creat Dictionary to model method
-                new ModelOutputsDataDictionary().Execute(externalTask, ref modelVariables);
-                if (modelVariables.TryGetValue("modelDataDictionary", out var modelDataDictionary)) { }
-                externalTask.Variables.Add("modelDataDictionary", new Variable() { Value = modelDataDictionary });
+                bpmnTestModel.ModelOutputDataDictionaryExternalTasks = BpmnTestServices.GetModelOutputsDataDictionaryExternalTaskOutput(externalTask);
 
-
-                //Check that all the DMN ara runn and
-                ModelOutputsDictionary.Count.Should().Be(1);
-
+                //Check that all the DMN tables were executed
+                var ModelValue = (Dictionary<string, object>)bpmnTestModel.OutputConsolidationExternalTasks.FirstOrDefault().Value;
+                ModelValue.Count().Should().Be(1);
             }
             finally
             {
                 // cleanup after test case
-                camunda.RepositoryService.DeleteDeployment(deploymentId);
+                camunda.RepositoryService.DeleteDeployment(bpmnTestModel.DeploymentId);
             }
         }
+        //TODO test all DMN i model positive and negative Tests
     }
 }

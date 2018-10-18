@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CamundaClient;
+using digitek.brannProsjektering.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +44,11 @@ namespace digitek.brannProsjektering
                 }
                 );
 
+            // get configuration from appsettings.json - use as singleton
+            AppSettings appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            services.AddSingleton(appSettings);
+            
+            services.AddTransient<ICamundaEngineClient, CamundaEngineClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

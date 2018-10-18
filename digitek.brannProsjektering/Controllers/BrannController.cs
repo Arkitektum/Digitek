@@ -20,6 +20,14 @@ namespace digitek.brannProsjektering.Controllers
     [ApiController]
     public class DigiTekK11Controller : ControllerBase
     {
+        private readonly ICamundaEngineClient _camundaClient;
+
+        public DigiTekK11Controller(ICamundaEngineClient camundaClient)
+        {
+            _camundaClient = camundaClient;
+        }
+        
+        
         /// <summary>
         /// 
         /// </summary>
@@ -34,8 +42,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -57,8 +64,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -79,8 +85,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -97,8 +102,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -119,8 +123,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -141,8 +144,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             if (!ModelState.IsValid)
             {
@@ -158,8 +160,7 @@ namespace digitek.brannProsjektering.Controllers
         [HttpGet("GetResult/{id}", Name = "Get")]
         public IActionResult Get(string id)
         {
-            var camunda = new CamundaEngineClient();
-            var responce = camunda.BpmnWorkflowService.GetProcessVariables(id);
+            var responce = _camundaClient.BpmnWorkflowService.GetProcessVariables(id);
             if (responce != null && responce.Any())
             {
 

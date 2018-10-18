@@ -4,10 +4,23 @@ using System.Linq;
 using System.Reflection;
 using CamundaClient.Service;
 using CamundaClient.Worker;
+using digitek.brannProsjektering.Models;
 
 namespace CamundaClient
 {
-    public class CamundaEngineClient
+    public interface ICamundaEngineClient
+    {
+        BpmnWorkflowService BpmnWorkflowService { get; }
+        HumanTaskService HumanTaskService { get; }
+        RepositoryService RepositoryService { get; }
+        ExternalTaskService ExternalTaskService { get; }
+        void Startup(string assemblyName);
+        void Shutdown();
+        void StartWorkers(string assemblyName);
+        void StopWorkers();
+    }
+
+    public class CamundaEngineClient : ICamundaEngineClient
     {
         public static string DEFAULT_URL = "http://localhost:8080/engine-rest/engine/default/";
         public static string COCKPIT_URL = "http://localhost:8080/camunda/app/cockpit/default/";
@@ -15,9 +28,9 @@ namespace CamundaClient
         private IList<ExternalTaskWorker> _workers = new List<ExternalTaskWorker>();
         private CamundaClientHelper _camundaClientHelper;
 
-        public CamundaEngineClient() : this(new Uri(DEFAULT_URL), null, null) { }
-
-        public CamundaEngineClient(Uri restUrl, string userName, string password)
+        public CamundaEngineClient(AppSettings settings): this(new Uri(settings.CamundaUrl), null, null) { }
+        
+        private CamundaEngineClient(Uri restUrl, string userName, string password)
         {
             _camundaClientHelper = new CamundaClientHelper(restUrl, userName, password);
         }

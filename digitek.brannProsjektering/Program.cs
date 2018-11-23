@@ -42,10 +42,6 @@ namespace digitek.brannProsjektering
 
             try
             {
-                Log.Information("Deploying models to Camunda");
-                
-                DeployModelsToCamunda();
-                
                 Log.Information("Starting web host");
 
                 var host = BuildWebHost(args);
@@ -66,23 +62,7 @@ namespace digitek.brannProsjektering
         
             
         }
-
-        private static void DeployModelsToCamunda()
-        {
-            CamundaEngineClient camunda = new CamundaEngineClient();
-            try
-            {
-                var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-                camunda.Startup(assemblyName); // Deploys all models to Camunda and Start all found ExternalTask-Workers
-                
-                Log.Information("Successfully deployed models to Camunda");
-            }
-            catch (Exception exception)
-            {
-                Log.Error("Exception while deploying models to camunda: {message} ", exception.Message, exception);
-            }
-        }
-
+        
         private static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)

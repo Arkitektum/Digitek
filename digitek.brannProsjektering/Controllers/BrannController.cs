@@ -26,18 +26,17 @@ namespace digitek.brannProsjektering.Controllers
         {
             _camundaClient = camundaClient;
         }
-        
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         // POST: api/DigiTek17K11
-        [HttpPost, Route("RisikoklassenModel")]
-        public IActionResult PostRkl([FromBody] RisikoklasseModel brannteknisk)
+        [HttpPost, Route("BranntekniskProsjekteringModel")]
+        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringVariables brannteknisk)
         {
-            var key = "RisikoklassenModel.Net";
+            var key = "BranntekniskProsjekteringModel";
 
             var dictionary = brannteknisk.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -52,121 +51,24 @@ namespace digitek.brannProsjektering.Controllers
         }
         /// <summary>
         /// 
-        /// </summary>
-        /// <param name="brannteknisk"></param>
-        /// <returns></returns>
-        // POST: api/DigiTek17K11
-        [HttpPost, Route("BrannklasseModel")]
-        public IActionResult PostBKL([FromBody] BrannklasseModel brannteknisk)
-        {
-            var key = "BrannklasseModel.Net";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(responce);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="brannteknisk"></param>
-        /// <returns></returns>
-        [HttpPost, Route("BrannmotstandModel")]
-        public IActionResult PostBM([FromBody] BrannmotstandModel brannteknisk)
-        {
-            var key = "BrannmotstandModel.Net";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(responce);
-        }
-
-        [HttpPost, Route("BrannseksjonOgBrannmotstand")]
-        public IActionResult PostBB([FromBody] BrannseksjonOgBrannmotstandModel brannteknisk)
-        {
-            var key = "BrannseksjonOgBrannmotstand.Net";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(responce);
-        }
-        /// <summary>
-        /// Krav til branntiltak
-        /// </summary>
-        /// <param name="brannteknisk"></param>
-        /// <returns></returns>
-        [HttpPost, Route("KravTilBranntiltaktModel")]
-        public IActionResult PostKB([FromBody] KravTilBranntiltakModel brannteknisk)
-        {
-            var key = "KravTilBranntiltaktModel.Net";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(responce);
-        }
-        /// <summary>
-        /// Ledesystem
-        /// </summary>
-        /// <param name="brannteknisk"></param>
-        /// <returns></returns>
-        [HttpPost, Route("LedesystemModel")]
-        public IActionResult PostL([FromBody] LedesystemModel brannteknisk)
-        {
-            var key = "LedesystemModel.Net";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(responce);
-        }
-        /// <summary>
-        /// Get model output
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpGet("GetResult/{id}", Name = "Get")]
-        public IActionResult Get(string id)
+        public IActionResult Get(string id, bool? justValues)
         {
             var responce = _camundaClient.BpmnWorkflowService.GetProcessVariables(id);
             if (responce != null && responce.Any())
             {
+                if (justValues.HasValue && justValues.Value)
+                {
+                    var newDict = responce.Where(value => value.Key.Contains("modelOutputs"))
+                        .ToDictionary(value => value.Key, value => value.Value);
+                    return Ok(newDict);
+                }
 
-                var newDict = responce.Where(value => value.Key.Contains("modelOutputs") || value.Key.Contains("modelDataDictionary"))
-                    .ToDictionary(value => value.Key, value => value.Value);
-                return Ok(newDict);
+                return Ok(responce);
             }
             return BadRequest(responce);
         }

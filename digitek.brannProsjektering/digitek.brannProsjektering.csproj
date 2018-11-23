@@ -136,4 +136,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Worker\" />
+  </ItemGroup>
+
 </Project>

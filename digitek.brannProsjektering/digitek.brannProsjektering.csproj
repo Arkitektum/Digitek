@@ -130,4 +130,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="digitek.brannProsjektering.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

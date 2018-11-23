@@ -28,11 +28,8 @@ namespace CamundaClient
         private IList<ExternalTaskWorker> _workers = new List<ExternalTaskWorker>();
         private CamundaClientHelper _camundaClientHelper;
 
-        public CamundaEngineClient(AppSettings settings): this(new Uri(settings.CamundaUrl), null, null) { }
-        
-        private CamundaEngineClient(Uri restUrl, string userName, string password)
-        {
-            _camundaClientHelper = new CamundaClientHelper(restUrl, userName, password);
+        public CamundaEngineClient(AppSettings settings) {
+            _camundaClientHelper = new CamundaClientHelper(new Uri(settings.CamundaUrl), settings.CamundaUsername, settings.CamundaPassword);
         }
 
         public BpmnWorkflowService BpmnWorkflowService => new BpmnWorkflowService(_camundaClientHelper);

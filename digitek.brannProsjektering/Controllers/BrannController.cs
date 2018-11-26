@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -33,8 +33,8 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="brannteknisk"></param>
         /// <returns></returns>
         // POST: api/DigiTek17K11
-        [HttpPost, Route("BranntekniskProsjekteringModel")]
-        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringVariables brannteknisk)
+        [HttpPost, Route("BranntekniskProsjektering")]
+        public IActionResult PostRkl([FromBody] BranntekniskProsjekteringModel branntekniskProsjekteringModel)
         {
             var key = "BranntekniskProsjekteringModel";
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,11 +18,11 @@ namespace digitek.brannProsjektering.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DigiTekK11Controller : ControllerBase
+    public class DigiTek17K11Controller : ControllerBase
     {
         private readonly ICamundaEngineClient _camundaClient;
 
-        public DigiTekK11Controller(ICamundaEngineClient camundaClient)
+        public DigiTek17K11Controller(ICamundaEngineClient camundaClient)
         {
             _camundaClient = camundaClient;
         }
@@ -30,24 +30,31 @@ namespace digitek.brannProsjektering.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="brannteknisk"></param>
+        /// <param name="Brannteknisk Prosjektering"></param>
         /// <returns></returns>
         // POST: api/DigiTek17K11
         [HttpPost, Route("BranntekniskProsjektering")]
         public IActionResult PostRkl([FromBody] BranntekniskProsjekteringModel branntekniskProsjekteringModel)
         {
-            var key = "BranntekniskProsjekteringModel";
-
-            var dictionary = brannteknisk.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(brannteknisk, null));
-            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(responce);
+
+            var key = "BranntekniskProsjekteringModel";
+            var dictionary = branntekniskProsjekteringModel.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .ToDictionary(prop => prop.Name, prop => prop.GetValue(branntekniskProsjekteringModel, null));
+
+            var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
+
+           
+            var ResponceDictionary= new Dictionary<string,string>(){
+            {
+                "executionId",responce
+            }};
+
+            return Ok(ResponceDictionary);
         }
         /// <summary>
         /// 

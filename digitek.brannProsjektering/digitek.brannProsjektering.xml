@@ -4,14 +4,14 @@
         <name>digitek.brannProsjektering</name>
     </assembly>
     <members>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringVariables)">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostRkl(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel)">
             <summary>
             
             </summary>
-            <param name="brannteknisk"></param>
+            <param name="Brannteknisk ProsjekteringProsjektering"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTekK11Controller.Get(System.String,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.Get(System.String,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>

@@ -13,9 +13,10 @@ namespace digitek.brannProsjektering.Models
         public string Model { get; set; }
         public string InputJson { get; set; }
         public int ResponseCode { get; set; }
-        public int ResponseText { get; set; }
+        public string ResponseText { get; set; }
         public string Name { get; set; }
         public string Company { get; set; }
         public string Email { get; set; }
+        public string ExecutionNr { get; set; }
     }
 }

@@ -90,7 +90,7 @@ namespace CamundaClient.Service
             else
             {
                 //throw new EngineException("Could not load variable: " + response.ReasonPhrase);
-                return new Dictionary<string, object>(){{ "Could not load variable: ", response.ReasonPhrase } };
+                return new Dictionary<string, object>(){{ "Error", $"Could not load variable: {response.ReasonPhrase}" } };
             }
         }
 

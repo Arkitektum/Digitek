@@ -9,8 +9,8 @@ namespace digitek.brannProsjektering.Persistence
 {
     public interface IDbServices
     {
-        Task<IEnumerable<UseRecord>> GetAll();
-        Task<UseRecord> AddUseRecord();
+        IEnumerable<UseRecord> GetAll();
+        UseRecord AddUseRecord(UseRecord useRecord);
 
     }
 
@@ -23,14 +23,18 @@ namespace digitek.brannProsjektering.Persistence
             _context = context;
         }
 
-        public async Task<IEnumerable<UseRecord>> GetAll()
+        public IEnumerable<UseRecord> GetAll()
         {
             return _context.UseRecords.ToList();
         }
 
-        public Task<UseRecord> AddUseRecord()
+       
+        public UseRecord AddUseRecord(UseRecord useRecord)
         {
-            throw new NotImplementedException();
+            _context.UseRecords.Add(useRecord);
+
+            _context.SaveChanges();
+            return useRecord;
         }
     }
 }

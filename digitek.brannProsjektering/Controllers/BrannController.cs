@@ -30,6 +30,7 @@ namespace digitek.brannProsjektering.Controllers
         public DigiTek17K11Controller(ICamundaEngineClient camundaClient, IDbServices dbServices)
         {
             _camundaClient = camundaClient;
+            _dbServices = dbServices;
 
         }
         /// <summary>
@@ -49,7 +50,7 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BranntekniskProsjekteringModel";
-            
+
             var modelInputs = branntekniskProsjekteringModel.ModelInputs;
             var dictionary = ModelToDictionary(modelInputs);
 
@@ -70,7 +71,12 @@ namespace digitek.brannProsjektering.Controllers
             //add Model 
             useRecord.Model = model;
 
+            // Add ExecutionId
+            useRecord.ExecutionNr = ResponseIsExecutionId(responce) ? responce : null;
+
+            //serialize Object
             var json = JsonConvert.SerializeObject(branntekniskProsjekteringModel);
+
             //replace String text from swagger to null
             var newJson = json.Replace("string", null);
             var jsonObj = JObject.Parse(newJson);
@@ -90,7 +96,8 @@ namespace digitek.brannProsjektering.Controllers
             if (_processVariables != null)
             {
                 useRecord.ResponseCode = 200;
-                //useRecord.ResponseText = JsonConvert.SerializeObject(_processVariables);
+                useRecord.ResponseText = JsonConvert.SerializeObject(_processVariables.ContainsKey("modelOutputs") ? _processVariables["modelOutputs"] : _processVariables);
+
             }
             else
             {
@@ -102,7 +109,7 @@ namespace digitek.brannProsjektering.Controllers
                 }
                 else
                 {
-                    //useRecord.ResponseText = responce.ToString();
+                    useRecord.ResponseText = responce;
                 }
             }
 
@@ -279,20 +286,13 @@ namespace digitek.brannProsjektering.Controllers
         }
         private IActionResult ActionResultResponse(bool? justValues, string responce)
         {
-            IActionResult result = null;
-            if (!Guid.TryParse(responce, out var executionId))
-            {
-                result = BadRequest("Bad request");
-            }
-            var processVariables = GetVariables(responce, justValues);
 
-            if (processVariables == null)
-                result = BadRequest(responce);
+            if (!ResponseIsExecutionId(responce))
+                return BadRequest("Bad request");
 
-            if (result == null)
-                result = Ok(processVariables);
+            _processVariables = GetVariables(responce, justValues);
 
-            return result;
+            return Ok(_processVariables);
         }
         private Dictionary<string, object> ModelToDictionary(object model)
         {
@@ -302,6 +302,11 @@ namespace digitek.brannProsjektering.Controllers
             return modelDictionary;
         }
 
+        private bool ResponseIsExecutionId(string responce)
+        {
+            return Guid.TryParse(responce, out var guid);
+        }
+
         private Dictionary<string, object> GetVariables(string executionId, bool? justValues)
         {
             Dictionary<string, object> processVariables = null;
@@ -309,28 +314,31 @@ namespace digitek.brannProsjektering.Controllers
             for (int i = 0; i < 3; i++)
             {
                 processVariables = _camundaClient.BpmnWorkflowService.GetProcessVariables(executionId);
-                processVariables.Add("executionId", executionId);
-                if (processVariables != null && processVariables.Any())
-                {
-                    if (processVariables.ContainsKey("Advarsel"))
-                    {
 
-                        return processVariables;
-                    }
-                    if (processVariables.ContainsKey("modelOutputs"))
+
+                if (processVariables.ContainsKey("Advarsel"))
+                    return processVariables;
+
+                if (processVariables.ContainsKey("Error"))
+                {
+                    processVariables.Add("Error", "Could not load result variables");
+                    return processVariables;
+                }
+
+                if (processVariables.ContainsKey("modelOutputs"))
+                {
+                    if (justValues.HasValue && justValues.Value)
                     {
-                        if (justValues.HasValue && justValues.Value)
-                        {
-                            var newDict = processVariables.Where(value => value.Key.Contains("modelOutputs"))
-                                .ToDictionary(value => value.Key, value => value.Value);
-                            newDict.Add("executionId", executionId);
-                            return newDict;
-                        }
-                        return processVariables;
+                        var newDict = processVariables.Where(value => value.Key.Contains("modelOutputs"))
+                            .ToDictionary(value => value.Key, value => value.Value);
+                        newDict.Add("executionId", executionId);
+                        return newDict;
                     }
+                    return processVariables;
                 }
                 Task.Delay(500);
             }
+            processVariables.Add("executionId", executionId);
             return processVariables;
         }
     }

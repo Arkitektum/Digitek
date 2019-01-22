@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +54,7 @@ namespace digitek.brannProsjektering
             services.AddSingleton(appSettings);
             
             services.AddTransient<ICamundaEngineClient, CamundaEngineClient>();
+            services.AddTransient<IDbServices, DbServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

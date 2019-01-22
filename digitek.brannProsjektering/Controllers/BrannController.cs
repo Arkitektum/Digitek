@@ -10,10 +10,12 @@ using CamundaClient;
 using digitek.brannProsjektering.Models;
 using CamundaClient.Requests;
 using CamundaClient.Service;
+using digitek.brannProsjektering.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace digitek.brannProsjektering.Controllers
 {
@@ -22,10 +24,13 @@ namespace digitek.brannProsjektering.Controllers
     public class DigiTek17K11Controller : ControllerBase
     {
         private readonly ICamundaEngineClient _camundaClient;
-        
-        public DigiTek17K11Controller(ICamundaEngineClient camundaClient)
+        private readonly IDbServices _dbServices;
+        private Dictionary<string, object> _processVariables;
+
+        public DigiTek17K11Controller(ICamundaEngineClient camundaClient, IDbServices dbServices)
         {
             _camundaClient = camundaClient;
+
         }
         /// <summary>
         /// 
@@ -44,11 +49,90 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BranntekniskProsjekteringModel";
-            var dictionary = ModelToDictionary(branntekniskProsjekteringModel);
+            
+            var modelInputs = branntekniskProsjekteringModel.ModelInputs;
+            var dictionary = ModelToDictionary(modelInputs);
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            return ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce);
+            //_dbServices.AddUseRecord();
+
+            var useRecord = CreateUseRedordModel(branntekniskProsjekteringModel, responce, key);
+            _dbServices.AddUseRecord(useRecord);
+
+
+            return actionResponse;
+        }
+        private UseRecord CreateUseRedordModel(object branntekniskProsjekteringModel, string responce, string model)
+        {
+            var useRecord = new UseRecord();
+            //add Model 
+            useRecord.Model = model;
+
+            var json = JsonConvert.SerializeObject(branntekniskProsjekteringModel);
+            //replace String text from swagger to null
+            var newJson = json.Replace("string", null);
+            var jsonObj = JObject.Parse(newJson);
+
+            //Add User Info
+            var userInfo = jsonObj["UserInfo"];
+            AddUserInfo(userInfo, ref useRecord);
+
+            //Add date&Time
+            useRecord.DateTime = DateTime.Now;
+
+            // add Json input
+            var modelInputs = JsonConvert.SerializeObject(jsonObj["ModelInputs"]);
+            if (!string.IsNullOrEmpty(modelInputs))
+                useRecord.InputJson = modelInputs;
+
+            if (_processVariables != null)
+            {
+                useRecord.ResponseCode = 200;
+                //useRecord.ResponseText = JsonConvert.SerializeObject(_processVariables);
+            }
+            else
+            {
+                var responceArrey = responce.Split("-", 2);
+                if (int.TryParse(responceArrey[0], out var code))
+                {
+                    useRecord.ResponseCode = code;
+                    useRecord.ResponseText = responceArrey[1];
+                }
+                else
+                {
+                    //useRecord.ResponseText = responce.ToString();
+                }
+            }
+
+            return useRecord;
+        }
+
+        private void AddUserInfo(JToken userInfo, ref UseRecord useRecord)
+        {
+            var user = userInfo.ToObject<UserInfo>();
+            if (!ObjectPropertiesIsNullOrEmpty(user))
+            {
+                if (!string.IsNullOrEmpty(userInfo["Name"].ToString()))
+                    useRecord.Name = userInfo["Name"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Company"].ToString()))
+                    useRecord.Company = userInfo["Company"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Email"].ToString()))
+                    useRecord.Email = userInfo["Email"].ToString();
+            }
+        }
+        private static bool ObjectPropertiesIsNullOrEmpty(object obj)
+        {
+            var propertiesValues = obj.GetType().GetProperties()
+                .Select(prop => prop.GetValue(obj, null))
+                .Where(val => val != null)
+                .Select(val => val.ToString())
+                .Where(str => str.Length > 0)
+                .Where(v => v.ToLower() != "string" && v != "0")
+                .ToList();
+
+            return !propertiesValues.Any();
         }
 
         /// <summary>

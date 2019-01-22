@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -22,7 +22,7 @@ namespace digitek.brannProsjektering.Controllers
     public class DigiTek17K11Controller : ControllerBase
     {
         private readonly ICamundaEngineClient _camundaClient;
-
+        
         public DigiTek17K11Controller(ICamundaEngineClient camundaClient)
         {
             _camundaClient = camundaClient;
@@ -48,14 +48,9 @@ namespace digitek.brannProsjektering.Controllers
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -78,13 +73,7 @@ namespace digitek.brannProsjektering.Controllers
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
         /// <summary>
         /// 
@@ -108,13 +97,7 @@ namespace digitek.brannProsjektering.Controllers
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
         /// <summary>
         /// 
@@ -138,13 +121,7 @@ namespace digitek.brannProsjektering.Controllers
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
         /// <summary>
         /// 
@@ -168,13 +145,7 @@ namespace digitek.brannProsjektering.Controllers
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
         /// <summary>
         /// 
@@ -197,14 +168,7 @@ namespace digitek.brannProsjektering.Controllers
             var dictionary = ModelToDictionary(brannmotstandModel);
 
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
-
-            var processVariables = GetVariables(responce, justValues);
-
-            if (processVariables == null)
-                return BadRequest(responce);
-
-            return Ok(processVariables);
-
+            return ActionResultResponse(justValues, responce);
         }
         /// <summary>
         /// 
@@ -229,7 +193,23 @@ namespace digitek.brannProsjektering.Controllers
             }
             return BadRequest(responce);
         }
+        private IActionResult ActionResultResponse(bool? justValues, string responce)
+        {
+            IActionResult result = null;
+            if (!Guid.TryParse(responce, out var executionId))
+            {
+                result = BadRequest("Bad request");
+            }
+            var processVariables = GetVariables(responce, justValues);
 
+            if (processVariables == null)
+                result = BadRequest(responce);
+
+            if (result == null)
+                result = Ok(processVariables);
+
+            return result;
+        }
         private Dictionary<string, object> ModelToDictionary(object model)
         {
             Dictionary<string, object> modelDictionary = model.GetType()
@@ -267,10 +247,8 @@ namespace digitek.brannProsjektering.Controllers
                 }
                 Task.Delay(500);
             }
-
             return processVariables;
         }
-
     }
 
 }

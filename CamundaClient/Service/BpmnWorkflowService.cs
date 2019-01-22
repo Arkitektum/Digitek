@@ -39,8 +39,11 @@ namespace CamundaClient.Service
             }
             else
             {
-                //var errorMsg = response.Content.ReadAsStringAsync();
-                throw new EngineException(response.ReasonPhrase);
+                var errorMsg = response.Content.ReadAsStringAsync();
+
+                var error = string.Concat(response.StatusCode.GetHashCode(), "-",errorMsg.Result);
+                return error;
+                //throw new EngineException(response.ReasonPhrase);
             }
 
         }

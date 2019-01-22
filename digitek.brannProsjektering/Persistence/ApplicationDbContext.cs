@@ -9,11 +9,18 @@ namespace digitek.brannProsjektering.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<UseRecord> UseRecords { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
             : base(options)
         {
 
         }
+        public DbSet<UseRecord> UseRecords { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UseRecord>().ToTable("UseRecords");
+        }
+
+
     }
 }

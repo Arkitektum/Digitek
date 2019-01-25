@@ -64,7 +64,9 @@ namespace CamundaClient.Service
             }
             else
             {
-                throw new EngineException("Could not load variable: " + response.ReasonPhrase);
+                //throw new EngineException("Could not load variable: " + response.ReasonPhrase);
+                return new Dictionary<string, object>() { { "Error", $"Could not load variable: {response.ReasonPhrase}" } };
+
             }
         }
         public Dictionary<string, object> GetProcessVariables(string executionId)

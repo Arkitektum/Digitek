@@ -53,13 +53,17 @@ namespace digitek.brannProsjektering.Controllers
 
             var modelInputs = branntekniskProsjekteringModel.ModelInputs;
             var dictionary = ModelToDictionary(modelInputs);
-
+            
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
+            // generate response
             var actionResponse = ActionResultResponse(justValues, responce);
-            //_dbServices.AddUseRecord();
 
+            // create User Record
             var useRecord = CreateUseRedordModel(branntekniskProsjekteringModel, responce, key);
+            
+            // Add user recor to DB
             _dbServices.AddUseRecord(useRecord);
 
 
@@ -83,6 +87,7 @@ namespace digitek.brannProsjektering.Controllers
 
             //Add User Info
             var userInfo = jsonObj["UserInfo"];
+
             AddUserInfo(userInfo, ref useRecord);
 
             //Add date&Time
@@ -118,13 +123,17 @@ namespace digitek.brannProsjektering.Controllers
 
         private void AddUserInfo(JToken userInfo, ref UseRecord useRecord)
         {
+            if (userInfo.Type == JTokenType.Null)
+            {
+                return;
+            }
             var user = userInfo.ToObject<UserInfo>();
             if (!ObjectPropertiesIsNullOrEmpty(user))
             {
-                if (!string.IsNullOrEmpty(userInfo["Name"].ToString()))
-                    useRecord.Name = userInfo["Name"].ToString();
-                if (!string.IsNullOrEmpty(userInfo["Company"].ToString()))
-                    useRecord.Company = userInfo["Company"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Navn"].ToString()))
+                    useRecord.Navn = userInfo["Navn"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Organisasjonsnummer"].ToString()))
+                    useRecord.Organisasjonsnummer = userInfo["Organisasjonsnummer"].ToString();
                 if (!string.IsNullOrEmpty(userInfo["Email"].ToString()))
                     useRecord.Email = userInfo["Email"].ToString();
             }
@@ -286,12 +295,12 @@ namespace digitek.brannProsjektering.Controllers
         }
         private IActionResult ActionResultResponse(bool? justValues, string responce)
         {
-
+            //Check if the process could be start
             if (!ResponseIsExecutionId(responce))
                 return BadRequest("Bad request");
-
+            
+            // Get response variables from Model
             _processVariables = GetVariables(responce, justValues);
-
             return Ok(_processVariables);
         }
         private Dictionary<string, object> ModelToDictionary(object model)

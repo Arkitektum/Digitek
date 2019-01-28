@@ -19,7 +19,7 @@ namespace digitek.brannProsjektering.Persistence
 
             BranntekniskProsjekteringModel branntekniskProsjekteringModel = new BranntekniskProsjekteringModel()
             {
-                ModelInputs = {
+                ModelInputs = new ModelInputs(){
                 typeVirksomhet = "Bolig",
                 antallEtasjer = 3,
                 brtArealPrEtasje = 300,
@@ -30,19 +30,28 @@ namespace digitek.brannProsjektering.Persistence
                 avstandMellomMotstVinduerIMeter = 4,
                 brtArealBygg = 900,
                 kravOmHeis = false
+                }, UserInfo =new UserInfo()
+                {
+                    Navn = "Matias Gonzalez",
+                    OrganisasjonsNavn = "Arkitektum AS",
+                    Organisasjonsnummer = "1212131551",
+                    Email = "Noko@emial.no",
                 }
             };
 
             var useRecords = new UseRecord()
             {
                 DateTime = DateTime.Now,
-                Email = "Noko@emial.no",
-                InputJson = JsonConvert.SerializeObject(branntekniskProsjekteringModel.ModelInputs),
                 Model = "BranntekniskProsjekteringModel",
-                Name = "Matias Gonzalez",
+                InputJson = JsonConvert.SerializeObject(branntekniskProsjekteringModel.ModelInputs),
                 ResponseCode = 200,
                 ResponseText = "Json",
-                ExecutionNr = Guid.NewGuid().ToString()
+                Navn = branntekniskProsjekteringModel.UserInfo.Navn,
+                OrganisasjonsNavn = branntekniskProsjekteringModel.UserInfo.OrganisasjonsNavn,
+                Organisasjonsnummer = branntekniskProsjekteringModel.UserInfo.Organisasjonsnummer,
+                Email = branntekniskProsjekteringModel.UserInfo.Email,
+                ExecutionNr = Guid.NewGuid().ToString(),
+                Kapitel = "12"
             };
 
             context.UseRecords.Add(useRecords);

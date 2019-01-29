@@ -4,7 +4,7 @@
         <name>digitek.brannProsjektering</name>
     </assembly>
     <members>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.Postbrannpro(digitek.brannProsjektering.Models.BranntekniskProsjekteringModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.Postbrannpro(digitek.brannProsjektering.Models.BranntekniskProsjekteringObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
@@ -12,43 +12,43 @@
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostRisikoklasseSubModel(digitek.brannProsjektering.Models.RisikoklasseModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostRisikoklasseSubModel(digitek.brannProsjektering.Models.RisikoklasseObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
-            <param name="risikoklasseModel"></param>
+            <param name="risikoklasseObject"></param>
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannklasseModel(digitek.brannProsjektering.Models.BrannklasseModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannklasseModel(digitek.brannProsjektering.Models.BrannklasseObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
-            <param name="brannklasseModel"></param>
+            <param name="brannklasseObject"></param>
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostKravTilBranntiltakSubModel(digitek.brannProsjektering.Models.KravTilBranntiltakModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostKravTilBranntiltakSubModel(digitek.brannProsjektering.Models.KravTilBranntiltakObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
-            <param name="kravTilBranntiltakModel"></param>
+            <param name="kravTilBranntiltakObject"></param>
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannseksjonOgBrannmotstandSubModel(digitek.brannProsjektering.Models.BrannseksjonOgBrannmotstandModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannseksjonOgBrannmotstandSubModel(digitek.brannProsjektering.Models.BrannseksjonOgBrannmotstandObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
-            <param name="brannseksjonOgBrannmotstandModel"></param>
+            <param name="brannseksjonOgBrannmotstandObject"></param>
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannmotstandSubModel(digitek.brannProsjektering.Models.BrannmotstandModel,System.Nullable{System.Boolean})">
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.PostBrannmotstandSubModel(digitek.brannProsjektering.Models.BrannmotstandObject,System.Nullable{System.Boolean})">
             <summary>
             
             </summary>
-            <param name="brannmotstandModel"></param>
+            <param name="brannmotstandObject"></param>
             <param name="justValues"></param>
             <returns></returns>
         </member>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,10 +10,12 @@ using CamundaClient;
 using digitek.brannProsjektering.Models;
 using CamundaClient.Requests;
 using CamundaClient.Service;
+using digitek.brannProsjektering.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace digitek.brannProsjektering.Controllers
 {
@@ -22,10 +24,14 @@ namespace digitek.brannProsjektering.Controllers
     public class DigiTek17K11Controller : ControllerBase
     {
         private readonly ICamundaEngineClient _camundaClient;
+        private readonly IDbServices _dbServices;
+        private Dictionary<string, object> _processVariables;
 
-        public DigiTek17K11Controller(ICamundaEngineClient camundaClient)
+        public DigiTek17K11Controller(ICamundaEngineClient camundaClient, IDbServices dbServices)
         {
             _camundaClient = camundaClient;
+            _dbServices = dbServices;
+
         }
         /// <summary>
         /// 
@@ -34,9 +40,9 @@ namespace digitek.brannProsjektering.Controllers
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("BranntekniskProsjekteringModel")]
-        [Produces("application/json", Type = typeof(BranntekniskProsjekteringModel))]
+        [Produces("application/json", Type = typeof(BranntekniskProsjekteringObject))]
         [Consumes("application/Json")]
-        public IActionResult Postbrannpro([FromBody] BranntekniskProsjekteringModel branntekniskProsjekteringModel, bool? justValues)
+        public IActionResult Postbrannpro([FromBody] BranntekniskProsjekteringObject branntekniskProsjekteringObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -44,28 +50,40 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BranntekniskProsjekteringModel";
-            var dictionary = ModelToDictionary(branntekniskProsjekteringModel);
-
+            var dictionary = ModelToDictionary(branntekniskProsjekteringObject.ModelInputs);
+            
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(branntekniskProsjekteringObject, responce, key,"11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="risikoklasseModel"></param>
+        /// <param name="risikoklasseObject"></param>
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("RisikoklasseSubModel")]
-        [Produces("application/json", Type = typeof(RisikoklasseModel))]
+        [Produces("application/json", Type = typeof(RisikoklasseObject))]
         [Consumes("application/Json")]
-        public IActionResult PostRisikoklasseSubModel([FromBody] RisikoklasseModel risikoklasseModel, bool? justValues)
+        public IActionResult PostRisikoklasseSubModel([FromBody] RisikoklasseObject risikoklasseObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -73,29 +91,39 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "RisikoklasseSubModel";
+            var dictionary = ModelToDictionary(risikoklasseObject.ModelInputs);
 
-            var dictionary = ModelToDictionary(risikoklasseModel);
-
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(risikoklasseObject, responce, key, "11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="brannklasseModel"></param>
+        /// <param name="brannklasseObject"></param>
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("BrannklasseSubModel")]
-        [Produces("application/json", Type = typeof(BrannklasseModel))]
+        [Produces("application/json", Type = typeof(BrannklasseObject))]
         [Consumes("application/Json")]
-        public IActionResult PostBrannklasseModel([FromBody] BrannklasseModel brannklasseModel, bool? justValues)
+        public IActionResult PostBrannklasseModel([FromBody] BrannklasseObject brannklasseObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -103,29 +131,39 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BrannklasseSubModel";
+            var dictionary = ModelToDictionary(brannklasseObject.ModelInputs);
 
-            var dictionary = ModelToDictionary(brannklasseModel);
-
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(brannklasseObject, responce, key, "11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="kravTilBranntiltakModel"></param>
+        /// <param name="kravTilBranntiltakObject"></param>
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("KravTilBranntiltakSubModel")]
-        [Produces("application/json", Type = typeof(KravTilBranntiltakModel))]
+        [Produces("application/json", Type = typeof(KravTilBranntiltakObject))]
         [Consumes("application/Json")]
-        public IActionResult PostKravTilBranntiltakSubModel([FromBody] KravTilBranntiltakModel kravTilBranntiltakModel, bool? justValues)
+        public IActionResult PostKravTilBranntiltakSubModel([FromBody] KravTilBranntiltakObject kravTilBranntiltakObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -133,29 +171,39 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "KravTilBranntiltakSubModel";
-
-            var dictionary = ModelToDictionary(kravTilBranntiltakModel);
-
+            var dictionary = ModelToDictionary(kravTilBranntiltakObject.ModelInputs);
+            
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(kravTilBranntiltakObject, responce, key, "11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="brannseksjonOgBrannmotstandModel"></param>
+        /// <param name="brannseksjonOgBrannmotstandObject"></param>
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("BrannseksjonOgBrannmotstandSubModel")]
-        [Produces("application/json", Type = typeof(BrannseksjonOgBrannmotstandModel))]
+        [Produces("application/json", Type = typeof(BrannseksjonOgBrannmotstandObject))]
         [Consumes("application/Json")]
-        public IActionResult PostBrannseksjonOgBrannmotstandSubModel([FromBody] BrannseksjonOgBrannmotstandModel brannseksjonOgBrannmotstandModel, bool? justValues)
+        public IActionResult PostBrannseksjonOgBrannmotstandSubModel([FromBody] BrannseksjonOgBrannmotstandObject brannseksjonOgBrannmotstandObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -163,29 +211,39 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BrannseksjonOgBrannmotstandSubModel";
+            var dictionary = ModelToDictionary(brannseksjonOgBrannmotstandObject.ModelInputs);
 
-            var dictionary = ModelToDictionary(brannseksjonOgBrannmotstandModel);
-
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(brannseksjonOgBrannmotstandObject, responce, key, "11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="brannmotstandModel"></param>
+        /// <param name="brannmotstandObject"></param>
         /// <param name="justValues"></param>
         /// <returns></returns>
         [HttpPost, Route("BrannmotstandSubModel")]
-        [Produces("application/json", Type = typeof(BrannmotstandModel))]
+        [Produces("application/json", Type = typeof(BrannmotstandObject))]
         [Consumes("application/Json")]
-        public IActionResult PostBrannmotstandSubModel([FromBody] BrannmotstandModel brannmotstandModel, bool? justValues)
+        public IActionResult PostBrannmotstandSubModel([FromBody] BrannmotstandObject brannmotstandObject, bool? justValues)
         {
             if (!ModelState.IsValid)
             {
@@ -193,18 +251,28 @@ namespace digitek.brannProsjektering.Controllers
             }
 
             var key = "BrannmotstandSubModel";
+            var dictionary = ModelToDictionary(brannmotstandObject.ModelInputs);
 
-            var dictionary = ModelToDictionary(brannmotstandModel);
-
+            // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
-            var processVariables = GetVariables(responce, justValues);
+            // generate response
+            var actionResponse = ActionResultResponse(justValues, responce);
 
-            if (processVariables == null)
-                return BadRequest(responce);
+            // create User Record
+            var useRecord = CreateUseRedordModel(brannmotstandObject, responce, key, "11");
 
-            return Ok(processVariables);
+            // Add user recor to DB
+            try
+            {
+                _dbServices.AddUseRecord(useRecord);
+            }
+            catch 
+            {
+                return StatusCode(503, "Cant save use record to Data Base");
+            }
 
+            return actionResponse;
         }
         /// <summary>
         /// 
@@ -229,13 +297,27 @@ namespace digitek.brannProsjektering.Controllers
             }
             return BadRequest(responce);
         }
-
+        private IActionResult ActionResultResponse(bool? justValues, string responce)
+        {
+            //Check if the process could be start
+            if (!ResponseIsExecutionId(responce))
+                return BadRequest("Bad request");
+            
+            // Get response variables from Model
+            _processVariables = GetVariables(responce, justValues);
+            return Ok(_processVariables);
+        }
         private Dictionary<string, object> ModelToDictionary(object model)
         {
-            Dictionary<string, object> modelDictionary = model.GetType()
+            Dictionary<string, object> modelDictionary = model?.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .ToDictionary(prop => prop.Name, prop => prop.GetValue(model, null)); ;
+                .ToDictionary(prop => prop.Name, prop => prop.GetValue(model, null));
             return modelDictionary;
+        }
+
+        private bool ResponseIsExecutionId(string responce)
+        {
+            return Guid.TryParse(responce, out var guid);
         }
 
         private Dictionary<string, object> GetVariables(string executionId, bool? justValues)
@@ -245,32 +327,115 @@ namespace digitek.brannProsjektering.Controllers
             for (int i = 0; i < 3; i++)
             {
                 processVariables = _camundaClient.BpmnWorkflowService.GetProcessVariables(executionId);
-                processVariables.Add("executionId", executionId);
-                if (processVariables != null && processVariables.Any())
-                {
-                    if (processVariables.ContainsKey("Advarsel"))
-                    {
 
-                        return processVariables;
-                    }
-                    if (processVariables.ContainsKey("modelOutputs"))
+
+                if (processVariables.ContainsKey("Advarsel"))
+                    return processVariables;
+
+                if (processVariables.ContainsKey("Error"))
+                {
+                    processVariables.Add("Error", "Could not load result variables");
+                    return processVariables;
+                }
+
+                if (processVariables.ContainsKey("modelOutputs"))
+                {
+                    if (justValues.HasValue && justValues.Value)
                     {
-                        if (justValues.HasValue && justValues.Value)
-                        {
-                            var newDict = processVariables.Where(value => value.Key.Contains("modelOutputs"))
-                                .ToDictionary(value => value.Key, value => value.Value);
-                            newDict.Add("executionId", executionId);
-                            return newDict;
-                        }
-                        return processVariables;
+                        var newDict = processVariables.Where(value => value.Key.Contains("modelOutputs"))
+                            .ToDictionary(value => value.Key, value => value.Value);
+                        newDict.Add("executionId", executionId);
+                        return newDict;
                     }
+                    return processVariables;
                 }
                 Task.Delay(500);
             }
-
+            processVariables.Add("executionId", executionId);
             return processVariables;
         }
 
-    }
+        private UseRecord CreateUseRedordModel(object branntekniskProsjekteringModel, string responce, string model, string tekChapter)
+        {
+            var useRecord = new UseRecord();
+            //add Model 
+            useRecord.Model = model;
+            useRecord.Kapitel = tekChapter;
 
+            // Add ExecutionId
+            useRecord.ExecutionNr = ResponseIsExecutionId(responce) ? responce : null;
+
+            //serialize Object
+            var json = JsonConvert.SerializeObject(branntekniskProsjekteringModel);
+
+            //replace String text from swagger to null
+            var newJson = json.Replace("string", null);
+            var jsonObj = JObject.Parse(newJson);
+
+            //Add User Info
+            var userInfo = jsonObj["UserInfo"];
+
+            AddUserInfo(userInfo, ref useRecord);
+
+            //Add date&Time
+            useRecord.DateTime = DateTime.Now;
+
+            // add Json input
+            var modelInputs = JsonConvert.SerializeObject(jsonObj["ModelInputs"]);
+            if (!string.IsNullOrEmpty(modelInputs))
+                useRecord.InputJson = modelInputs;
+
+            if (_processVariables != null)
+            {
+                useRecord.ResponseCode = 200;
+                useRecord.ResponseText = JsonConvert.SerializeObject(_processVariables.ContainsKey("modelOutputs") ? _processVariables["modelOutputs"] : _processVariables);
+
+            }
+            else
+            {
+                var responceArrey = responce.Split("-", 2);
+                if (int.TryParse(responceArrey[0], out var code))
+                {
+                    useRecord.ResponseCode = code;
+                    useRecord.ResponseText = responceArrey[1];
+                }
+                else
+                {
+                    useRecord.ResponseText = responce;
+                }
+            }
+
+            return useRecord;
+        }
+
+        private void AddUserInfo(JToken userInfo, ref UseRecord useRecord)
+        {
+            if (userInfo.Type == JTokenType.Null)
+            {
+                return;
+            }
+            var user = userInfo.ToObject<UserInfo>();
+            if (!ObjectPropertiesIsNullOrEmpty(user))
+            {
+                if (!string.IsNullOrEmpty(userInfo["Navn"].ToString()))
+                    useRecord.Navn = userInfo["Navn"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Organisasjonsnummer"].ToString()))
+                    useRecord.Organisasjonsnummer = userInfo["Organisasjonsnummer"].ToString();
+                if (!string.IsNullOrEmpty(userInfo["Email"].ToString()))
+                    useRecord.Email = userInfo["Email"].ToString();
+            }
+        }
+        private static bool ObjectPropertiesIsNullOrEmpty(object obj)
+        {
+            var propertiesValues = obj.GetType().GetProperties()
+                .Select(prop => prop.GetValue(obj, null))
+                .Where(val => val != null)
+                .Select(val => val.ToString())
+                .Where(str => str.Length > 0)
+                .Where(v => v.ToLower() != "string" && v != "0")
+                .ToList();
+
+            return !propertiesValues.Any();
+        }
+    }
 }

@@ -2,9 +2,11 @@
 using System.IO;
 using System.Reflection;
 using CamundaClient;
+using digitek.brannProsjektering.Persistence;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 
@@ -45,7 +47,20 @@ namespace digitek.brannProsjektering
                 Log.Information("Starting web host");
 
                 var host = BuildWebHost(args);
-
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    try
+                    {
+                        var context = services.GetRequiredService<ApplicationDbContext>();
+                        DbInitializer.Initialize(context);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Fatal(e,"An Error occurred While seeding the database.");
+                        return 1;
+                    }
+                }
                 host.Run();
 
                 return 0;
@@ -59,10 +74,10 @@ namespace digitek.brannProsjektering
             {
                 Log.CloseAndFlush();
             }
-        
-            
+
+
         }
-        
+
         private static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)

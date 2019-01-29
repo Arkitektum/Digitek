@@ -39,8 +39,11 @@ namespace CamundaClient.Service
             }
             else
             {
-                //var errorMsg = response.Content.ReadAsStringAsync();
-                throw new EngineException(response.ReasonPhrase);
+                var errorMsg = response.Content.ReadAsStringAsync();
+
+                var error = string.Concat(response.StatusCode.GetHashCode(), "-",errorMsg.Result);
+                return error;
+                //throw new EngineException(response.ReasonPhrase);
             }
 
         }
@@ -89,7 +92,7 @@ namespace CamundaClient.Service
             else
             {
                 //throw new EngineException("Could not load variable: " + response.ReasonPhrase);
-                return new Dictionary<string, object>(){{ "Could not load variable: ", response.ReasonPhrase } };
+                return new Dictionary<string, object>(){{ "Error", $"Could not load variable: {response.ReasonPhrase}" } };
             }
         }
 

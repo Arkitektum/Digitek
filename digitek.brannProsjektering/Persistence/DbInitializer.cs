@@ -17,9 +17,9 @@ namespace digitek.brannProsjektering.Persistence
                 return;
             }
 
-            BranntekniskProsjekteringModel branntekniskProsjekteringModel = new BranntekniskProsjekteringModel()
+            BranntekniskProsjekteringObject branntekniskProsjekteringObject = new BranntekniskProsjekteringObject()
             {
-                ModelInputs = new ModelInputs(){
+                ModelInputs = new BranntekniskProsjekteringModel(){
                 typeVirksomhet = "Bolig",
                 antallEtasjer = 3,
                 brtArealPrEtasje = 300,
@@ -43,13 +43,13 @@ namespace digitek.brannProsjektering.Persistence
             {
                 DateTime = DateTime.Now,
                 Model = "BranntekniskProsjekteringModel",
-                InputJson = JsonConvert.SerializeObject(branntekniskProsjekteringModel.ModelInputs),
+                InputJson = JsonConvert.SerializeObject(branntekniskProsjekteringObject.ModelInputs),
                 ResponseCode = 200,
                 ResponseText = "Json",
-                Navn = branntekniskProsjekteringModel.UserInfo.Navn,
-                OrganisasjonsNavn = branntekniskProsjekteringModel.UserInfo.OrganisasjonsNavn,
-                Organisasjonsnummer = branntekniskProsjekteringModel.UserInfo.Organisasjonsnummer,
-                Email = branntekniskProsjekteringModel.UserInfo.Email,
+                Navn = branntekniskProsjekteringObject.UserInfo.Navn,
+                OrganisasjonsNavn = branntekniskProsjekteringObject.UserInfo.OrganisasjonsNavn,
+                Organisasjonsnummer = branntekniskProsjekteringObject.UserInfo.Organisasjonsnummer,
+                Email = branntekniskProsjekteringObject.UserInfo.Email,
                 ExecutionNr = Guid.NewGuid().ToString(),
                 Kapitel = "12"
             };

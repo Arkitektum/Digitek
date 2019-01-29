@@ -5,6 +5,14 @@ using System.Threading.Tasks;
 
 namespace digitek.brannProsjektering.Models
 {
+    public class RisikoklasseObject
+    {
+
+        public UserInfo UserInfo { get; set; }
+        public RisikoklasseModel ModelInputs { get; set; }
+
+    }
+
     public class RisikoklasseModel
     {
         //Opt1

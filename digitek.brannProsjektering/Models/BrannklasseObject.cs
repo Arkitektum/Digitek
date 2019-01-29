@@ -5,6 +5,13 @@ using System.Threading.Tasks;
 
 namespace digitek.brannProsjektering.Models
 {
+    public class BrannklasseObject
+    {
+        public UserInfo UserInfo { get; set; }
+        public BrannklasseModel ModelInputs { get; set; }
+       
+    }
+
     public class BrannklasseModel
     {
         //Op1

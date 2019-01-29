@@ -5,6 +5,14 @@ using System.Threading.Tasks;
 
 namespace digitek.brannProsjektering.Models
 {
+    public class BrannseksjonOgBrannmotstandObject
+    {
+       
+        public UserInfo UserInfo { get; set; }
+        public BrannseksjonOgBrannmotstandModel ModelInputs { get; set; }
+
+    }
+
     public class BrannseksjonOgBrannmotstandModel
     {
         public string typeVirksomhet { get; set; }

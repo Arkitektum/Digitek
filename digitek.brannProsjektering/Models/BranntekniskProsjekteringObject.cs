@@ -7,17 +7,15 @@ using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace digitek.brannProsjektering.Models
 {
-    public class BranntekniskProsjekteringModel
+    public class BranntekniskProsjekteringObject
     {
 
         public UserInfo UserInfo { get; set; }
-        public ModelInputs ModelInputs { get; set; }
-
-
+        public BranntekniskProsjekteringModel ModelInputs { get; set; }
 
     }
 
-    public class ModelInputs
+    public class BranntekniskProsjekteringModel
     {
         //Opt1 to RKL and To Opt1 BKL
         public string typeVirksomhet { get; set; }

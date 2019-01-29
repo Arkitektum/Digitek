@@ -34,7 +34,7 @@ namespace digitek.brannProsjektering.Persistence
                 {
                     Navn = "Matias Gonzalez",
                     OrganisasjonsNavn = "Arkitektum AS",
-                    Organisasjonsnummer = "1212131551",
+                    Organisasjonsnummer = "1234567879",
                     Email = "Noko@emial.no",
                 }
             };

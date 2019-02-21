@@ -42,13 +42,18 @@ namespace digitek.brannProsjektering
             var description = @" # Brann API 
 
 Vi ber om følgende tilleggsinformasjon når du bruker API:
-    •	Navn
-    •	E-postadresse 
-    •	Bedriftsnavn/org.nr.
+    *	Navn
+    *	E-postadresse 
+    *	Bedriftsnavn/org.nr.
 
 Behovet er knyttet til muligheten for å føre statistikk over bruk av tjenesten for å dokumentere nytteverdi, undersøke avvik og feil som oppstår, og i den forbindelsen å kunne kontakte brukeren av tjenesten, samt å samle inn informasjon som grunnlag for forbedring av tjenesten funksjonelt eller innholdsmessig. 
 Den innsamlede informasjon vil ikke bli brukt til annet enn de her angitte formålene og vil kun være tilgjengelig for DiBK og våre databehandlere. Ønsker du å få slettet informasjonen, så ta kontakt med [Dibk](https://dibk.no/) E-post: digitek@dibk-utvikling.atlassian.net .
-Det er helt frivillig å legge inn de 3 elementene, tjenesten vil ikke påvirkes av om de er angitt eller ikke.";
+Det er helt frivillig å legge inn de 3 elementene, tjenesten vil ikke påvirkes av om de er angitt eller ikke.
+
+**Brann API – kun til test; løsningen er under utvikling!**
+*API’et leverer et begrenset uttrekk av krav og preaksepterte ytelser for sikkerhet ved brann i TEK17 med veiledning. 
+Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved prosjektering*
+";
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
                 {

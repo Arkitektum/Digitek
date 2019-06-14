@@ -51,22 +51,22 @@ namespace digitek.brannProsjektering.Controllers
 
             var key = "BranntekniskProsjekteringModel";
             var dictionary = ModelToDictionary(branntekniskProsjekteringObject.ModelInputs);
-            
+
             // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, branntekniskProsjekteringObject.UserInfo);
 
             // create User Record
-            var useRecord = CreateUseRedordModel(branntekniskProsjekteringObject, responce, key,"11");
+            var useRecord = CreateUseRedordModel(branntekniskProsjekteringObject, responce, key, "11");
 
             // Add user recor to DB
             try
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -97,7 +97,7 @@ namespace digitek.brannProsjektering.Controllers
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, risikoklasseObject.UserInfo);
 
             // create User Record
             var useRecord = CreateUseRedordModel(risikoklasseObject, responce, key, "11");
@@ -107,7 +107,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -137,7 +137,7 @@ namespace digitek.brannProsjektering.Controllers
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, brannklasseObject.UserInfo);
 
             // create User Record
             var useRecord = CreateUseRedordModel(brannklasseObject, responce, key, "11");
@@ -147,7 +147,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -172,12 +172,12 @@ namespace digitek.brannProsjektering.Controllers
 
             var key = "KravTilBranntiltakSubModel";
             var dictionary = ModelToDictionary(kravTilBranntiltakObject.ModelInputs);
-            
+
             // Start proces in camunda Server and get executionId
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, kravTilBranntiltakObject.UserInfo);
 
             // create User Record
             var useRecord = CreateUseRedordModel(kravTilBranntiltakObject, responce, key, "11");
@@ -187,7 +187,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -217,7 +217,7 @@ namespace digitek.brannProsjektering.Controllers
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, brannseksjonOgBrannmotstandObject.UserInfo);
 
             // create User Record
             var useRecord = CreateUseRedordModel(brannseksjonOgBrannmotstandObject, responce, key, "11");
@@ -227,7 +227,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -257,7 +257,7 @@ namespace digitek.brannProsjektering.Controllers
             var responce = _camundaClient.BpmnWorkflowService.StartProcessInstance(key, dictionary);
 
             // generate response
-            var actionResponse = ActionResultResponse(justValues, responce);
+            var actionResponse = ActionResultResponse(justValues, responce, brannmotstandObject.UserInfo);
 
             // create User Record
             var useRecord = CreateUseRedordModel(brannmotstandObject, responce, key, "11");
@@ -267,7 +267,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 _dbServices.AddUseRecord(useRecord);
             }
-            catch 
+            catch
             {
                 return StatusCode(503, "Cant save use record to Data Base");
             }
@@ -297,14 +297,14 @@ namespace digitek.brannProsjektering.Controllers
             }
             return BadRequest(responce);
         }
-        private IActionResult ActionResultResponse(bool? justValues, string responce)
+        private IActionResult ActionResultResponse(bool? justValues, string responce, UserInfo userInfo)
         {
             //Check if the process could be start
             if (!ResponseIsExecutionId(responce))
                 return BadRequest("Bad request");
-            
+
             // Get response variables from Model
-            _processVariables = GetVariables(responce, justValues);
+            _processVariables = GetVariables(responce, justValues, userInfo);
             return Ok(_processVariables);
         }
         private Dictionary<string, object> ModelToDictionary(object model)
@@ -320,22 +320,23 @@ namespace digitek.brannProsjektering.Controllers
             return Guid.TryParse(responce, out var guid);
         }
 
-        private Dictionary<string, object> GetVariables(string executionId, bool? justValues)
+        private Dictionary<string, object> GetVariables(string executionId, bool? justValues, UserInfo userInfo)
         {
             Dictionary<string, object> processVariables = null;
 
+            //Loop to retry if camunda server is not answering
             for (int i = 0; i < 3; i++)
             {
                 processVariables = _camundaClient.BpmnWorkflowService.GetProcessVariables(executionId);
 
-
+                //Unswer from Camunda, for ex if is BKL4
                 if (processVariables.ContainsKey("Advarsel"))
-                    return processVariables;
-
+                    break;
+                //Bud request
                 if (processVariables.ContainsKey("Error"))
                 {
                     processVariables.Add("Error", "Could not load result variables");
-                    return processVariables;
+                    break;
                 }
 
                 if (processVariables.ContainsKey("modelOutputs"))
@@ -344,14 +345,22 @@ namespace digitek.brannProsjektering.Controllers
                     {
                         var newDict = processVariables.Where(value => value.Key.Contains("modelOutputs"))
                             .ToDictionary(value => value.Key, value => value.Value);
-                        newDict.Add("executionId", executionId);
-                        return newDict;
+                        processVariables = newDict;
                     }
-                    return processVariables;
+                    break;
                 }
                 Task.Delay(500);
             }
-            processVariables.Add("executionId", executionId);
+
+            processVariables?.Add("ExecutionInfo", new Dictionary<string, string>()
+            {
+                {"ExecutionId",executionId },
+                {"Navn",userInfo.Navn },
+                {"e-post",userInfo.Email },
+                {"OrgNr",userInfo.Organisasjonsnummer },
+                {"OrgNavn",userInfo.OrganisasjonsNavn },
+                {"Dato",DateTime.Now.ToString("dd.MM.yyyy HH:mm") },
+            });
             return processVariables;
         }
 

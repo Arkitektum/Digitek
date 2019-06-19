@@ -22,13 +22,13 @@ namespace digitek.brannProsjektering.Models
 
         //Opt1 to BKL + RKL from Opt1 
         public int? antallEtasjer { get; set; }
-        public int? brtArealPrEtasje { get; set; }
-        public int? arealBrannseksjonPrEtasje { get; set; }
-        public int? brannenergi { get; set; }
+        public long? brtArealPrEtasje { get; set; }
+        public long? arealBrannseksjonPrEtasje { get; set; }
+        public long? brannenergi { get; set; }
         public bool? bygningOffentligUnderTerreng { get; set; }
         public bool? utgangTerrengAlleBoenheter { get; set; }
-        public int? avstandMellomMotstVinduerIMeter { get; set; }
-        public int? brtArealBygg { get; set; }
+        public long? avstandMellomMotstVinduerIMeter { get; set; }
+        public long? brtArealBygg { get; set; }
         public bool? kravOmHeis { get; set; }
 
         ////Opt2 to RKL

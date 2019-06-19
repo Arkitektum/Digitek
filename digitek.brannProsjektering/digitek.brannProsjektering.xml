@@ -60,5 +60,11 @@
             <param name="justValues"></param>
             <returns></returns>
         </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.GetAvailablesModels">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

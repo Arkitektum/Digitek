@@ -423,6 +423,7 @@ namespace digitek.brannProsjektering.Controllers
         /// <returns></returns>
         [HttpGet, Route("GetAvailablesModels")]
         [Produces("application/json")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult GetAvailablesModels()
         {
             var bpmnModels = GetBmpnAvelabalsModelsType();

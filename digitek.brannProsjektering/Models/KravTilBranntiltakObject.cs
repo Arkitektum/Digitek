@@ -19,6 +19,6 @@ namespace digitek.brannProsjektering.Models
         public string typeVirksomhet { get; set; }
         public int? antallEtasjer { get; set; }
         public bool? kravOmHeis { get; set; }
-        public int? brtArealBygg { get; set; }
+        public long? brtArealBygg { get; set; }
     }
 }

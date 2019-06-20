@@ -49,7 +49,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "BranntekniskProsjekteringModel";
+            var key = BpmnModels.BranntekniskProsjekteringModel.ToString();
             var dictionary = ModelToDictionary(branntekniskProsjekteringObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId
@@ -90,7 +90,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "RisikoklasseSubModel";
+            var key = BpmnModels.RisikoklasseSubModel.ToString();
             var dictionary = ModelToDictionary(risikoklasseObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId
@@ -130,7 +130,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "BrannklasseSubModel";
+            var key = BpmnModels.BrannklasseSubModel.ToString();
             var dictionary = ModelToDictionary(brannklasseObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId
@@ -170,7 +170,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "KravTilBranntiltakSubModel";
+            var key = BpmnModels.KravTilBranntiltakSubModel.ToString();
             var dictionary = ModelToDictionary(kravTilBranntiltakObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId
@@ -210,7 +210,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "BrannseksjonOgBrannmotstandSubModel";
+            var key = BpmnModels.BrannseksjonOgBrannmotstandSubModel.ToString();
             var dictionary = ModelToDictionary(brannseksjonOgBrannmotstandObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId
@@ -250,7 +250,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(ModelState);
             }
 
-            var key = "BrannmotstandSubModel";
+            var key = BpmnModels.BrannmotstandSubModel.ToString();
             var dictionary = ModelToDictionary(brannmotstandObject.ModelInputs);
 
             // Start proces in camunda Server and get executionId

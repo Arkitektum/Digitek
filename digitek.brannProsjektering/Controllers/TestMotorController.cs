@@ -58,7 +58,6 @@ namespace digitek.brannProsjektering.Controllers
 
    
                 byte[] fileContents;
-
                 using (var excelPackage = new ExcelPackage())
                 {
                     var ExcelWorksheet = excelPackage.Workbook.Worksheets.Add("brannProsjektering");
@@ -77,14 +76,12 @@ namespace digitek.brannProsjektering.Controllers
                     return NotFound();
                 }
 
+                //https://stackoverflow.com/a/50259742
                 return File(
                     fileContents: fileContents,
                     contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     fileDownloadName: "test.xlsx"
                 );
-
-
-
 
             }
             catch (Exception e)

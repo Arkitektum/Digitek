@@ -60,10 +60,69 @@
             <param name="justValues"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.DigiTek17K11Controller.GetAvailablesModels">
+        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetAvailablesModels">
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.ConvertJsonArrayToExcel(Newtonsoft.Json.Linq.JArray,System.String,System.String)">
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetModelPropertiesNameAndType(System.Object)">
             <summary>
             
             </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetBmpnAvelabalsModelsType">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:digitek.brannProsjektering.ExcelConverter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:digitek.brannProsjektering.ExcelConverter.StartCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.AddTableToWorkSheet(OfficeOpenXml.ExcelWorksheet@,Newtonsoft.Json.Linq.JArray,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="jsonArray"></param>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.ExcelToJsonArray(OfficeOpenXml.ExcelWorksheet)">
+            <summary>
+            
+            </summary>
+            <param name="ws"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetListOfKeyFromJArray(Newtonsoft.Json.Linq.JArray)">
+            <summary>
+            
+            </summary>
+            <param name="jsonArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnIndex(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnName(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
             <returns></returns>
         </member>
     </members>

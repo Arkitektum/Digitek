@@ -417,88 +417,6 @@ namespace digitek.brannProsjektering.Controllers
             return useRecord;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet, Route("GetAvailablesModels")]
-        [Produces("application/json")]
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult GetAvailablesModels()
-        {
-            var bpmnModels = GetBmpnAvelabalsModelsType();
-
-            var bpmnInformationList = new List<bpmnInformationModel>();
-            foreach (var bpmnModel in bpmnModels)
-            {
-                Dictionary<string, string> modelProperties = GetModelPropertiesNameAndType(bpmnModel.Value);
-                bpmnInformationList.Add(new bpmnInformationModel()
-                {
-                    BpmnName = bpmnModel.Key,
-                    BpmnInpust = modelProperties
-                });
-
-            }
-
-
-            return Ok(bpmnInformationList);
-        }
-
-        public static Dictionary<string, object> GetBmpnAvelabalsModelsType()
-        {
-            var bmpnAvelabalsModels = new Dictionary<string, object>();
-            foreach (BpmnModels bpmnModel in Enum.GetValues(typeof(BpmnModels)))
-            {
-                var bpmnModelName = bpmnModel.ToString();
-                switch (bpmnModel)
-                {
-                    case BpmnModels.BranntekniskProsjekteringModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName,new BranntekniskProsjekteringModel());
-                        break;
-                    case BpmnModels.BrannklasseSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannklasseModel());
-                        break;
-                    case BpmnModels.BrannmotstandSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannmotstandModel());
-                        break;
-                    case BpmnModels.BrannseksjonOgBrannmotstandSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannseksjonOgBrannmotstandModel());
-
-                        break;
-                    case BpmnModels.KravTilBranntiltakSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new KravTilBranntiltakModel());
-                        break;
-                    case BpmnModels.RisikoklasseSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new RisikoklasseModel());
-
-                        break;
-                }
-            }
-
-            return bmpnAvelabalsModels;
-        }
-
-        public static Dictionary<string, string> GetModelPropertiesNameAndType(object model)
-        {
-            var modelPropertiesDictionary = new Dictionary<string, string>();
-            var modelProperties = model.GetType().GetProperties();
-
-            if (modelProperties != null)
-            {
-                foreach (var property in modelProperties)
-                {
-                    //GET general type for nullable variables
-                    var modelGenericType = property.PropertyType.GenericTypeArguments;
-
-                    string propertyTypeName = modelGenericType.Any() ? modelGenericType?.First().Name : property.PropertyType.Name;
-                    modelPropertiesDictionary.Add(property.Name, propertyTypeName);
-                }
-            }
-
-
-            return modelPropertiesDictionary;
-        }
-
 
         private void AddUserInfo(JToken userInfo, ref UseRecord useRecord)
         {
@@ -530,7 +448,7 @@ namespace digitek.brannProsjektering.Controllers
             return !propertiesValues.Any();
         }
 
-        private enum BpmnModels
+        public enum BpmnModels
         {
             BranntekniskProsjekteringModel,
             RisikoklasseSubModel,

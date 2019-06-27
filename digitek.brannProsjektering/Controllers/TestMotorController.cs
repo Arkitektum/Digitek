@@ -17,7 +17,7 @@ namespace digitek.brannProsjektering.Controllers
     public class TestMotorController : ControllerBase
     {
         /// <returns></returns>
-        [HttpGet, Route("GetAvailablesBrannProsjekteringModels2")]
+        [HttpGet, Route("GetAvailablesBrannProsjekteringsModels")]
         [Produces("application/json")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult GetAvailablesModels()

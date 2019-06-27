@@ -63,7 +63,7 @@
         <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetAvailablesModels">
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.ConvertJsonArrayToExcel(Newtonsoft.Json.Linq.JArray,System.String,System.String)">
+        <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.ConvertJsonArrayToExcel(Newtonsoft.Json.Linq.JArray,System.String,System.String,System.String)">
             <returns></returns>
         </member>
         <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetModelPropertiesNameAndType(System.Object)">

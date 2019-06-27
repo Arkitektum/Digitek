@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,23 +39,22 @@ namespace digitek.brannProsjektering.Controllers
         [HttpPost, Route("ConverJsonArrayToExcel")]
         [Consumes("application/Json")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult ConvertJsonArrayToExcel([FromBody] JArray jsonArray, string bpmnModelName, string guid)
+        public IActionResult ConvertJsonArrayToExcel([FromBody] JArray jsonArray, string bpmnModelName, string guid, string userName)
         {
             try
             {
 
-   
+
                 byte[] fileContents;
                 using (var excelPackage = new ExcelPackage())
                 {
-                    var ExcelWorksheet = excelPackage.Workbook.Worksheets.Add("brannProsjektering");
-                    ExcelConverter.AddWorksheetInfo(ref ExcelWorksheet, "Test", "GUID");
-                    var excelTable = ExcelConverter.AddTableToWorkSheet(ref ExcelWorksheet, jsonArray, "TableName");
+                    var excelWorksheet = excelPackage.Workbook.Worksheets.Add(bpmnModelName);
+                    ExcelConverter.AddWorksheetInfo(ref excelWorksheet, userName, guid);
+                    var excelTable = ExcelConverter.AddTableToWorkSheet(ref excelWorksheet, jsonArray, "TableName");
                     ExcelConverter.AddHeadersToExcelTable(excelTable, jsonArray);
-                    ExcelConverter.AddDataToTabel(ref ExcelWorksheet, excelTable, jsonArray);
-                    // So many things you can try but you got the idea.
+                    ExcelConverter.AddDataToTabel(ref excelWorksheet, excelTable, jsonArray);
 
-                    // Finally when you're done, export it to byte array.
+                    // export it to byte array.
                     fileContents = excelPackage.GetAsByteArray();
                 }
 
@@ -68,7 +67,7 @@ namespace digitek.brannProsjektering.Controllers
                 return File(
                     fileContents: fileContents,
                     contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    fileDownloadName: "test.xlsx"
+                    fileDownloadName: $"{bpmnModelName}_test.xlsx"
                 );
 
             }
@@ -104,9 +103,9 @@ namespace digitek.brannProsjektering.Controllers
                     }
                     else
                     {
-                    modelPropertiesDictionary.Add(property.Name, propertyTypeName);
+                        modelPropertiesDictionary.Add(property.Name, propertyTypeName);
+                    }
                 }
-            }
             }
 
 

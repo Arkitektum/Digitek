@@ -17,7 +17,7 @@ namespace digitek.brannProsjektering.Controllers
     public class TestMotorController : ControllerBase
     {
         /// <returns></returns>
-        [HttpGet, Route("GetAvailablesBrannProsjekteringModels2")]
+        [HttpGet, Route("GetAvailablesBrannProsjekteringsModels")]
         [Produces("application/json")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult GetAvailablesModels()
@@ -25,19 +25,7 @@ namespace digitek.brannProsjektering.Controllers
             try
             {
                 var bpmnModels = GetBmpnAvelabalsModelsType();
-
-                var bpmnInformationList = new List<bpmnInformationModel>();
-                foreach (var bpmnModel in bpmnModels)
-                {
-                    Dictionary<string, string> modelProperties = GetModelPropertiesNameAndType(bpmnModel.Value);
-                    bpmnInformationList.Add(new bpmnInformationModel()
-                    {
-                        BpmnName = bpmnModel.Key,
-                        BpmnInpust = modelProperties
-                    });
-
-                }
-                return Ok(bpmnInformationList);
+                return Ok(bpmnModels);
 
             }
             catch (Exception e)
@@ -51,23 +39,22 @@ namespace digitek.brannProsjektering.Controllers
         [HttpPost, Route("ConverJsonArrayToExcel")]
         [Consumes("application/Json")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public IActionResult ConvertJsonArrayToExcel([FromBody] JArray jsonArray, string bpmnModelName, string guid)
+        public IActionResult ConvertJsonArrayToExcel([FromBody] JArray jsonArray, string bpmnModelName, string guid, string userName)
         {
             try
             {
 
-   
+
                 byte[] fileContents;
                 using (var excelPackage = new ExcelPackage())
                 {
-                    var ExcelWorksheet = excelPackage.Workbook.Worksheets.Add("brannProsjektering");
-                    ExcelConverter.AddWorksheetInfo(ref ExcelWorksheet, "Test", "GUID");
-                    var excelTable = ExcelConverter.AddTableToWorkSheet(ref ExcelWorksheet, jsonArray, "TableName");
+                    var excelWorksheet = excelPackage.Workbook.Worksheets.Add(bpmnModelName);
+                    ExcelConverter.AddWorksheetInfo(ref excelWorksheet, userName, guid);
+                    var excelTable = ExcelConverter.AddTableToWorkSheet(ref excelWorksheet, jsonArray, "TableName");
                     ExcelConverter.AddHeadersToExcelTable(excelTable, jsonArray);
-                    ExcelConverter.AddDataToTabel(ref ExcelWorksheet, excelTable, jsonArray);
-                    // So many things you can try but you got the idea.
+                    ExcelConverter.AddDataToTabel(ref excelWorksheet, excelTable, jsonArray);
 
-                    // Finally when you're done, export it to byte array.
+                    // export it to byte array.
                     fileContents = excelPackage.GetAsByteArray();
                 }
 
@@ -80,7 +67,7 @@ namespace digitek.brannProsjektering.Controllers
                 return File(
                     fileContents: fileContents,
                     contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    fileDownloadName: "test.xlsx"
+                    fileDownloadName: $"{bpmnModelName}_test.xlsx"
                 );
 
             }
@@ -110,7 +97,14 @@ namespace digitek.brannProsjektering.Controllers
                     var modelGenericType = property.PropertyType.GenericTypeArguments;
 
                     string propertyTypeName = modelGenericType.Any() ? modelGenericType?.First().Name : property.PropertyType.Name;
-                    modelPropertiesDictionary.Add(property.Name, propertyTypeName);
+                    if (property.Name.Equals("typeVirksomhet", StringComparison.OrdinalIgnoreCase))
+                    {
+                        modelPropertiesDictionary.Add(property.Name, "CodeList");
+                    }
+                    else
+                    {
+                        modelPropertiesDictionary.Add(property.Name, propertyTypeName);
+                    }
                 }
             }
 
@@ -124,37 +118,66 @@ namespace digitek.brannProsjektering.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, object> GetBmpnAvelabalsModelsType()
+        public static List<bpmnInformationModel> GetBmpnAvelabalsModelsType()
         {
-            var bmpnAvelabalsModels = new Dictionary<string, object>();
+            var bmpnAvelabalsModels = new List<bpmnInformationModel>();
             foreach (DigiTek17K11Controller.BpmnModels bpmnModel in Enum.GetValues(typeof(DigiTek17K11Controller.BpmnModels)))
             {
                 var bpmnModelName = bpmnModel.ToString();
+                bpmnInformationModel bpmnInformation = null;
                 switch (bpmnModel)
                 {
                     case DigiTek17K11Controller.BpmnModels.BranntekniskProsjekteringModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BranntekniskProsjekteringModel());
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Brannteknisk prosjektering",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new BranntekniskProsjekteringModel())
+                        };
                         break;
                     case DigiTek17K11Controller.BpmnModels.BrannklasseSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannklasseModel());
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Brannklasse",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new BrannklasseModel())
+                        };
                         break;
                     case DigiTek17K11Controller.BpmnModels.BrannmotstandSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannmotstandModel());
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Brannmotstand",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new BrannmotstandModel())
+                        };
                         break;
                     case DigiTek17K11Controller.BpmnModels.BrannseksjonOgBrannmotstandSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new BrannseksjonOgBrannmotstandModel());
-
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Brannseksjon og brannmotstand",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new BrannseksjonOgBrannmotstandModel())
+                        };
                         break;
                     case DigiTek17K11Controller.BpmnModels.KravTilBranntiltakSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new KravTilBranntiltakModel());
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Krav tilBranntiltak",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new KravTilBranntiltakModel())
+                        };
                         break;
                     case DigiTek17K11Controller.BpmnModels.RisikoklasseSubModel:
-                        bmpnAvelabalsModels.Add(bpmnModelName, new RisikoklasseModel());
-
+                        bpmnInformation = new bpmnInformationModel()
+                        {
+                            BpmnName = "Risikoklasse",
+                            BpmnId = bpmnModelName,
+                            BpmnInputs = GetModelPropertiesNameAndType(new RisikoklasseModel())
+                        };
                         break;
                 }
+                bmpnAvelabalsModels.Add(bpmnInformation);
             }
-
             return bmpnAvelabalsModels;
         }
     }

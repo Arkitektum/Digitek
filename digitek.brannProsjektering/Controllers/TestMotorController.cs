@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -110,8 +110,15 @@ namespace digitek.brannProsjektering.Controllers
                     var modelGenericType = property.PropertyType.GenericTypeArguments;
 
                     string propertyTypeName = modelGenericType.Any() ? modelGenericType?.First().Name : property.PropertyType.Name;
+                    if (property.Name.Equals("typeVirksomhet", StringComparison.OrdinalIgnoreCase))
+                    {
+                        modelPropertiesDictionary.Add(property.Name, "CodeList");
+                    }
+                    else
+                    {
                     modelPropertiesDictionary.Add(property.Name, propertyTypeName);
                 }
+            }
             }
 
 

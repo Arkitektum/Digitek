@@ -35,7 +35,7 @@ namespace digitek.brannProsjektering
                         builder =>
                         {
                             builder.WithOrigins("https://localhost:8080",
-                                "https://arkitektum.github.io/DigiTEK-TestApp")
+                                "https://arkitektum.github.io")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                         });

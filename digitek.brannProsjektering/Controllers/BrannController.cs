@@ -84,7 +84,6 @@ namespace digitek.brannProsjektering.Controllers
         [HttpPost, Route("RisikoklasseSubModel")]
         [Produces("application/json", Type = typeof(RisikoklasseObject))]
         [Consumes("application/Json")]
-        [EnableCors("localhost")]
         public IActionResult PostRisikoklasseSubModel([FromBody] RisikoklasseObject risikoklasseObject, bool? justValues)
         {
             if (!ModelState.IsValid)

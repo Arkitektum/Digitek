@@ -90,7 +90,9 @@ Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved pro
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseCors(
-                options => options.WithOrigins("http://localhost").AllowAnyMethod()
+                options => options.WithOrigins("http://localhost")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
             );
 
             app.UseMvc(routes =>

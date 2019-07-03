@@ -11,6 +11,7 @@ using digitek.brannProsjektering.Models;
 using CamundaClient.Requests;
 using CamundaClient.Service;
 using digitek.brannProsjektering.Persistence;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -83,6 +84,7 @@ namespace digitek.brannProsjektering.Controllers
         [HttpPost, Route("RisikoklasseSubModel")]
         [Produces("application/json", Type = typeof(RisikoklasseObject))]
         [Consumes("application/Json")]
+        [EnableCors]
         public IActionResult PostRisikoklasseSubModel([FromBody] RisikoklasseObject risikoklasseObject, bool? justValues)
         {
             if (!ModelState.IsValid)

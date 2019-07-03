@@ -54,6 +54,8 @@ Det er helt frivillig å legge inn de 3 elementene, tjenesten vil ikke påvirkes
 *API’et leverer et begrenset uttrekk av krav og preaksepterte ytelser for sikkerhet ved brann i TEK17 med veiledning. 
 Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved prosjektering*
 ";
+            services.AddCors(); //https://stackoverflow.com/a/44379971
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
                 {
@@ -87,6 +89,9 @@ Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved pro
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseCors(
+                options => options.WithOrigins("http://localhost").AllowAnyMethod()
+            );
 
             app.UseMvc(routes =>
             {

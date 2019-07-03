@@ -23,21 +23,32 @@ namespace digitek.brannProsjektering
         {
             Configuration = configuration;
         }
-
+        readonly string Localhost = "localhost";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy(Localhost,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost",
+                                "http://www.noko.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
             var description = @" # Brann API 
 
@@ -54,7 +65,9 @@ Det er helt frivillig å legge inn de 3 elementene, tjenesten vil ikke påvirkes
 *API’et leverer et begrenset uttrekk av krav og preaksepterte ytelser for sikkerhet ved brann i TEK17 med veiledning. 
 Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved prosjektering*
 ";
-            services.AddCors(); //https://stackoverflow.com/a/44379971
+            //services.AddCors(); //https://stackoverflow.com/a/44379971
+           
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
@@ -86,14 +99,13 @@ Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved pro
                 app.UseHsts();
             }
 
+
+            app.UseCors(Localhost);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseCors(
-                options => options.WithOrigins("http://localhost")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-            );
+            //app.UseCookiePolicy();
+
 
             app.UseMvc(routes =>
             {

@@ -36,9 +36,9 @@ namespace digitek.brannProsjektering
                 var j = 0;
                 foreach (var columnName in columnsList)
                 {
-                    j++;
                     var jObjectProperyValue = jsonObject[columnName].ToString();
                     excelWorksheet.Cells[AddRowAndColumnToCellAddress(tableStartAdress, i, j)].Value = jObjectProperyValue;
+                    j++;
                 }
             }
 

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 
 namespace digitek.brannProsjektering
@@ -22,10 +24,10 @@ namespace digitek.brannProsjektering
         /// <summary>
         /// 
         /// </summary>
-        public static string StartCell = "B5";
+        public static string _StartCell = "B5";
 
-
-        public static void AddDataToTabel( ref ExcelWorksheet excelWorksheet, ExcelTable excelTable, JArray jsonArray)
+        //----JSon to Excel
+        public static void AddDataToTabel(ref ExcelWorksheet excelWorksheet, ExcelTable excelTable, JArray jsonArray)
         {
             var columnsList = GetListOfKeyFromJArray(jsonArray);
             var tableStartAdress = excelTable.Address.Start.Address;
@@ -53,8 +55,8 @@ namespace digitek.brannProsjektering
         public static ExcelTable AddTableToWorkSheet(ref ExcelWorksheet excelWorksheet, JArray jsonArray, string tableName)
         {
             var columnsList = GetListOfKeyFromJArray(jsonArray);
-            var startTableCellAddress = AddRowAndColumnToCellAddress(StartCell, 4, 0);
-            var endTableCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, jsonArray.Count, columnsList.Count -1);
+            var startTableCellAddress = AddRowAndColumnToCellAddress(_StartCell, 4, 0);
+            var endTableCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, jsonArray.Count, columnsList.Count - 1);
             ExcelTable table;
             using (ExcelRange rng = excelWorksheet.Cells[$"{startTableCellAddress}:{endTableCellAddress}"])
             {
@@ -76,16 +78,16 @@ namespace digitek.brannProsjektering
                 table.Columns[i].Name = string.Concat(property);
                 i++;
             }
-           
+
         }
 
 
-        public static void AddWorksheetInfo(ref ExcelWorksheet excelWorksheet,string Name, string ejecutionId)
+        public static void AddWorksheetInfo(ref ExcelWorksheet excelWorksheet, string Name, string ejecutionId)
         {
-            excelWorksheet.Cells[StartCell].Value = "Navn:";
-            excelWorksheet.Cells[AddRowAndColumnToCellAddress(StartCell, 0, 1)].Value = Name;
-            excelWorksheet.Cells[AddRowAndColumnToCellAddress(StartCell, 1, 0)].Value = "ejecutionId:";
-            excelWorksheet.Cells[AddRowAndColumnToCellAddress(StartCell, 1, 1)].Value = ejecutionId;
+            excelWorksheet.Cells[_StartCell].Value = "Navn:";
+            excelWorksheet.Cells[AddRowAndColumnToCellAddress(_StartCell, 0, 1)].Value = Name;
+            excelWorksheet.Cells[AddRowAndColumnToCellAddress(_StartCell, 1, 0)].Value = "ejecutionId:";
+            excelWorksheet.Cells[AddRowAndColumnToCellAddress(_StartCell, 1, 1)].Value = ejecutionId;
         }
 
 
@@ -111,9 +113,9 @@ namespace digitek.brannProsjektering
                     var valuesDictionary = new Dictionary<string, string>();
                     for (int j = startColumn; j <= table.Address.End.Column; j++)
                     {
-                        var cellName = string.Concat(GetColumnName(j), i);
+                        var cellName = string.Concat(GetColumnLetter(j), i);
                         var objectValue = ws.Cells[cellName].Value;
-                        var objectName = ws.Cells[string.Concat(GetColumnName(j), startRow)].Value;
+                        var objectName = ws.Cells[string.Concat(GetColumnLetter(j), startRow)].Value;
                         valuesDictionary.Add(objectName.ToString(), objectValue?.ToString());
                     }
                     dictionaryList.Add(valuesDictionary);
@@ -130,15 +132,343 @@ namespace digitek.brannProsjektering
         /// <returns></returns>
         public static List<string> GetListOfKeyFromJArray(JArray jsonArray)
         {
-            List<string> namesList = new List<string>();
+            var namesList = new List<string>();
             var jsonDefaultObject = jsonArray.Children<JObject>().FirstOrDefault();
-            foreach (JProperty prop in jsonDefaultObject.Properties())
-            {
-                namesList.Add(prop.Name);
-            }
+            if (jsonDefaultObject != null)
+                namesList.AddRange(jsonDefaultObject.Properties().Select(prop => prop.Name));
 
             return namesList;
         }
+
+
+        //------ Functions for converting Excel Files to DMN
+
+
+        /// <summary>
+        /// Get all table cell adress and values from a range of columns
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="columnsIndexs"></param>
+        /// <param name="variableId"></param>
+        /// <returns></returns>
+        public static Dictionary<int, Dictionary<string, object>> GetTableCellsAdressAndValue(ExcelWorksheet worksheet, string[] columnsIndexs, bool variableId = false)
+        {
+            var table = worksheet.Tables.FirstOrDefault();
+            var tableStartRow = table.Address.Start.Row;
+            var dictionary = new Dictionary<int, Dictionary<string, object>>();
+
+            int startRow = variableId ? tableStartRow + 2 : tableStartRow + 1;
+            var startColumn = GetRange(columnsIndexs, out var end);
+
+            if (!CheckColumnRange(table, startColumn, end)) return dictionary;
+
+            for (int i = startRow; i <= table.Address.End.Row; i++)
+            {
+                var valuesDictionary = new Dictionary<string, object>();
+                for (int j = startColumn; j <= end; j++)
+                {
+                    var cellName = string.Concat(GetColumnLetter(j), i);
+                    try
+                    {
+                        var cellValue = table.WorkSheet.Cells[cellName].Value;
+                        valuesDictionary.Add(cellName, cellValue);
+
+                    }
+                    catch (Exception exception)
+                    {
+                        var mes = exception.Message;
+                    }
+                }
+                dictionary.Add(i, valuesDictionary);
+            }
+
+            return dictionary;
+        }
+
+
+
+        /// <summary>
+        /// Get last Table column adress and value, check the range to see if the DMN have annotation or not.
+        /// </summary>
+        /// <param name="ws"></param>
+        /// <param name="table"></param>
+        /// <param name="inputsIndex"></param>
+        /// <param name="outputsIndex"></param>
+        /// <param name="variableId"></param>
+        /// <returns></returns>
+        public static Dictionary<int, string> GetTableAnnotationsCellsValue(ExcelWorksheet worksheet, string[] inputsIndex, string[] outputsIndex, bool variableId)
+        {
+            var dictionary = new Dictionary<int, string>();
+
+            var table = worksheet.Tables.FirstOrDefault();
+            var tableStartRow = table.Address.Start.Row;
+
+            var startRow = variableId ? tableStartRow + 2 : tableStartRow + 1;
+
+            var tableSize = table.Columns.Count;
+
+            if (tableSize != outputsIndex.Count() + inputsIndex.Count() + 1)
+                return dictionary;
+
+            var start = GetRange(inputsIndex, out var end);
+            if (!CheckColumnRange(table, start, end)) return dictionary;
+            for (var i = startRow; i <= table.Address.End.Row; i++)
+            {
+                var cellName = string.Concat(GetColumnLetter(table.Address.End.Column), i);
+                var cellValue = table.WorkSheet.Cells[cellName].Value;
+
+                dictionary.Add(i, cellValue?.ToString());
+            }
+            return dictionary;
+        }
+
+
+        /// <summary>
+        /// Get the range from the excel columns index
+        /// </summary>
+        /// <param name="columnIndexs"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        /// <summary>
+        /// Get the value type for the each column
+        /// </summary>
+        /// <param name="ws"></param>
+        /// <param name="table"></param>
+        /// <param name="columnsIndexs"></param>
+        /// <param name="variableId"></param>
+        /// <returns></returns>
+        public static Dictionary<int, string> GetTableColumnsType(ExcelWorksheet worksheet, string[] columnsIndexs, bool variableId = false)
+        {
+            var table = worksheet.Tables.FirstOrDefault();
+            var tableStartRow = table.Address.Start.Row;
+            var columnsTypes = new Dictionary<int, string>();
+            int startRow = variableId ? tableStartRow + 2 : tableStartRow + 1;
+
+            // get column range from leters (Excel Adress)
+            var startColumn = GetRange(columnsIndexs, out var endColumn);
+
+            if (!CheckColumnRange(table, startColumn, endColumn)) return columnsTypes;
+            int row = 0;
+
+            //Loop
+            for (int col = startColumn; col <= endColumn; col++)
+            {
+
+                var cellValueType = GetRowsValueTypes(col, startRow, worksheet);
+                columnsTypes.Add(row, cellValueType);
+                row++;
+            }
+
+            return columnsTypes;
+        }
+
+        /// <summary>
+        /// have to check if all types in all rows have the same value type
+        /// </summary>
+        /// <param name="columnIndex"></param>
+        /// <param name="startRow"></param>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static string GetRowsValueTypes(int columnIndex, int startRow, ExcelWorksheet worksheet)
+        {
+            string type = null;
+
+            var table = worksheet.Tables.FirstOrDefault();
+
+            for (int row = startRow; row <= table.Address.End.Row; row++)
+            {
+                var cellName = string.Concat(GetColumnLetter(columnIndex), row);
+
+                // get cell value type
+                var cellValue = worksheet.Cells[cellName].Value;
+                var typeTemp = GetCellValueType(cellValue);
+                // if type is null set value to type, first loop
+                type = string.IsNullOrEmpty(type) ? typeTemp : type;
+
+                //Compare the type and standardize for the entire column
+                type = StandardizeColumnType(type, typeTemp);
+            }
+            return type;
+        }
+
+
+        private static string StandardizeColumnType(string type, string typeTemp)
+        {
+            if (type != typeTemp && !string.IsNullOrEmpty(typeTemp))
+            {
+                if (type == "integer")
+                {
+                    switch (typeTemp)
+                    {
+                        case "double":
+                            type = "double";
+                            break;
+                        case "long":
+                            type = "long";
+                            break;
+                        default:
+                            type = "string";
+                            break;
+                    }
+                }
+
+                if (type == "double" || type == "long")
+                {
+                    switch (typeTemp)
+                    {
+                        case "double":
+                        case "long":
+                        case "integer":
+                            type = "double";
+                            break;
+                        case "string":
+                        case "boolean":
+                            type = "string";
+                            break;
+                    }
+                }
+
+                if (type == "boolean")
+                    type = "string";
+            }
+            return type;
+        }
+
+
+        /// <summary>
+        /// Get the type from the value and return an standard string eith the type
+        /// </summary>
+        /// <param name="cellValue"></param>
+        /// <returns></returns>
+        public static string GetCellValueType(object cellValue)
+        {
+            //cellValue = cellValue.ToString().Trim();
+            if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString())) return string.Empty;
+            //if (string.IsNullOrEmpty(cellValue.ToString()))return String.Empty;
+
+            string cellValueString = DmnConverter.GetComparisonNumber(cellValue.ToString()) ?? cellValue.ToString();
+
+            var cellRangeNumber = DmnConverter.GetRangeNumber(cellValue.ToString());
+            if (cellRangeNumber != null)
+            {
+                var type1 = GetCellValueType(cellRangeNumber[0]);
+                var type2 = GetCellValueType(cellRangeNumber[1]);
+
+                if (type1 != type2)
+                    return StandardizeColumnType(type1, type2);
+                cellValueString = cellRangeNumber[0];
+            }
+
+            if (int.TryParse(cellValueString, out var intType)) return "integer";
+            if (long.TryParse(cellValueString, out var longType)) return "long";
+            if (double.TryParse(cellValueString, out var doubleType)) return "double";
+            if (bool.TryParse(cellValueString, out var booleanType)) return "boolean";
+
+            return "string";
+
+        }
+        /// <summary>
+        /// check if the range is containd in the excel table
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static bool CheckColumnRange(ExcelTable table, int start, int end)
+        {
+            var tableStartColumn = table.Address.Start.Column;
+            var tableEndColumn = table.Address.End.Column;
+            return Enumerable.Range(tableStartColumn, tableEndColumn).Contains(start) &&
+                   Enumerable.Range(tableStartColumn, tableEndColumn).Contains(end);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="columnsIndexs"></param>
+        /// <param name="haveId"></param>
+        /// <returns></returns>
+        public static Dictionary<string, Dictionary<string, string>> GetTableHeader(ExcelWorksheet worksheet, string[] columnsIndexs, bool haveId = false)
+        {
+            var table = worksheet.Tables.FirstOrDefault();
+            var tableStartRow = table.Address.Start.Row;
+            Dictionary<string, Dictionary<string, string>> dictionary = new Dictionary<string, Dictionary<string, string>>();
+
+            var start = GetRange(columnsIndexs, out var end);
+            if (!CheckColumnRange(table, start, end)) return dictionary;
+
+            for (int col = start; col <= end; col++)
+            {
+                Dictionary<string, string> headerDictionary = new Dictionary<string, string>();
+                var cellName = string.Concat(GetColumnLetter(col), tableStartRow);
+                var cellValue = table.WorkSheet.Cells[cellName].Value;
+                if (haveId)
+                {
+                    var cellAddress = string.Concat(GetColumnLetter(col), tableStartRow + 1);
+                    var cellIdValue = table.WorkSheet.Cells[cellAddress].Value;
+                    headerDictionary.Add(cellValue.ToString(), cellIdValue.ToString());
+                }
+                else
+                {
+                    headerDictionary.Add(cellValue.ToString(), string.Empty);
+                }
+                dictionary.Add(cellName, headerDictionary);
+            }
+
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Get the start and end of the excel columns in numbers
+        /// </summary>
+        /// <param name="columnIndexs"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static int GetRange(string[] columnIndexs, out int end)
+        {
+            var columnIndexsOrderBy = columnIndexs.OrderBy(d => d).ToArray();
+            var start = GetColumnIndex(columnIndexsOrderBy[0]);
+            end = GetColumnIndex(columnIndexsOrderBy.Last());
+            return start;
+        }
+
+
+        //------ DMN to Excel
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="inputsColumnsCount"></param>
+        /// <param name="outputsColumnsCount"></param>
+        /// <returns></returns>
+        public static Dictionary<string, string[]> GetColumnRagngeInLeters(ExcelTable table, int inputsColumnsCount, int outputsColumnsCount)
+        {
+            var dictionary = new Dictionary<string, string[]>();
+            var start = table.Address.Start.Column;
+            var end = table.Address.End.Column;
+
+            if ((inputsColumnsCount + outputsColumnsCount) > (end - (start - 1)))
+                return null;
+
+            var outputsStart = start + inputsColumnsCount;
+            var inputsColumnIndexes = new List<string>();
+            for (int i = start; i < outputsStart; i++)
+            {
+                inputsColumnIndexes.Add(GetColumnLetter(i));
+            }
+            var outputsColumnIndexes = new List<string>();
+            for (int i = outputsStart; i < outputsStart + outputsColumnsCount; i++)
+            {
+                outputsColumnIndexes.Add(GetColumnLetter(i));
+            }
+            dictionary.Add("inputsIndex", inputsColumnIndexes.ToArray());
+            dictionary.Add("outputsIndex", outputsColumnIndexes.ToArray());
+            return dictionary;
+        }
+
+
         public static string AddRowAndColumnToCellAddress(string address, int row, int column)
         {
 
@@ -151,7 +481,7 @@ namespace digitek.brannProsjektering
 
             if (dictionaryKeyIndex.Any())
             {
-                var newaddress = $"{GetColumnName(dictionaryKeyIndex["column"] + column)}{dictionaryKeyIndex["row"] + row}";
+                var newaddress = $"{GetColumnLetter(dictionaryKeyIndex["column"] + column)}{dictionaryKeyIndex["row"] + row}";
                 return addressAndWorkSheet.Length > 1 ? $"{addressAndWorkSheet[0]}!{newaddress}" : newaddress;
             }
             return null;
@@ -192,6 +522,196 @@ namespace digitek.brannProsjektering
             }
             return null;
         }
+
+
+        public static void AddTableTitle(string tableName, ExcelWorksheet wsSheet1, string hitPolicy, string tableId)
+        {
+            wsSheet1.Cells["B1"].Value = "DMN Navn:";
+            wsSheet1.Cells["C1"].Value = tableName;
+            wsSheet1.Cells["C1"].Style.Locked = false;
+
+            wsSheet1.Cells["B2"].Value = "DMN id:";
+            wsSheet1.Cells["C2"].Value = tableId;
+
+            wsSheet1.Cells["B3"].Value = "Hit policy:";
+            wsSheet1.Cells["C3"].Value = hitPolicy;
+            wsSheet1.Cells["C3"].Style.Locked = false;
+
+            wsSheet1.Cells["B1"].Style.Font.Size = 12;
+            wsSheet1.Cells["B1"].Style.Font.Bold = true;
+            wsSheet1.Cells["B1"].Style.Font.Italic = true;
+
+            wsSheet1.Cells["B2"].Style.Font.Size = 12;
+            wsSheet1.Cells["B2"].Style.Font.Bold = true;
+            wsSheet1.Cells["B2"].Style.Font.Italic = true;
+
+            wsSheet1.Cells["B3"].Style.Font.Size = 12;
+            wsSheet1.Cells["B3"].Style.Font.Bold = true;
+            wsSheet1.Cells["B3"].Style.Font.Italic = true;
+        }
+
+
+        public static void AddTableInputOutputTitle(ExcelWorksheet wsSheet, tDecisionTable decisionTable)
+        {
+            var totalInput = decisionTable.input.Count();
+            var totalOutput = decisionTable.output.Count();
+
+            //input
+            var endInputsCellAddress = AddRowAndColumnToCellAddress(_StartCell, 0, totalInput - 1);
+            using (ExcelRange rng = wsSheet.Cells[$"{_StartCell}:{endInputsCellAddress}"])
+            {
+                InputOutputTitleFormat(rng, "Input");
+            }
+
+            //Output
+            var startOutputsCellAddress = AddRowAndColumnToCellAddress(endInputsCellAddress, 0, 1);
+            var endOutputsCellAddress = AddRowAndColumnToCellAddress(endInputsCellAddress, 0, totalOutput + 1);
+            using (ExcelRange rng = wsSheet.Cells[$"{startOutputsCellAddress}:{endOutputsCellAddress}"])
+            {
+                InputOutputTitleFormat(rng, "Output");
+            }
+
+        }
+        private static void InputOutputTitleFormat(ExcelRange excelRange, string text)
+        {
+            excelRange.Value = text;
+            excelRange.Style.Font.Size = 12;
+            excelRange.Style.Font.Bold = true;
+            excelRange.Style.Font.Italic = true;
+            excelRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            excelRange.Merge = true;
+            excelRange.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+        }
+
+        public static void CreateExcelTableFromDecisionTable(tDecisionTable decisionTable, ExcelWorksheet wsSheet, string tableName)
+        {
+            // palse Table in Excel
+
+
+            // Calculate size of the table
+            var totalInput = decisionTable.input.Count();
+            var totalOutput = decisionTable.output.Count();
+            var totalRules = decisionTable.rule.Count();
+
+            // Create Excel table Header
+            var startTableCellAddress = AddRowAndColumnToCellAddress(_StartCell, 1, 0);
+            var endTableCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, totalRules + 1, totalInput + totalOutput);
+            using (ExcelRange rng = wsSheet.Cells[$"{startTableCellAddress}:{endTableCellAddress}"])
+            {
+                ExcelTable table = wsSheet.Tables.Add(rng, tableName);
+
+                //Set Columns Adress and values
+                var i = 0;
+                foreach (var inputClause in decisionTable.input)
+                {
+                    var headerCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, 0, i);
+                    wsSheet.Cells[headerCellAddress].Value = inputClause.label;
+                    AddContentStyleToCell(wsSheet,headerCellAddress);
+
+                    //add input variableId name
+                    var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, 1, i);
+                    wsSheet.Cells[cellAdress].Value = inputClause.inputExpression?.Item?.ToString();
+                    AddIdStyleToCell(wsSheet, cellAdress);
+
+                    i++;
+                }
+
+                foreach (var outputClause in decisionTable.output)
+                {
+                    var headerCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, 0, i);
+                    wsSheet.Cells[headerCellAddress].Value = outputClause.label;
+                    AddContentStyleToCell(wsSheet, headerCellAddress);
+
+                    // Add Output variableId name
+                    var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, 1, i);
+
+                    var variableId = outputClause.name ?? "";
+                    wsSheet.Cells[cellAdress].Value = variableId;
+                    AddIdStyleToCell(wsSheet, cellAdress);
+                    i++;
+                }
+
+                // Add empty cell for annotation
+                table.Columns[i].Name = "Annotation";
+
+                wsSheet.Cells[AddRowAndColumnToCellAddress(startTableCellAddress, 1, i)].Value = "";
+                AddIdStyleToCell(wsSheet, AddRowAndColumnToCellAddress(startTableCellAddress, 1, i));
+
+                //table.ShowHeader = false;
+                //table.ShowFilter = true;
+                //table.ShowTotal = true;
+            }
+
+            for (int ruleCount = 0; ruleCount < decisionTable.rule.Length; ruleCount++)
+            {
+                var inputEntryLength = decisionTable.rule[ruleCount].inputEntry.Length;
+                var outputEntryLength = decisionTable.rule[ruleCount].outputEntry.Length;
+
+                //Add inputs values to table
+                for (int inputsCount = 0; inputsCount < inputEntryLength; inputsCount++)
+                {
+                    var value = decisionTable.rule[ruleCount].inputEntry[inputsCount].text;
+                    var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, ruleCount + 2, inputsCount);
+                    wsSheet.Cells[cellAdress].Value = value;
+                    AddContentStyleToCell(wsSheet, cellAdress);
+
+                    wsSheet.Cells[AddRowAndColumnToCellAddress(startTableCellAddress, ruleCount + 2, inputsCount)].Style.Locked = false;
+                }
+
+                //Add outpus content values to Table
+
+                for (int outputsCount = 0; outputsCount < outputEntryLength; outputsCount++)
+                {
+                    var value = decisionTable.rule[ruleCount].outputEntry[outputsCount].Item?.ToString();
+                    var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, ruleCount + 2, inputEntryLength + outputsCount);
+                    wsSheet.Cells[cellAdress].Value = value;
+                    AddContentStyleToCell(wsSheet, cellAdress);
+                }
+
+                var annotationValue = decisionTable.rule[ruleCount].description;
+                var annotationCellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, ruleCount + 2, inputEntryLength + outputEntryLength);
+                wsSheet.Cells[annotationCellAdress].Value = annotationValue;
+                AddContentStyleToCell(wsSheet, annotationCellAdress);
+            }
+            wsSheet.Protection.AllowInsertRows = true;
+            wsSheet.Protection.AllowDeleteRows = true;
+            wsSheet.Protection.IsProtected = true;
+            //wsSheet1.Protection.AllowSelectLockedCells = false;
+            wsSheet.Cells[wsSheet.Dimension.Address].AutoFitColumns();
+        }
+
+        private static void AddIdStyleToCell(ExcelWorksheet wsSheet, string cellAddress)
+        {
+            var color = Color.FromArgb(250, 199, 111);
+            wsSheet.Cells[cellAddress].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            wsSheet.Cells[cellAddress].Style.Fill.BackgroundColor.SetColor(color);
+            wsSheet.Cells[cellAddress].Style.Locked = true;
+        }
+        private static void AddContentStyleToCell(ExcelWorksheet wsSheet, string cellAddress)
+        {
+            wsSheet.Cells[cellAddress].Style.Locked = false;
+        }
+        private static void AddLockedContentStyleToCell(ExcelWorksheet wsSheet, string cellAddress)
+        {
+            wsSheet.Cells[cellAddress].Style.Locked = true;
+        }
+
+        private static void AddExcelCellByRowAndColumn(int column, int row, string value, ExcelWorksheet wsSheet, Color? color = null)
+        {
+            var cellName = string.Concat(GetColumnLetter(column), row);
+            using (ExcelRange rng1 = wsSheet.Cells[cellName])
+            {
+                if (color.HasValue)
+                {
+                    rng1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    rng1.Style.Fill.BackgroundColor.SetColor(color.Value);
+                }
+
+                rng1.Value = value;
+            }
+        }
+        //-- Comun to all
+
         /// <summary>
         /// 
         /// </summary>
@@ -214,7 +734,7 @@ namespace digitek.brannProsjektering
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static string GetColumnName(int index)
+        public static string GetColumnLetter(int index)
         {
             int dividend = index;
             string columnName = String.Empty;

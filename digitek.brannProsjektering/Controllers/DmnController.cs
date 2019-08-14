@@ -187,6 +187,9 @@ namespace digitek.brannProsjektering.Controllers
         }
 
         [HttpPost, Route("dmnToExcel")]
+        [Produces("application/json")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+
         public IActionResult PosDmnToExcel()
         {
             var httpRequest = HttpContext.Request;

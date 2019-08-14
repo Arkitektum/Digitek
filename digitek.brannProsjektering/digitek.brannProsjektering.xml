@@ -79,6 +79,14 @@
             </summary>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:digitek.brannProsjektering.DmnConverter.GetComparisonNumber(System.String)" -->
+        <member name="M:digitek.brannProsjektering.DmnConverter.GetRangeNumber(System.String)">
+            <summary>
+            Get the number from a range string format
+            </summary>
+            <param name="cellValue"></param>
+            <returns></returns>
+        </member>
         <member name="T:digitek.brannProsjektering.ExcelConverter">
             <summary>
             
@@ -104,11 +112,67 @@
             <param name="ws"></param>
             <returns></returns>
         </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableCellsAdressAndValue(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
+            <summary>
+            Get all table cell adress and values from a range of columns
+            </summary>
+            <param name="worksheet"></param>
+            <param name="columnsIndexs"></param>
+            <param name="variableId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableAnnotationsCellsValue(OfficeOpenXml.ExcelWorksheet,System.String[],System.String[],System.Boolean)">
+            <summary>
+            Get last Table column adress and value, check the range to see if the DMN have annotation or not.
+            </summary>
+            <param name="ws"></param>
+            <param name="table"></param>
+            <param name="inputsIndex"></param>
+            <param name="outputsIndex"></param>
+            <param name="variableId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableColumnsType(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
+            <summary>
+            Get the value type for the each column
+            </summary>
+            <param name="ws"></param>
+            <param name="table"></param>
+            <param name="columnsIndexs"></param>
+            <param name="variableId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetRowsValueTypes(System.Int32,System.Int32,OfficeOpenXml.ExcelWorksheet)">
+            <summary>
+            have to check if all types in all rows have the same value type
+            </summary>
+            <param name="columnIndex"></param>
+            <param name="startRow"></param>
+            <param name="table"></param>
+            <returns></returns>
+        </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.GetListOfKeyFromJArray(Newtonsoft.Json.Linq.JArray)">
             <summary>
             
             </summary>
             <param name="jsonArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetRange(System.String[],System.Int32@)">
+            <summary>
+            Get the range from the excel columns index
+            </summary>
+            <param name="columnIndexs"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.CheckColumnRange(OfficeOpenXml.Table.ExcelTable,System.Int32,System.Int32)">
+            <summary>
+            check if the range is containd in the excel table
+            </summary>
+            <param name="table"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnIndex(System.String)">
@@ -118,12 +182,528 @@
             <param name="columnName"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnName(System.Int32)">
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnLetter(System.Int32)">
             <summary>
             
             </summary>
             <param name="index"></param>
             <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableHeader(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="table"></param>
+            <param name="columnsIndexs"></param>
+            <param name="haveId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDefinitions">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.import">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.itemDefinition">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.Items">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.Items1">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.elementCollection">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.Items2">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.expressionLanguage">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.typeLanguage">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.namespace">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.exporter">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDefinitions.exporterVersion">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tImport">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tImport.namespace">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tImport.locationURI">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tImport.importType">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tBinding">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBinding.parameter">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBinding.Item">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tInformationItem">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInformationItem.typeRef">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tNamedElement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tNamedElement.name">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDMNElement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElement.description">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElement.extensionElements">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElement.id">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElement.label">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElement.AnyAttr">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDMNElementExtensionElements">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElementExtensionElements.Any">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tArtifact">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDecisionRule">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionRule.inputEntry">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionRule.outputEntry">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tUnaryTests">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tUnaryTests.text">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tUnaryTests.expressionLanguage">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tLiteralExpression">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tLiteralExpression.Item">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tLiteralExpression.expressionLanguage">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tImportedValues">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tImportedValues.importedElement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tImportedValues.expressionLanguage">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tExpression">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tExpression.typeRef">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tOutputClause">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOutputClause.outputValues">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOutputClause.defaultOutputEntry">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOutputClause.name">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOutputClause.typeRef">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tInputClause">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInputClause.inputExpression">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInputClause.inputValues">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tBusinessContextElement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBusinessContextElement.URI">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDRGElement">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tContext">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tContext.contextEntry">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tContextEntry">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tContextEntry.variable">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tContextEntry.Item">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDecisionTable">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.input">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.output">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.rule">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.hitPolicy">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.aggregation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.aggregationSpecified">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.preferredOrientation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionTable.outputLabel">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tHitPolicy">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.UNIQUE">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.FIRST">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.PRIORITY">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.ANY">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.COLLECT">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.RULEORDER">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tHitPolicy.OUTPUTORDER">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tBuiltinAggregator">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tBuiltinAggregator.SUM">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tBuiltinAggregator.COUNT">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tBuiltinAggregator.MIN">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tBuiltinAggregator.MAX">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDecisionTableOrientation">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tDecisionTableOrientation.RuleasRow">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tDecisionTableOrientation.RuleasColumn">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tDecisionTableOrientation.CrossTable">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tFunctionDefinition">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tFunctionDefinition.formalParameter">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tFunctionDefinition.Item">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tInvocation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInvocation.Item">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInvocation.binding">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tList">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tList.Items">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tRelation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tRelation.column">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tRelation.row">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tAuthorityRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tAuthorityRequirement.Item">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tAuthorityRequirement.ItemElementName">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDMNElementReference">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDMNElementReference.href">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.ItemChoiceType1">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.ItemChoiceType1.requiredAuthority">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.ItemChoiceType1.requiredDecision">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.ItemChoiceType1.requiredInput">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tKnowledgeRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tKnowledgeRequirement.requiredKnowledge">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tInformationRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInformationRequirement.Item">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInformationRequirement.ItemElementName">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.ItemChoiceType">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.ItemChoiceType.requiredDecision">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.ItemChoiceType.requiredInput">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tItemDefinition">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tItemDefinition.Items">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tItemDefinition.typeLanguage">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tItemDefinition.isCollection">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tBusinessKnowledgeModel">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBusinessKnowledgeModel.encapsulatedLogic">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBusinessKnowledgeModel.variable">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBusinessKnowledgeModel.knowledgeRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tBusinessKnowledgeModel.authorityRequirement">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDecision">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.question">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.allowedAnswers">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.variable">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.informationRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.knowledgeRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.authorityRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.supportedObjective">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.impactedPerformanceIndicator">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.decisionMaker">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.decisionOwner">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.usingProcess">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.usingTask">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecision.Item">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tInputData">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tInputData.variable">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tKnowledgeSource">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tKnowledgeSource.authorityRequirement">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tKnowledgeSource.type">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tKnowledgeSource.owner">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tKnowledgeSource.locationURI">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tAssociation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tAssociation.sourceRef">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tAssociation.targetRef">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tAssociation.associationDirection">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tAssociationDirection">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tAssociationDirection.None">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tAssociationDirection.One">
+            <remarks/>
+        </member>
+        <member name="F:DecisionModelNotation.Shema.tAssociationDirection.Both">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tTextAnnotation">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tTextAnnotation.text">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tTextAnnotation.textFormat">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tElementCollection">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tElementCollection.drgElement">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tOrganizationUnit">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOrganizationUnit.decisionMade">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tOrganizationUnit.decisionOwned">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tPerformanceIndicator">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tPerformanceIndicator.impactingDecision">
+            <remarks/>
+        </member>
+        <member name="T:DecisionModelNotation.Shema.tDecisionService">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionService.outputDecision">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionService.encapsulatedDecision">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionService.inputDecision">
+            <remarks/>
+        </member>
+        <member name="P:DecisionModelNotation.Shema.tDecisionService.inputData">
+            <remarks/>
         </member>
     </members>
 </doc>

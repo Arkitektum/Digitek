@@ -22,7 +22,7 @@ namespace digitek.brannProsjektering.Tests
         [Fact(DisplayName = "Get column name Test")]
         public void GetExcelCellName()
         {
-            var columnName = ExcelConverter.GetColumnName(28);
+            var columnName = ExcelConverter.GetColumnLetter(28);
             columnName.Should().Be("AB");
         }
 

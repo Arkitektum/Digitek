@@ -1,13 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using DecisionModelNotation.Shema;
 
 namespace digitek.brannProsjektering
 {
     public class DmnConverter
     {
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileStream"></param>
+        /// <returns></returns>
+        public static tDefinitions DeserializeStreamDmnFile(Stream fileStream)
+        {
+            tDefinitions resultinMessage;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(tDefinitions));
+                resultinMessage = (tDefinitions)serializer.Deserialize(new XmlTextReader(fileStream));
+            }
+            catch
+            {
+                resultinMessage = null;
+            }
+            return resultinMessage;
+        }
+
 
         /// <summary>
         /// Regex to get the number from string with comparation characters = >,< 

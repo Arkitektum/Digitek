@@ -79,6 +79,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:digitek.brannProsjektering.DmnConverter.DeserializeStreamDmnFile(System.IO.Stream)">
+            <summary>
+            
+            </summary>
+            <param name="fileStream"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:digitek.brannProsjektering.DmnConverter.GetComparisonNumber(System.String)" -->
         <member name="M:digitek.brannProsjektering.DmnConverter.GetRangeNumber(System.String)">
             <summary>
@@ -92,7 +99,7 @@
             
             </summary>
         </member>
-        <member name="F:digitek.brannProsjektering.ExcelConverter.StartCell">
+        <member name="F:digitek.brannProsjektering.ExcelConverter._StartCell">
             <summary>
             
             </summary>
@@ -110,6 +117,13 @@
             
             </summary>
             <param name="ws"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetListOfKeyFromJArray(Newtonsoft.Json.Linq.JArray)">
+            <summary>
+            
+            </summary>
+            <param name="jsonArray"></param>
             <returns></returns>
         </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableCellsAdressAndValue(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
@@ -134,6 +148,12 @@
         </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableColumnsType(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
             <summary>
+            Get the range from the excel columns index
+            </summary>
+            <param name="columnIndexs"></param>
+            <param name="end"></param>
+            <returns></returns>
+            <summary>
             Get the value type for the each column
             </summary>
             <param name="ws"></param>
@@ -151,19 +171,11 @@
             <param name="table"></param>
             <returns></returns>
         </member>
-        <member name="M:digitek.brannProsjektering.ExcelConverter.GetListOfKeyFromJArray(Newtonsoft.Json.Linq.JArray)">
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetCellValueType(System.Object)">
             <summary>
-            
+            Get the type from the value and return an standard string eith the type
             </summary>
-            <param name="jsonArray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:digitek.brannProsjektering.ExcelConverter.GetRange(System.String[],System.Int32@)">
-            <summary>
-            Get the range from the excel columns index
-            </summary>
-            <param name="columnIndexs"></param>
-            <param name="end"></param>
+            <param name="cellValue"></param>
             <returns></returns>
         </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.CheckColumnRange(OfficeOpenXml.Table.ExcelTable,System.Int32,System.Int32)">
@@ -173,6 +185,32 @@
             <param name="table"></param>
             <param name="start"></param>
             <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableHeader(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="table"></param>
+            <param name="columnsIndexs"></param>
+            <param name="haveId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetRange(System.String[],System.Int32@)">
+            <summary>
+            Get the start and end of the excel columns in numbers
+            </summary>
+            <param name="columnIndexs"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnRagngeInLeters(OfficeOpenXml.Table.ExcelTable,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="table"></param>
+            <param name="inputsColumnsCount"></param>
+            <param name="outputsColumnsCount"></param>
             <returns></returns>
         </member>
         <member name="M:digitek.brannProsjektering.ExcelConverter.GetColumnIndex(System.String)">
@@ -187,15 +225,6 @@
             
             </summary>
             <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:digitek.brannProsjektering.ExcelConverter.GetTableHeader(OfficeOpenXml.ExcelWorksheet,System.String[],System.Boolean)">
-            <summary>
-            
-            </summary>
-            <param name="table"></param>
-            <param name="columnsIndexs"></param>
-            <param name="haveId"></param>
             <returns></returns>
         </member>
         <member name="T:DecisionModelNotation.Shema.tDefinitions">

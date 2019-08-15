@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
@@ -19,8 +20,16 @@ namespace digitek.brannProsjektering.Controllers
     public class DmnController : ControllerBase
     {
 
+        private IHostingEnvironment _hostingEnvironment;
+
+        public DmnController(IHostingEnvironment environment)
+        {
+            _hostingEnvironment = environment;
+        }
+
+
+
         [HttpPost, Route("excelToDmn/{inputs}/{outputs}/{haveId}")]
-        [Produces("application/json")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<string> PostExcelToDmn(string inputs, string outputs, bool haveId)
         {
@@ -130,29 +139,40 @@ namespace digitek.brannProsjektering.Controllers
                     .AddOutputsToDecisionTable(outputsDictionary, outputsRulesTypes)
                     .AddDecisionRules(inputsRulesFromExcel, outputsRulesFromExcel, annotationsRulesDictionary)
                     .Build();
+                FileStream streamContent;
+                string fullPath;
+
                 // Save DMN 
                 try
                 {
+                    // https://mariusschulz.com/blog/getting-the-web-root-path-and-the-content-root-path-in-asp-net-core#asp-net-core
+                    string contentRootPath = _hostingEnvironment.ContentRootPath;
+                    fullPath = Path.Combine(contentRootPath, "DataTemp", $"{filename}.dmn");
 
-                    var path = Path.Combine(@"C:\", "ExcelToDmn");
-
-                    Directory.CreateDirectory(path);
-
-
-                    //var dmnFile = string.Concat(path, filename, "_Exc2Dmn", ".dmn");
-                    XmlSerializer xs = new XmlSerializer(typeof(DecisionModelNotation.Shema.tDefinitions));
-                    var combine = Path.Combine(path, string.Concat(filename, ".dmn"));
-                    using (TextWriter tw = new StreamWriter(combine))
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(DecisionModelNotation.Shema.tDefinitions));
+                    using (TextWriter textWriter = new StreamWriter(fullPath))
                     {
-                        xs.Serialize(tw, newDmn);
+                        xmlSerializer.Serialize(textWriter, newDmn);
                     }
 
-                    return Ok(new Dictionary<string, string>() { { filename + ".dmn", "Created" }, { "Path", combine } });
+                    //return Ok(new Dictionary<string, string>() { { filename + ".dmn", "Created" }, { "Path", fullPath } });
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Can't be safe" } });
+                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Unable to save file" } });
 
+                }
+
+                try
+                {
+                    //https://stackoverflow.com/a/14763098
+                    var bytes = System.IO.File.ReadAllBytes(fullPath);
+                    System.IO.File.Delete(fullPath);
+                    return File(bytes, "application/dmn", $"{filename}.dmn");
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Unable get file from server" } });
                 }
             }
             return Ok(responsDictionary);
@@ -187,6 +207,7 @@ namespace digitek.brannProsjektering.Controllers
         }
 
         [HttpPost, Route("dmnToExcel")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult PosDmnToExcel()
         {
             var httpRequest = HttpContext.Request;
@@ -200,105 +221,98 @@ namespace digitek.brannProsjektering.Controllers
             if (httpFiles == null && !httpFiles.Any())
                 return NotFound("Can't find any file");
 
-            for (var i = 0; i < httpFiles.Count; i++)
+            if (httpFiles.Count == 1)
             {
-                string errorResponsText = null;
-                string errorTemp = string.Empty;
-                var file = httpFiles[i];
+
+                var file = httpFiles.FirstOrDefault();
+
                 tDefinitions dmn = null;
 
                 //Deserialize DMN file
                 if (file != null)
                 {
-                    using (Stream dmnfile = httpFiles[i].OpenReadStream())
+                    using (Stream dmnfile = file.OpenReadStream())
                     {
                         dmn = DmnConverter.DeserializeStreamDmnFile(dmnfile);
                     }
                 }
                 if (dmn == null)
                 {
-                    ErrorDictionary.Add(file.FileName, "Can't validate Shema");
-                    continue;
+                    return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't Deserialize DMN file" } });
                 }
-                // check if DMN have desicion table
 
+                // check if DMN have desicion table
                 var items = dmn.Items;
                 var decision = items.Where(t => t.GetType() == typeof(tDecision));
                 var tDrgElements = decision as tDRGElement[] ?? decision.ToArray();
                 if (!tDrgElements.Any())
                 {
-                    ErrorDictionary.Add(file.FileName, "Dmn file have non decision");
-                    continue;
+                    return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Dmn file have non Decision tables" } });
                 }
 
                 // create Excel Package
                 ExcelPackage excelPkg = null;
-                try
+                excelPkg = new ExcelPackage();
+                foreach (var tdecision in tDrgElements)
                 {
-                    excelPkg = new ExcelPackage();
-                    foreach (var tdecision in tDrgElements)
+                    tDecisionTable decisionTable = null;
+                    try
                     {
-                        tDecisionTable decisionTable = null;
-                        try
-                        {
-                            var dt = ((tDecision)tdecision).Item;
-                            decisionTable = (tDecisionTable)Convert.ChangeType(dt, typeof(tDecisionTable));
-                            ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add(tdecision.id);
-                            //Add Table Title
-                            ExcelConverter.AddTableTitle(tdecision.name, wsSheet, decisionTable.hitPolicy.ToString(), tdecision.id);
-                            // Add "input" and "output" headet to Excel table
-                            ExcelConverter.AddTableInputOutputTitle(wsSheet, decisionTable);
-                            //Add DMN Table to excel Sheet
-                            ExcelConverter.CreateExcelTableFromDecisionTable(decisionTable, wsSheet, tdecision.id);
-                            wsSheet.Protection.IsProtected = true;
+                        var dt = ((tDecision)tdecision).Item;
+                        decisionTable = (tDecisionTable)Convert.ChangeType(dt, typeof(tDecisionTable));
+                        ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add(tdecision.id);
+                        //Add Table Title
+                        ExcelConverter.AddTableTitle(tdecision.name, wsSheet, decisionTable.hitPolicy.ToString(), tdecision.id);
+                        // Add "input" and "output" headet to Excel table
+                        ExcelConverter.AddTableInputOutputTitle(wsSheet, decisionTable);
+                        //Add DMN Table to excel Sheet
+                        ExcelConverter.CreateExcelTableFromDecisionTable(decisionTable, wsSheet, tdecision.id);
+                        wsSheet.Protection.IsProtected = true;
 
-                        }
-                        catch
-                        {
-                            ErrorDictionary.Add(file.FileName, string.Concat("Dmn: ", tdecision.name, " Can't be create"));
-                        }
+                    }
+                    catch
+                    {
+                        return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't be create ExcelPackage" } });
                     }
                 }
-                catch
-                {
-                    ErrorDictionary.Add(file.FileName, "Can't create Excel file");
-                    continue;
-                }
+
                 // Save Excel Package
+                string fullPath = null;
+                var filename = Path.GetFileNameWithoutExtension(file.FileName);
+
                 try
                 {
-                    var filename = Path.GetFileNameWithoutExtension(file.FileName);
-                    var path = Path.Combine(@"C:\", "DmnToExcel");
 
-                    Directory.CreateDirectory(path);
-                    excelPkg.SaveAs(new FileInfo(Path.Combine(path, string.Concat(filename, ".xlsx"))));
+                    string contentRootPath = _hostingEnvironment.ContentRootPath;
 
-                    okDictionary.Add(file.FileName, "Created in:" + path);
+                    fullPath = Path.Combine(contentRootPath, "DataTemp", $"{filename}.xlsx");
+                    excelPkg.SaveAs(new FileInfo(fullPath));
+
                 }
                 catch
                 {
 
-                    ErrorDictionary.Add(file.FileName, "Can't be saved");
+                    ErrorDictionary.Add(file.FileName, "Can't be saved excel file in server");
                 }
 
-            }
-
-            if (ErrorDictionary.Any())
-            {
-                if (okDictionary.Any())
+                try
                 {
-                    List<Dictionary<string, string>> dictionaries = new List<Dictionary<string, string>>();
-                    dictionaries.Add(okDictionary);
-                    dictionaries.Add(ErrorDictionary);
-                    var result = dictionaries.SelectMany(dict => dict)
-                        .ToLookup(pair => pair.Key, pair => pair.Value)
-                        .ToDictionary(group => group.Key, group => group.First());
-                    return Ok(result);
+                    //https://stackoverflow.com/a/14763098
+                    var bytes = System.IO.File.ReadAllBytes(fullPath);
+                    System.IO.File.Delete(fullPath);
+                    return File(bytes, "application/dmn", $"{filename}.xlsx");
                 }
-                return BadRequest(ErrorDictionary);
+                catch (Exception e)
+                {
+                    return BadRequest(new Dictionary<string, string>() { { filename + ".xlsx", "Unable get file from server." } });
+                }
 
             }
-            return Ok(okDictionary);
+            else
+            {
+                return BadRequest(new Dictionary<string, string>() { { "Error", "Can't convert more than one file." } });
+            }
+
         }
 
     }

@@ -140,6 +140,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Schema\" />
+    <Folder Include="DataTemp\" />
     <Folder Include="Worker\" />
   </ItemGroup>
 

@@ -19,11 +19,4 @@ namespace digitek.brannProsjektering.Models
         public VariablesInfo[] InputVariablesInfo { get; set; }
         public VariablesInfo[] OutputVariablesInfo { get; set; }
     }
-
-    public class VariablesInfo
-    {
-        public string VariabelId { get; set; }
-        public string VariabelNavn { get; set; }
-        public string VariabelBeskrivelse { get; set; }
-    }
 }

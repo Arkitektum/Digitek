@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Text;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
@@ -31,7 +30,7 @@ namespace digitek.brannProsjektering.Controllers
 
         [HttpPost, Route("excelToDmn/{inputs}/{outputs}/{haveId}")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ActionResult<string> PostExcelToDmn(string inputs, string outputs, bool haveId)
+        public IActionResult PostExcelToDmn(string inputs, string outputs, bool haveId)
         {
 
 
@@ -42,12 +41,9 @@ namespace digitek.brannProsjektering.Controllers
             if (httpRequest.Form.Files.Count != 1)
                 return BadRequest(new Dictionary<string, string>() { { "Error:", "Not file fount" } });
             var file = httpRequest.Form.Files[0];
-            var file1 = httpRequest.Form.Files.FirstOrDefault();
             if (file != null)
             {
-                ExcelWorksheet workSheet;
                 ExcelPackage ep;
-
                 try
                 {
                     //Open Excel file
@@ -61,7 +57,6 @@ namespace digitek.brannProsjektering.Controllers
                     return BadRequest(new Dictionary<string, string>() { { "Error:", "Can't Open Excel File" } });
                 }
 
-                ExcelTable table;
                 string dmnName;
                 string dmnId;
 
@@ -79,7 +74,7 @@ namespace digitek.brannProsjektering.Controllers
                     if (worksheet == null)
                         return BadRequest(new Dictionary<string, string>() { { file.FileName, "Can't find Excelsheet" } });
 
-                    table = worksheet.Tables.FirstOrDefault();
+                    var table = worksheet.Tables.FirstOrDefault();
 
                     if (table == null)
                         return BadRequest(new Dictionary<string, string>() { { file.FileName, "Excel file don't have a table" } });
@@ -139,43 +134,32 @@ namespace digitek.brannProsjektering.Controllers
                     .AddOutputsToDecisionTable(outputsDictionary, outputsRulesTypes)
                     .AddDecisionRules(inputsRulesFromExcel, outputsRulesFromExcel, annotationsRulesDictionary)
                     .Build();
-                FileStream streamContent;
-                string fullPath;
 
-                // Save DMN 
+                // Create DMN Stream response
                 try
                 {
-                    // https://mariusschulz.com/blog/getting-the-web-root-path-and-the-content-root-path-in-asp-net-core#asp-net-core
-                    string contentRootPath = _hostingEnvironment.ContentRootPath;
-                    fullPath = Path.Combine(contentRootPath, "DataTemp", $"{filename}.dmn");
+
+
+                    MemoryStream stream = new MemoryStream();
+                    StreamWriter sw = new StreamWriter(stream, Encoding.UTF8);
 
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(DecisionModelNotation.Shema.tDefinitions));
-                    using (TextWriter textWriter = new StreamWriter(fullPath))
-                    {
-                        xmlSerializer.Serialize(textWriter, newDmn);
-                    }
+                    xmlSerializer.Serialize(sw, newDmn);
 
-                    //return Ok(new Dictionary<string, string>() { { filename + ".dmn", "Created" }, { "Path", fullPath } });
+                    stream.Position = 0;
+                    return File(stream, "aplication/dmn", $"{filename}.dmn");
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Unable to save file" } });
+                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Unable Stream dmn file" } });
 
-                }
-
-                try
-                {
-                    //https://stackoverflow.com/a/14763098
-                    var bytes = System.IO.File.ReadAllBytes(fullPath);
-                    System.IO.File.Delete(fullPath);
-                    return File(bytes, "application/dmn", $"{filename}.dmn");
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(new Dictionary<string, string>() { { filename + ".dmn", "Unable get file from server" } });
                 }
             }
-            return Ok(responsDictionary);
+            else
+            {
+                return BadRequest(new Dictionary<string, string>() { { "Error", "Can't find any file" } });
+
+            }
         }
 
         private static Dictionary<string, string[]> GetTablesIndex(ExcelTable table, string inputs, string outputs)
@@ -276,36 +260,30 @@ namespace digitek.brannProsjektering.Controllers
                     }
                 }
 
-                // Save Excel Package
-                string fullPath = null;
-                var filename = Path.GetFileNameWithoutExtension(file.FileName);
-
+                // Create Excel Stream response
                 try
                 {
 
-                    string contentRootPath = _hostingEnvironment.ContentRootPath;
+                    var filename = Path.GetFileNameWithoutExtension(file.FileName);
+                    excelPkg.Save();
+                    var fileStream = excelPkg.Stream;
+                    fileStream.Flush();
+                    fileStream.Position = 0;
 
-                    fullPath = Path.Combine(contentRootPath, "DataTemp", $"{filename}.xlsx");
-                    excelPkg.SaveAs(new FileInfo(fullPath));
+                    return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
 
+                    //var fileStreamResult = new FileStreamResult(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    //{
+                    //    FileDownloadName = $"{filename}.xlsx"
+                    //};
+                    //return fileStreamResult;
                 }
                 catch
                 {
 
-                    ErrorDictionary.Add(file.FileName, "Can't be saved excel file in server");
+                    ErrorDictionary.Add(file.FileName, "Can't be create excel Stream response");
                 }
 
-                try
-                {
-                    //https://stackoverflow.com/a/14763098
-                    var bytes = System.IO.File.ReadAllBytes(fullPath);
-                    System.IO.File.Delete(fullPath);
-                    return File(bytes, "application/dmn", $"{filename}.xlsx");
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(new Dictionary<string, string>() { { filename + ".xlsx", "Unable get file from server." } });
-                }
 
             }
             else
@@ -313,6 +291,7 @@ namespace digitek.brannProsjektering.Controllers
                 return BadRequest(new Dictionary<string, string>() { { "Error", "Can't convert more than one file." } });
             }
 
+            return Ok(new Dictionary<string, string>() { { "Error", "No data to process." } });
         }
 
     }

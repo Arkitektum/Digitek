@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
+using digitek.brannProsjektering.Models;
 
 namespace digitek.brannProsjektering
 {
@@ -56,5 +57,85 @@ namespace digitek.brannProsjektering
             var regex = Regex.Match(cellValue, @"^[\[,\],]\s?(?<range1>\d+(\.\d+)?).{2}?(?<range2>\d+(\.\d+)?)[\[,\]]$");
             return regex.Success ? new[] { regex.Groups["range1"].Value, regex.Groups["range2"].Value } : null;
         }
+
+        //---- Data Dictionary
+        public static void GetDecisionsVariables(tDecision tdecision, string fileName, ref List<DmnInfo> dataDictionaryList)
+        {
+
+            var decisionTable = (tDecisionTable)tdecision.Item;
+            var dmnInfo = new DmnInfo()
+            {
+                FilNavn = fileName,
+                DmnId = tdecision.id,
+                DmnNavn = tdecision.name,
+            };
+
+
+            foreach (var inputClause in decisionTable.input)
+            {
+                //add input variable to DMN
+
+                //var dictionary = AddVariablesToDictionary(fileName, decisionId, decisionName, inputClause.id, inputClause.label,inputClause.inputExpression.typeRef.Name, "input");
+                var dictionary = AddVariablesToDictionary(ref dmnInfo, inputClause.inputExpression.Item.ToString(), inputClause.label,
+                    inputClause.inputExpression.typeRef.Name, "input");
+                dataDictionaryList.Add(dictionary);
+            }
+
+            foreach (var outputClause in decisionTable.output)
+            {
+                // Add Output variable name
+                var dictionary = AddVariablesToDictionary(ref dmnInfo, outputClause.name, outputClause.label,
+                    outputClause.typeRef.Name, "output");
+                dataDictionaryList.Add(dictionary);
+            }
+        }
+
+        private static DmnInfo AddVariablesToDictionary(ref DmnInfo dmnInfo, string variableId, string variableName, string variableType, string type)
+        {
+
+            var list = new List<VariablesInfo>()
+            {
+                new VariablesInfo()
+                {
+                    VariabelId = variableId,
+                    VariabelNavn = variableName,
+                    VariabelType = variableType,
+                }
+            };
+
+
+            if (type == "input")
+            {
+
+                if (dmnInfo.InputVariablesInfo == null || !dmnInfo.InputVariablesInfo.Any())
+                {
+                    dmnInfo.InputVariablesInfo = list.ToArray();
+                }
+                else
+                {
+                    var listTemp = dmnInfo.InputVariablesInfo.ToList();
+                    var variablesInfos = listTemp.Concat(list);
+                    dmnInfo.InputVariablesInfo = variablesInfos.ToArray();
+                }
+            }
+            if (type == "output")
+            {
+
+                if (dmnInfo.OutputVariablesInfo == null || !dmnInfo.OutputVariablesInfo.Any())
+                {
+                    dmnInfo.OutputVariablesInfo = list.ToArray();
+                }
+                else
+                {
+                    var listTemp = dmnInfo.OutputVariablesInfo.ToList();
+                    var variablesInfos = listTemp.Concat(list);
+                    dmnInfo.OutputVariablesInfo = variablesInfos.ToArray();
+                }
+            }
+
+            return dmnInfo;
+        }
+
+
     }
 }

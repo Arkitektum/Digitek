@@ -12,5 +12,7 @@ namespace digitek.brannProsjektering.Models
         public string VariabelBeskrivelse { get; set; }
         public string Ifc { get; set; }
         public string IfcUrl { get; set; }
+        public string VariabelType { get; set; }
+        public string VariabelUse { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace digitek.brannProsjektering.Models
     public class DmnInfo
     {
         public string DmnId { get; set; }
-        public string DmnNavn { get; set; }
-        public string FilNavn { get; set; }
+        public string DmnName { get; set; }
+        public string FileName { get; set; }
         public string TekKapitel { get; set; }
         public string TekLedd { get; set; }
         public string TekTabell { get; set; }

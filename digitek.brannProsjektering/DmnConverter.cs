@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Models;
@@ -65,9 +66,9 @@ namespace digitek.brannProsjektering
             var decisionTable = (tDecisionTable)tdecision.Item;
             var dmnInfo = new DmnInfo()
             {
-                FilNavn = fileName,
+                FileName = fileName,
                 DmnId = tdecision.id,
-                DmnNavn = tdecision.name,
+                DmnName = tdecision.name,
             };
 
 
@@ -78,7 +79,6 @@ namespace digitek.brannProsjektering
                 //var dictionary = AddVariablesToDictionary(fileName, decisionId, decisionName, inputClause.id, inputClause.label,inputClause.inputExpression.typeRef.Name, "input");
                 var dictionary = AddVariablesToDictionary(ref dmnInfo, inputClause.inputExpression.Item.ToString(), inputClause.label,
                     inputClause.inputExpression.typeRef.Name, "input");
-                dataDictionaryList.Add(dictionary);
             }
 
             foreach (var outputClause in decisionTable.output)
@@ -86,11 +86,12 @@ namespace digitek.brannProsjektering
                 // Add Output variable name
                 var dictionary = AddVariablesToDictionary(ref dmnInfo, outputClause.name, outputClause.label,
                     outputClause.typeRef.Name, "output");
-                dataDictionaryList.Add(dictionary);
             }
+
+            dataDictionaryList.Add(dmnInfo);
         }
 
-        private static DmnInfo AddVariablesToDictionary(ref DmnInfo dmnInfo, string variableId, string variableName, string variableType, string type)
+        public static DmnInfo AddVariablesToDictionary(ref DmnInfo dmnInfo, string variableId, string variableName, string variableType, string type)
         {
 
             var list = new List<VariablesInfo>()
@@ -98,44 +99,114 @@ namespace digitek.brannProsjektering
                 new VariablesInfo()
                 {
                     VariabelId = variableId,
-                    VariabelNavn = variableName,
+                    VariabelName = variableName,
                     VariabelType = variableType,
                 }
             };
 
-
             if (type == "input")
             {
 
-                if (dmnInfo.InputVariablesInfo == null || !dmnInfo.InputVariablesInfo.Any())
-                {
-                    dmnInfo.InputVariablesInfo = list.ToArray();
-                }
-                else
+                if (dmnInfo.InputVariablesInfo != null)
                 {
                     var listTemp = dmnInfo.InputVariablesInfo.ToList();
-                    var variablesInfos = listTemp.Concat(list);
-                    dmnInfo.InputVariablesInfo = variablesInfos.ToArray();
+                    list = listTemp.Concat(list).ToList();
                 }
+                dmnInfo.InputVariablesInfo = list.ToArray();
             }
             if (type == "output")
             {
-
-                if (dmnInfo.OutputVariablesInfo == null || !dmnInfo.OutputVariablesInfo.Any())
-                {
-                    dmnInfo.OutputVariablesInfo = list.ToArray();
-                }
-                else
+                if (dmnInfo.OutputVariablesInfo != null)
                 {
                     var listTemp = dmnInfo.OutputVariablesInfo.ToList();
-                    var variablesInfos = listTemp.Concat(list);
-                    dmnInfo.OutputVariablesInfo = variablesInfos.ToArray();
+                    list = listTemp.Concat(list).ToList();
                 }
+                dmnInfo.OutputVariablesInfo = list.ToArray();
             }
-
             return dmnInfo;
         }
 
+        public static void GetDmnInfoFromBpmnModel(XDocument xmlBpmn, ref List<BpmnInfo> bpmnDataList)
+        {
+            var businessRuleTasks = xmlBpmn.Descendants()
+                .Where(x => x.Name.ToString().Contains("businessRuleTask"));
+            var process = xmlBpmn.Descendants()
+                .Single(x => x.Name.ToString().Contains("process"));
 
+            var ruleTasks = businessRuleTasks as XElement[] ?? businessRuleTasks.ToArray();
+            if (ruleTasks.Any())
+            {
+                foreach (XElement element in ruleTasks)
+                {
+                    bpmnDataList.Add(new BpmnInfo()
+                    {
+                        BpmnId = process.Attribute("id")?.Value,
+                        BpmnNavn = process.Attribute("name")?.Value,
+                        DmnId = element.Attributes().Single(a => a.Name.ToString().Contains("decisionRef"))?.Value,
+                        DmnNavn = element.Attribute("name")?.Value,
+                        DmnResultatvariabel = element.Attributes().Single(a => a.Name.ToString().Contains("resultVariable"))?.Value
+                    });
+                }
+            }
+        }
+        public static void GetDmnInfoFromBpmnModel(XDocument xmlBpmn, List<DmnInfo> dmns, ref List<BpmnInfo> bpmnDataList)
+        {
+            var businessRuleTasks = xmlBpmn.Descendants()
+                .Where(x => x.Name.ToString().Contains("businessRuleTask"));
+            var process = xmlBpmn.Descendants()
+                .Single(x => x.Name.ToString().Contains("process"));
+
+            var ruleTasks = businessRuleTasks as XElement[] ?? businessRuleTasks.ToArray();
+            if (ruleTasks.Any())
+            {
+                foreach (XElement element in ruleTasks)
+                {
+                    var bpmnId = process.Attribute("id")?.Value;
+                    var dmnId = element.Attributes().Single(a => a.Name.ToString().Contains("decisionRef"))?.Value;
+                    var dmn = dmns.First(d => d.DmnId == dmnId);
+
+                    BpmnInfo bpmnInfo;
+                    if (bpmnDataList.Any(bp => bp.BpmnId == bpmnId))
+                    {
+                        bpmnInfo = bpmnDataList.First(bp => bp.BpmnId == bpmnId);
+                        bpmnInfo.DmnInfos.Add(dmn);
+                    }
+                    else
+                    {
+                        bpmnInfo = new BpmnInfo()
+                        {
+                            BpmnId = process.Attribute("id")?.Value,
+                            DmnId = element.Attributes().Single(a => a.Name.ToString().Contains("decisionRef"))?.Value,
+                            BpmnNavn = process.Attribute("name")?.Value,
+                            DmnResultatvariabel = element.Attributes().Single(a => a.Name.ToString().Contains("resultVariable"))?.Value
+                        };
+                        bpmnInfo.DmnInfos = new List<DmnInfo>() { dmn };
+                        bpmnDataList.Add(bpmnInfo);
+                    }
+                }
+            }
+        }
+
+        public static List<VariablesInfo> GetVariablesFormDmns(List<DmnInfo> dmnInfoList)
+        {
+            List<VariablesInfo> variablesInfos = new List<VariablesInfo>();
+            var dmnInputsVariables = dmnInfoList.Select(imp => imp.InputVariablesInfo).ToList();
+            var dmnOutputsVariables = dmnInfoList.Select(imp => imp.OutputVariablesInfo).ToList();
+            var dmnVariablesIds = dmnInputsVariables.Concat(dmnOutputsVariables).ToArray();
+
+            List<VariablesInfo> variablesInfosFinal = new List<VariablesInfo>();
+
+            foreach (var dmnVariablesId in dmnVariablesIds)
+            {
+                var ids = dmnVariablesId.GroupBy(x => x.VariabelId).Select(d => d.First()).ToList();
+                foreach (var variablesInfo in dmnVariablesId)
+                {
+                    if (variablesInfosFinal.Any(k => k.VariabelId == variablesInfo.VariabelId))
+                        continue;
+                    variablesInfosFinal.Add(variablesInfo);
+                }
+            }
+            return variablesInfosFinal;
+        }
     }
 }

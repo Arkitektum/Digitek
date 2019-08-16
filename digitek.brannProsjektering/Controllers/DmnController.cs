@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Builder;
@@ -306,147 +307,152 @@ namespace digitek.brannProsjektering.Controllers
             var httpFiles = httpRequest.Form.Files;
             var okDictionary = new Dictionary<string, string>();
             var errorDictionary = new Dictionary<string, string>();
-            var dmnDataDictionaryModels = new List<DmnInfo>();
-            var bpmnDataDictionaryModels = new List<BpmnDataDictionaryModel>();
-            var dataDictionaryModels = new List<DataDictionaryModel>();
+            var dmnInfoList = new List<DmnInfo>();
+            var bpmnDataDictionaryModels = new List<BpmnInfo>();
+            //var dataDictionaryModels = new List<DataDictionaryModel>();
+            var dataDictionaryModels = new Dictionary<BpmnInfo,List<DmnInfo>>();
 
             if (httpFiles == null && !httpFiles.Any())
                 return NotFound("Can't find any file");
             var dmnFiles = httpFiles.Where(f => Path.GetExtension(f.FileName) == ".dmn");
-            var bpmFiles = httpFiles.Where(f => Path.GetExtension(f.FileName) == ".dmn");
+            var bpmFiles = httpFiles.Where(f => Path.GetExtension(f.FileName) == ".bpmn");
 
 
-            var formFiles = dmnFiles as IFormFile[] ?? dmnFiles.ToArray();
-            if (!formFiles.Any() || bpmFiles.Count() != 1)
+            var dmnFormsFiles = dmnFiles as IFormFile[] ?? dmnFiles.ToArray();
+            var bpmnFormFiles = bpmFiles as IFormFile[] ?? bpmFiles.ToArray();
+            if (!dmnFormsFiles.Any() || !bpmnFormFiles.Any())
                 return BadRequest("They must be one BPMN and at least one DMN to create the data dictionary");
 
 
             //get information drom DMN files
-            foreach (var dmnFile in formFiles)
+            foreach (var dmnFile in dmnFormsFiles)
             {
                 tDefinitions dmn = null;
 
                 //Deserialize DMN file
-                using (Stream dmnfile = dmnFile.OpenReadStream())
+                try
                 {
-                    dmn = DmnConverter.DeserializeStreamDmnFile(dmnfile);
+                    using (Stream dmnfile = dmnFile.OpenReadStream())
+                    {
+                        dmn = DmnConverter.DeserializeStreamDmnFile(dmnfile);
+                    }
+                    if (dmn == null)
+                    {
+                        errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
+                        continue;
+                    }
                 }
-                if (dmn == null)
+                catch (Exception)
                 {
-                    errorDictionary.Add(dmnFile.FileName, "Can't validate Shema");
+
+                    errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
                     continue;
                 }
                 // check if DMN have desicion table
                 var items = dmn.Items;
                 var decision = items.Where(t => t.GetType() == typeof(tDecision));
-                var tDrgElements = decision as tDRGElement[] ?? decision.ToArray();
-                if (!tDrgElements.Any())
+
+                var tdecisions = decision as tDRGElement[] ?? decision.ToArray();
+                if (!tdecisions.Any())
                 {
                     errorDictionary.Add(dmnFile.FileName, "Dmn file have non decision");
                     continue;
                 }
-                foreach (tDecision tdecision in decision)
+                //Add Dmn info
+                foreach (tDecision tdecision in tdecisions)
                 {
                     tDecisionTable decisionTable = null;
                     try
                     {
                         DmnConverter.GetDecisionsVariables(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName),
-                            ref dmnDataDictionaryModels);
+                            ref dmnInfoList);
                     }
                     catch
                     {
-                        errorDictionary.Add(dmnFile.FileName, "Can't add serialize info from DMN");
+                        errorDictionary.Add(dmnFile.FileName, "Can't add variables info from DMN");
                     }
                 }
             }
-
-            foreach (var file in httpFiles)
+            
+            //TODO check if is more that one BPMN modell 
+            foreach (var bpmFile in bpmnFormFiles)
             {
-                string errorResponsText = null;
-                string errorTemp = string.Empty;
-
-                var fileExtention = Path.GetExtension(file.FileName);
-
-
-                if (fileExtention == ".dmn")
-                {
-                   
-                   
-                }
-
-                if (fileExtention == ".bpmn")
+                try
                 {
                     XDocument bpmnXml = null;
-                    try
+                    using (Stream dmnfile = bpmFile.OpenReadStream())
                     {
-                        using (Stream dmnfile = file.OpenReadStream())
-                        {
-                            bpmnXml = XDocument.Load(dmnfile);
-                        }
+                        bpmnXml = XDocument.Load(dmnfile);
                     }
-                    catch
-                    {
-                        errorDictionary.Add(file.FileName, "Can't add serialize bpmn to xml");
-                    }
-
                     if (bpmnXml != null)
                     {
                         try
                         {
-                            DmnServices.GetDmnInfoFromBpmnModel(bpmnXml, ref bpmnDataDictionaryModels);
+                            //DmnConverter.GetDmnInfoFromBpmnModel(bpmnXml, ref bpmnDataDictionaryModels);
+                            DmnConverter.GetDmnInfoFromBpmnModel(bpmnXml, dmnInfoList, ref bpmnDataDictionaryModels);
+
                         }
                         catch
                         {
-                            errorDictionary.Add(file.FileName, "Can't add serialize bpmn to Data Model Dictionary");
+                            errorDictionary.Add(bpmFile.FileName, "Can't add serialize bpmn to Data Model Dictionary");
                         }
                     }
                 }
+                catch
+                {
+                    errorDictionary.Add(bpmFile.FileName, "BPMN Can't be Deserialize. BPMN Version 2.0.2 read more: https://www.omg.org/spec/BPMN/2.0.2");
+                    continue;
+                }
             }
 
-            foreach (var dmnDataInfo in dmnDataDictionaryModels)
+           
+            foreach (var dmnDataInfo in dmnInfoList)
             {
-                var submodel = new BpmnDataDictionaryModel();
+                var submodel = new BpmnInfo();
                 try
                 {
                     submodel = bpmnDataDictionaryModels.Single(b => b.DmnId == dmnDataInfo.DmnId);
                 }
                 catch
                 {
+
                 }
-                dataDictionaryModels.Add(new DataDictionaryModel()
-                {
-                    BpmnData = submodel,
-                    DmnData = dmnDataInfo
-                });
+                //dataDictionaryModels.Add(new DataDictionaryModel()
+                //{
+                //    BpmnData = submodel,
+                //    DmnData = dmnDataInfo
+                //});
 
             }
 
 
-
-
             // create Excel Package
             ExcelPackage excelPkg = null;
-            var fileName = "DataDictionaryFromModels";
+            var fileName = "DataDictionaryFromBPMN&DMN";
             try
             {
                 excelPkg = new ExcelPackage();
                 ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add("DmnTEK");
-                var dmnIds = dmnDataDictionaryModels.GroupBy(x => x.DmnId).Select(y => y.First());
-                var objectPropertyNames = new[] { "DmnId", "DmnNavn", "TekKapitel", "TekLedd", "TekTabell", "TekForskriften", "TekWebLink" };
-                ExcelServices.CreateDmnExcelTableDataDictionary(dmnIds, wsSheet, "dmnTek", objectPropertyNames);
+                var dmnIds = dmnInfoList.GroupBy(x => x.DmnId).Select(y => y.First());
+                var objectPropertyNames = new[] { "DmnId", "DmnName", "TekKapitel", "TekLedd", "TekTabell", "TekForskriften", "TekWebLink" };
+                ExcelConverter.CreateDmnExcelTableDataDictionary(dmnIds, wsSheet, "dmnTek", objectPropertyNames);
 
                 ExcelWorksheet wsSheet1 = excelPkg.Workbook.Worksheets.Add("Variables");
-                var dmnVariablesIds = dmnDataDictionaryModels.GroupBy(x => x.VariabelId).Select(y => y.First());
-                var dmnVariablesIdstPropertyNames = new[] { "VariabelId", "VariabelNavn", "VariabelBeskrivelse" };
-                ExcelServices.CreateDmnExcelTableDataDictionary(dmnVariablesIds, wsSheet1, "Variables", dmnVariablesIdstPropertyNames);
+                var dmnVariablesIds = DmnConverter.GetVariablesFormDmns(dmnInfoList);
+                var dmnVariablesIdstPropertyNames = new[] { "VariabelId", "VariabelName", "VariabelBeskrivelse", "IFC4", "IfcURL" };
+                ExcelConverter.CreateVariablesExcelTableDataDictionary(dmnVariablesIds, wsSheet1, "Variables", dmnVariablesIdstPropertyNames);
+
 
                 ExcelWorksheet wsSheet2 = excelPkg.Workbook.Worksheets.Add("Dmn+Variables");
-                var objectPropertyNames1 = new[] { "DmnId", "VariabelId", "Type" };
-                ExcelServices.CreateDmnExcelTableDataDictionary(dmnDataDictionaryModels, wsSheet2, "Dmn+Variables", objectPropertyNames1);
+                var objectPropertyNames1 = new[] { "DmnId", "VariabelId", "VariabelType" };
+                ExcelConverter.CreateDMNAndVariablesExcelTableDataDictionary(dmnIds, wsSheet2, "Dmn+Variables", objectPropertyNames1);
+
+
 
                 ExcelWorksheet wsSheet3 = excelPkg.Workbook.Worksheets.Add("summary");
-                var summaryPropertyNames = new[] { "DmnData.FilNavn", "BpmnData.BpmnId", "DmnData.DmnId", "DmnData.VariabelId", "DmnData.VariabelType", "DmnData.Type", "DmnData.Kilde" };
-                ExcelServices.CreateSummaryExcelTableDataDictionary(dataDictionaryModels, wsSheet3, "summary", summaryPropertyNames);
+                var summaryPropertyNames = new[] { "FileName", "BpmnId", "DmnId", "VariabelId", "VariabelType", "VariablesUseType" };
+
+                ExcelConverter.CreateSummaryExcelTableDataDictionary(bpmnDataDictionaryModels, wsSheet3, "summary", summaryPropertyNames);
             }
             catch
             {
@@ -483,5 +489,6 @@ namespace digitek.brannProsjektering.Controllers
             return Ok(okDictionary);
         }
 
+       
     }
 }

@@ -275,11 +275,6 @@ namespace digitek.brannProsjektering.Controllers
 
                     return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
 
-                    //var fileStreamResult = new FileStreamResult(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                    //{
-                    //    FileDownloadName = $"{filename}.xlsx"
-                    //};
-                    //return fileStreamResult;
                 }
                 catch
                 {
@@ -432,18 +427,6 @@ namespace digitek.brannProsjektering.Controllers
             {
                 errorDictionary.Add("Error", "Can't create Excel file");
             }
-            // Save Excel Package
-            //try
-            //{
-            //    var path = Path.Combine(@"C:\", "DmnToExcel");
-            //    Directory.CreateDirectory(path);
-            //    excelPkg.SaveAs(new FileInfo(Path.Combine(path, string.Concat(fileName, ".xlsx"))));
-            //    okDictionary.Add(fileName, "Created in:" + path);
-            //}
-            //catch
-            //{
-            //    errorDictionary.Add(fileName, "Can't be saved");
-            //}
 
             // Create Excel Stream response
             var filename = Path.GetFileNameWithoutExtension("Bpmn&Dmn Data Dictionary");
@@ -457,12 +440,6 @@ namespace digitek.brannProsjektering.Controllers
                 fileStream.Position = 0;
 
                 return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
-
-                //var fileStreamResult = new FileStreamResult(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                //{
-                //    FileDownloadName = $"{filename}.xlsx"
-                //};
-                //return fileStreamResult;
             }
             catch
             {

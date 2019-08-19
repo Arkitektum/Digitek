@@ -17,6 +17,9 @@ using OfficeOpenXml.Table;
 
 namespace digitek.brannProsjektering.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DmnController : ControllerBase
@@ -24,6 +27,10 @@ namespace digitek.brannProsjektering.Controllers
 
         private IHostingEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="environment"></param>
         public DmnController(IHostingEnvironment environment)
         {
             _hostingEnvironment = environment;
@@ -31,6 +38,13 @@ namespace digitek.brannProsjektering.Controllers
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <param name="outputs"></param>
+        /// <param name="haveId"></param>
+        /// <returns></returns>
         [HttpPost, Route("excelToDmn/{inputs}/{outputs}/{haveId}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult PostExcelToDmn(string inputs, string outputs, bool haveId)
@@ -38,9 +52,6 @@ namespace digitek.brannProsjektering.Controllers
 
 
             var httpRequest = HttpContext.Request;
-            var responsDictionary = new Dictionary<string, string>();
-            HttpResponseMessage response = null;
-
             if (httpRequest.Form.Files.Count != 1)
                 return BadRequest(new Dictionary<string, string>() { { "Error:", "Not file fount" } });
             var file = httpRequest.Form.Files[0];
@@ -63,14 +74,14 @@ namespace digitek.brannProsjektering.Controllers
                 string dmnName;
                 string dmnId;
 
-                Dictionary<int, Dictionary<string, object>> inputsRulesFromExcel = null;
-                Dictionary<int, Dictionary<string, object>> outputsRulesFromExcel = null;
-                Dictionary<int, string> annotationsRulesDictionary = null;
+                Dictionary<int, Dictionary<string, object>> inputsRulesFromExcel;
+                Dictionary<int, Dictionary<string, object>> outputsRulesFromExcel;
+                Dictionary<int, string> annotationsRulesDictionary;
 
-                Dictionary<int, string> outputsRulesTypes = null;
-                Dictionary<int, string> inputsRulesTypes = null;
-                Dictionary<string, Dictionary<string, string>> inputsDictionary = null;
-                Dictionary<string, Dictionary<string, string>> outputsDictionary = null;
+                Dictionary<int, string> outputsRulesTypes;
+                Dictionary<int, string> inputsRulesTypes;
+                Dictionary<string, Dictionary<string, string>> inputsDictionary;
+                Dictionary<string, Dictionary<string, string>> outputsDictionary;
 
                 using (ExcelWorksheet worksheet = ep.Workbook.Worksheets.FirstOrDefault())
                 {
@@ -193,17 +204,18 @@ namespace digitek.brannProsjektering.Controllers
             return dictionary;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost, Route("dmnToExcel")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult PosDmnToExcel()
         {
             var httpRequest = HttpContext.Request;
-            HttpResponseMessage response = null;
 
-            string okResponsText = null;
             var httpFiles = httpRequest.Form.Files;
-            var okDictionary = new Dictionary<string, string>();
-            var ErrorDictionary = new Dictionary<string, string>();
+            var errorDictionary = new Dictionary<string, string>();
 
             if (httpFiles == null && !httpFiles.Any())
                 return NotFound("Can't find any file");
@@ -225,7 +237,7 @@ namespace digitek.brannProsjektering.Controllers
                 }
                 if (dmn == null)
                 {
-                    return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't Deserialize DMN file" } });
+                    if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Can't Deserialize DMN file"}});
                 }
 
                 // check if DMN have desicion table
@@ -234,19 +246,17 @@ namespace digitek.brannProsjektering.Controllers
                 var tDrgElements = decision as tDRGElement[] ?? decision.ToArray();
                 if (!tDrgElements.Any())
                 {
-                    return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Dmn file have non Decision tables" } });
+                    if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Dmn file have non Decision tables"}});
                 }
 
                 // create Excel Package
-                ExcelPackage excelPkg = null;
-                excelPkg = new ExcelPackage();
+                var excelPkg = new ExcelPackage();
                 foreach (var tdecision in tDrgElements)
                 {
-                    tDecisionTable decisionTable = null;
                     try
                     {
                         var dt = ((tDecision)tdecision).Item;
-                        decisionTable = (tDecisionTable)Convert.ChangeType(dt, typeof(tDecisionTable));
+                        var decisionTable = (tDecisionTable)Convert.ChangeType(dt, typeof(tDecisionTable));
                         ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add(tdecision.id);
                         //Add Table Title
                         ExcelConverter.AddTableTitle(tdecision.name, wsSheet, decisionTable.hitPolicy.ToString(), tdecision.id);
@@ -259,27 +269,27 @@ namespace digitek.brannProsjektering.Controllers
                     }
                     catch
                     {
-                        return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't be create ExcelPackage" } });
+                        if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Can't be create ExcelPackage"}});
                     }
                 }
 
                 // Create Excel Stream response
                 try
                 {
+                    if (file != null)
+                    {
+                        var filename = Path.GetFileNameWithoutExtension(file.FileName);
+                        excelPkg.Save();
+                        var fileStream = excelPkg.Stream;
+                        fileStream.Flush();
+                        fileStream.Position = 0;
 
-                    var filename = Path.GetFileNameWithoutExtension(file.FileName);
-                    excelPkg.Save();
-                    var fileStream = excelPkg.Stream;
-                    fileStream.Flush();
-                    fileStream.Position = 0;
-
-                    return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
-
+                        return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
+                    }
                 }
                 catch
                 {
-
-                    ErrorDictionary.Add(file.FileName, "Can't create excel Stream response");
+                    if (file != null) errorDictionary.Add(file.FileName, "Can't create excel Stream response");
                 }
 
 
@@ -292,6 +302,10 @@ namespace digitek.brannProsjektering.Controllers
             return Ok(new Dictionary<string, string>() { { "Error", "No data to process." } });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost, Route("GetBPMNDataDictionaryToExcel")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult PostModelsToExcelDataDictionary()
@@ -320,7 +334,7 @@ namespace digitek.brannProsjektering.Controllers
             //get information drom DMN files
             foreach (var dmnFile in dmnFormsFiles)
             {
-                tDefinitions dmn = null;
+                tDefinitions dmn;
 
                 //Deserialize DMN file
                 try
@@ -352,9 +366,9 @@ namespace digitek.brannProsjektering.Controllers
                     continue;
                 }
                 //Add Dmn info
-                foreach (tDecision tdecision in tdecisions)
+                foreach (var tDrgElement in tdecisions)
                 {
-                    tDecisionTable decisionTable = null;
+                    var tdecision = (tDecision) tDrgElement;
                     try
                     {
                         DmnConverter.GetDecisionsVariables(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName),
@@ -371,7 +385,7 @@ namespace digitek.brannProsjektering.Controllers
             {
                 try
                 {
-                    XDocument bpmnXml = null;
+                    XDocument bpmnXml;
                     using (Stream dmnfile = bpmFile.OpenReadStream())
                     {
                         bpmnXml = XDocument.Load(dmnfile);
@@ -391,7 +405,6 @@ namespace digitek.brannProsjektering.Controllers
                 catch
                 {
                     errorDictionary.Add(bpmFile.FileName, "BPMN Can't be Deserialize. BPMN Version 2.0.2 read more: https://www.omg.org/spec/BPMN/2.0.2");
-                    continue;
                 }
             }
 
@@ -403,7 +416,8 @@ namespace digitek.brannProsjektering.Controllers
                 ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add("DmnTEK");
                 var dmnIds = dmnInfoList.GroupBy(x => x.DmnId).Select(y => y.First());
                 var objectPropertyNames = new[] { "DmnId", "DmnName", "TekKapitel", "TekLedd", "TekTabell", "TekForskriften", "TekWebLink" };
-                ExcelConverter.CreateDmnExcelTableDataDictionary(dmnIds, wsSheet, "dmnTek", objectPropertyNames);
+                var dmnInfos = dmnIds as DmnInfo[] ?? dmnIds.ToArray();
+                ExcelConverter.CreateDmnExcelTableDataDictionary(dmnInfos, wsSheet, "dmnTek", objectPropertyNames);
 
                 ExcelWorksheet wsSheet1 = excelPkg.Workbook.Worksheets.Add("Variables");
                 var dmnVariablesIds = DmnConverter.GetVariablesFormDmns(dmnInfoList);
@@ -413,7 +427,7 @@ namespace digitek.brannProsjektering.Controllers
 
                 ExcelWorksheet wsSheet2 = excelPkg.Workbook.Worksheets.Add("Dmn+Variables");
                 var objectPropertyNames1 = new[] { "DmnId", "VariabelId", "VariabelType" };
-                ExcelConverter.CreateDMNAndVariablesExcelTableDataDictionary(dmnIds, wsSheet2, "Dmn+Variables", objectPropertyNames1);
+                ExcelConverter.CreateDMNAndVariablesExcelTableDataDictionary(dmnInfos, wsSheet2, "Dmn+Variables", objectPropertyNames1);
 
 
 
@@ -435,7 +449,6 @@ namespace digitek.brannProsjektering.Controllers
 
                 excelPkg.Save();
                 fileStream = excelPkg.Stream;
-                fileStream.Flush();
 
             }
             catch
@@ -447,7 +460,7 @@ namespace digitek.brannProsjektering.Controllers
             if (errorDictionary.Any())
                 return BadRequest(errorDictionary);
 
-
+            fileStream.Flush();
             fileStream.Position = 0;
             return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
 

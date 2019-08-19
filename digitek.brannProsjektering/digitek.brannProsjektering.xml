@@ -60,6 +60,38 @@
             <param name="justValues"></param>
             <returns></returns>
         </member>
+        <member name="T:digitek.brannProsjektering.Controllers.DmnController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DmnController.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            
+            </summary>
+            <param name="environment"></param>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DmnController.PostExcelToDmn(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="inputs"></param>
+            <param name="outputs"></param>
+            <param name="haveId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DmnController.PosDmnToExcel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:digitek.brannProsjektering.Controllers.DmnController.PostModelsToExcelDataDictionary">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:digitek.brannProsjektering.Controllers.TestMotorController.GetAvailablesModels">
             <returns></returns>
         </member>

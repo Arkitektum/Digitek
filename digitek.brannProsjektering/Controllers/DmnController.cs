@@ -284,7 +284,7 @@ namespace digitek.brannProsjektering.Controllers
                 catch
                 {
 
-                    ErrorDictionary.Add(file.FileName, "Can't be create excel Stream response");
+                    ErrorDictionary.Add(file.FileName, "Can't create excel Stream response");
                 }
 
 
@@ -305,12 +305,11 @@ namespace digitek.brannProsjektering.Controllers
 
             string okResponsText = null;
             var httpFiles = httpRequest.Form.Files;
-            var okDictionary = new Dictionary<string, string>();
             var errorDictionary = new Dictionary<string, string>();
             var dmnInfoList = new List<DmnInfo>();
             var bpmnDataDictionaryModels = new List<BpmnInfo>();
             //var dataDictionaryModels = new List<DataDictionaryModel>();
-            var dataDictionaryModels = new Dictionary<BpmnInfo,List<DmnInfo>>();
+            var dataDictionaryModels = new Dictionary<BpmnInfo, List<DmnInfo>>();
 
             if (httpFiles == null && !httpFiles.Any())
                 return NotFound("Can't find any file");
@@ -373,8 +372,7 @@ namespace digitek.brannProsjektering.Controllers
                     }
                 }
             }
-            
-            //TODO check if is more that one BPMN modell 
+
             foreach (var bpmFile in bpmnFormFiles)
             {
                 try
@@ -388,9 +386,7 @@ namespace digitek.brannProsjektering.Controllers
                     {
                         try
                         {
-                            //DmnConverter.GetDmnInfoFromBpmnModel(bpmnXml, ref bpmnDataDictionaryModels);
                             DmnConverter.GetDmnInfoFromBpmnModel(bpmnXml, dmnInfoList, ref bpmnDataDictionaryModels);
-
                         }
                         catch
                         {
@@ -405,30 +401,8 @@ namespace digitek.brannProsjektering.Controllers
                 }
             }
 
-           
-            foreach (var dmnDataInfo in dmnInfoList)
-            {
-                var submodel = new BpmnInfo();
-                try
-                {
-                    submodel = bpmnDataDictionaryModels.Single(b => b.DmnId == dmnDataInfo.DmnId);
-                }
-                catch
-                {
-
-                }
-                //dataDictionaryModels.Add(new DataDictionaryModel()
-                //{
-                //    BpmnData = submodel,
-                //    DmnData = dmnDataInfo
-                //});
-
-            }
-
-
             // create Excel Package
             ExcelPackage excelPkg = null;
-            var fileName = "DataDictionaryFromBPMN&DMN";
             try
             {
                 excelPkg = new ExcelPackage();
@@ -459,36 +433,52 @@ namespace digitek.brannProsjektering.Controllers
                 errorDictionary.Add("Error", "Can't create Excel file");
             }
             // Save Excel Package
+            //try
+            //{
+            //    var path = Path.Combine(@"C:\", "DmnToExcel");
+            //    Directory.CreateDirectory(path);
+            //    excelPkg.SaveAs(new FileInfo(Path.Combine(path, string.Concat(fileName, ".xlsx"))));
+            //    okDictionary.Add(fileName, "Created in:" + path);
+            //}
+            //catch
+            //{
+            //    errorDictionary.Add(fileName, "Can't be saved");
+            //}
+
+            // Create Excel Stream response
+            var filename = Path.GetFileNameWithoutExtension("Bpmn&Dmn Data Dictionary");
+
             try
             {
-                var path = Path.Combine(@"C:\", "DmnToExcel");
-                Directory.CreateDirectory(path);
-                excelPkg.SaveAs(new FileInfo(Path.Combine(path, string.Concat(fileName, ".xlsx"))));
-                okDictionary.Add(fileName, "Created in:" + path);
+
+                excelPkg.Save();
+                var fileStream = excelPkg.Stream;
+                fileStream.Flush();
+                fileStream.Position = 0;
+
+                return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
+
+                //var fileStreamResult = new FileStreamResult(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                //{
+                //    FileDownloadName = $"{filename}.xlsx"
+                //};
+                //return fileStreamResult;
             }
             catch
             {
-                errorDictionary.Add(fileName, "Can't be saved");
+
+                errorDictionary.Add(filename, "Can't create excel Stream response");
             }
+
+
 
             if (errorDictionary.Any())
             {
-                if (okDictionary.Any())
-                {
-                    List<Dictionary<string, string>> dictionaries = new List<Dictionary<string, string>>();
-                    dictionaries.Add(okDictionary);
-                    dictionaries.Add(errorDictionary);
-                    var result = dictionaries.SelectMany(dict => dict)
-                        .ToLookup(pair => pair.Key, pair => pair.Value)
-                        .ToDictionary(group => group.Key, group => group.First());
-                    return Ok(result);
-                }
                 return BadRequest(errorDictionary);
-
             }
-            return Ok(okDictionary);
+            return Ok();
         }
 
-       
+
     }
 }

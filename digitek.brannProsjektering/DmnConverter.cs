@@ -66,7 +66,7 @@ namespace digitek.brannProsjektering
             var decisionTable = (tDecisionTable)tdecision.Item;
             var dmnInfo = new DmnInfo()
             {
-                FileName = fileName,
+                FileName = $"{fileName}.dmn",
                 DmnId = tdecision.id,
                 DmnName = tdecision.name,
             };
@@ -142,8 +142,7 @@ namespace digitek.brannProsjektering
                     {
                         BpmnId = process.Attribute("id")?.Value,
                         BpmnNavn = process.Attribute("name")?.Value,
-                        DmnId = element.Attributes().Single(a => a.Name.ToString().Contains("decisionRef"))?.Value,
-                        DmnNavn = element.Attribute("name")?.Value,
+                     
                         DmnResultatvariabel = element.Attributes().Single(a => a.Name.ToString().Contains("resultVariable"))?.Value
                     });
                 }
@@ -176,7 +175,6 @@ namespace digitek.brannProsjektering
                         bpmnInfo = new BpmnInfo()
                         {
                             BpmnId = process.Attribute("id")?.Value,
-                            DmnId = element.Attributes().Single(a => a.Name.ToString().Contains("decisionRef"))?.Value,
                             BpmnNavn = process.Attribute("name")?.Value,
                             DmnResultatvariabel = element.Attributes().Single(a => a.Name.ToString().Contains("resultVariable"))?.Value
                         };

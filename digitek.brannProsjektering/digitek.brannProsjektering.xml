@@ -227,21 +227,6 @@
             <param name="index"></param>
             <returns></returns>
         </member>
-        <member name="P:digitek.brannProsjektering.Models.BpmnInfo.DmnId">
-            <summary>
-            The Id of the DMN that is use in the process
-            </summary>
-        </member>
-        <member name="P:digitek.brannProsjektering.Models.BpmnInfo.DmnNavn">
-            <summary>
-            Given Name of the DMN
-            </summary>
-        </member>
-        <member name="P:digitek.brannProsjektering.Models.BpmnInfo.DmnResultatvariabel">
-            <summary>
-            Id for the outputs variables from the DMN process
-            </summary>
-        </member>
         <member name="T:DecisionModelNotation.Shema.tDefinitions">
             <remarks/>
         </member>

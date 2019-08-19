@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Builder;
+using digitek.brannProsjektering.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
@@ -272,16 +275,11 @@ namespace digitek.brannProsjektering.Controllers
 
                     return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
 
-                    //var fileStreamResult = new FileStreamResult(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                    //{
-                    //    FileDownloadName = $"{filename}.xlsx"
-                    //};
-                    //return fileStreamResult;
                 }
                 catch
                 {
 
-                    ErrorDictionary.Add(file.FileName, "Can't be create excel Stream response");
+                    ErrorDictionary.Add(file.FileName, "Can't create excel Stream response");
                 }
 
 
@@ -293,6 +291,168 @@ namespace digitek.brannProsjektering.Controllers
 
             return Ok(new Dictionary<string, string>() { { "Error", "No data to process." } });
         }
+
+        [HttpPost, Route("GetBPMNDataDictionaryToExcel")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IActionResult PostModelsToExcelDataDictionary()
+        {
+            var httpRequest = HttpContext.Request;
+
+            var httpFiles = httpRequest.Form.Files;
+            var errorDictionary = new Dictionary<string, string>();
+            var dmnInfoList = new List<DmnInfo>();
+            var bpmnDataDictionaryModels = new List<BpmnInfo>();
+            //var dataDictionaryModels = new List<DataDictionaryModel>();
+            var dataDictionaryModels = new Dictionary<BpmnInfo, List<DmnInfo>>();
+
+            if (httpFiles == null && !httpFiles.Any())
+                return NotFound("Can't find any file");
+            var dmnFiles = httpFiles.Where(f => Path.GetExtension(f.FileName) == ".dmn");
+            var bpmFiles = httpFiles.Where(f => Path.GetExtension(f.FileName) == ".bpmn");
+
+
+            var dmnFormsFiles = dmnFiles as IFormFile[] ?? dmnFiles.ToArray();
+            var bpmnFormFiles = bpmFiles as IFormFile[] ?? bpmFiles.ToArray();
+            if (!dmnFormsFiles.Any() || !bpmnFormFiles.Any())
+                return BadRequest("They must be one BPMN and at least one DMN to create the data dictionary");
+
+
+            //get information drom DMN files
+            foreach (var dmnFile in dmnFormsFiles)
+            {
+                tDefinitions dmn = null;
+
+                //Deserialize DMN file
+                try
+                {
+                    using (Stream dmnfile = dmnFile.OpenReadStream())
+                    {
+                        dmn = DmnConverter.DeserializeStreamDmnFile(dmnfile);
+                    }
+                    if (dmn == null)
+                    {
+                        errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
+                        continue;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
+                    continue;
+                }
+                // check if DMN have desicion table
+                var items = dmn.Items;
+                var decision = items.Where(t => t.GetType() == typeof(tDecision));
+
+                var tdecisions = decision as tDRGElement[] ?? decision.ToArray();
+                if (!tdecisions.Any())
+                {
+                    errorDictionary.Add(dmnFile.FileName, "Dmn file have non decision");
+                    continue;
+                }
+                //Add Dmn info
+                foreach (tDecision tdecision in tdecisions)
+                {
+                    tDecisionTable decisionTable = null;
+                    try
+                    {
+                        DmnConverter.GetDecisionsVariables(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName),
+                            ref dmnInfoList);
+                    }
+                    catch
+                    {
+                        errorDictionary.Add(dmnFile.FileName, "Can't add variables info from DMN");
+                    }
+                }
+            }
+
+            foreach (var bpmFile in bpmnFormFiles)
+            {
+                try
+                {
+                    XDocument bpmnXml = null;
+                    using (Stream dmnfile = bpmFile.OpenReadStream())
+                    {
+                        bpmnXml = XDocument.Load(dmnfile);
+                    }
+                    if (bpmnXml != null)
+                    {
+                        try
+                        {
+                            DmnConverter.GetDmnInfoFromBpmnModel(bpmnXml, dmnInfoList, ref bpmnDataDictionaryModels);
+                        }
+                        catch
+                        {
+                            errorDictionary.Add(bpmFile.FileName, "Can't add serialize bpmn to Data Model Dictionary");
+                        }
+                    }
+                }
+                catch
+                {
+                    errorDictionary.Add(bpmFile.FileName, "BPMN Can't be Deserialize. BPMN Version 2.0.2 read more: https://www.omg.org/spec/BPMN/2.0.2");
+                    continue;
+                }
+            }
+
+            // create Excel Package
+            ExcelPackage excelPkg = null;
+            try
+            {
+                excelPkg = new ExcelPackage();
+                ExcelWorksheet wsSheet = excelPkg.Workbook.Worksheets.Add("DmnTEK");
+                var dmnIds = dmnInfoList.GroupBy(x => x.DmnId).Select(y => y.First());
+                var objectPropertyNames = new[] { "DmnId", "DmnName", "TekKapitel", "TekLedd", "TekTabell", "TekForskriften", "TekWebLink" };
+                ExcelConverter.CreateDmnExcelTableDataDictionary(dmnIds, wsSheet, "dmnTek", objectPropertyNames);
+
+                ExcelWorksheet wsSheet1 = excelPkg.Workbook.Worksheets.Add("Variables");
+                var dmnVariablesIds = DmnConverter.GetVariablesFormDmns(dmnInfoList);
+                var dmnVariablesIdstPropertyNames = new[] { "VariabelId", "VariabelName", "VariabelBeskrivelse", "IFC4", "IfcURL" };
+                ExcelConverter.CreateVariablesExcelTableDataDictionary(dmnVariablesIds, wsSheet1, "Variables", dmnVariablesIdstPropertyNames);
+
+
+                ExcelWorksheet wsSheet2 = excelPkg.Workbook.Worksheets.Add("Dmn+Variables");
+                var objectPropertyNames1 = new[] { "DmnId", "VariabelId", "VariabelType" };
+                ExcelConverter.CreateDMNAndVariablesExcelTableDataDictionary(dmnIds, wsSheet2, "Dmn+Variables", objectPropertyNames1);
+
+
+
+                ExcelWorksheet wsSheet3 = excelPkg.Workbook.Worksheets.Add("summary");
+                var summaryPropertyNames = new[] { "FileName", "BpmnId", "DmnId", "VariabelId", "VariabelType", "VariablesUseType" };
+
+                ExcelConverter.CreateSummaryExcelTableDataDictionary(bpmnDataDictionaryModels, wsSheet3, "summary", summaryPropertyNames);
+            }
+            catch
+            {
+                errorDictionary.Add("Error", "Can't create Excel file");
+            }
+
+            // Create Excel Stream response
+            var filename = Path.GetFileNameWithoutExtension("Bpmn&Dmn Data Dictionary");
+            Stream fileStream = null;
+            try
+            {
+
+                excelPkg.Save();
+                fileStream = excelPkg.Stream;
+                fileStream.Flush();
+
+            }
+            catch
+            {
+
+                errorDictionary.Add(filename, "Can't create excel Stream response");
+            }
+
+            if (errorDictionary.Any())
+                return BadRequest(errorDictionary);
+
+
+            fileStream.Position = 0;
+            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{filename}.xlsx");
+
+        }
+
 
     }
 }

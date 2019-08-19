@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Models;
@@ -606,7 +607,7 @@ namespace digitek.brannProsjektering
                 {
                     var headerCellAddress = AddRowAndColumnToCellAddress(startTableCellAddress, 0, i);
                     wsSheet.Cells[headerCellAddress].Value = inputClause.label;
-                    AddContentStyleToCell(wsSheet,headerCellAddress);
+                    AddContentStyleToCell(wsSheet, headerCellAddress);
 
                     //add input variableId name
                     var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, 1, i);
@@ -696,20 +697,200 @@ namespace digitek.brannProsjektering
             wsSheet.Cells[cellAddress].Style.Locked = true;
         }
 
-        private static void AddExcelCellByRowAndColumn(int column, int row, string value, ExcelWorksheet wsSheet, Color? color = null)
+        //----- Data Dictionary
+
+        public static void CreateDmnExcelTableDataDictionary(IEnumerable<DmnInfo> dmns, ExcelWorksheet wsSheet, string tableName, string[] objectPropertyNames)
         {
-            var cellName = string.Concat(GetColumnLetter(column), row);
-            using (ExcelRange rng1 = wsSheet.Cells[cellName])
+            // place Table in Excel
+            var dmnInfos = dmns as DmnInfo[] ?? dmns.ToArray();
+            CreateExcelTable(wsSheet, dmnInfos.Count(), objectPropertyNames.Length - 1, tableName);
+
+            //Create Excel table  and set Header
+            AddTableHeader(wsSheet, objectPropertyNames);
+
+            for (int rowIndex = 0; rowIndex < dmnInfos.Count(); rowIndex++)
             {
-                if (color.HasValue)
+                AddExcelTableRowData(dmnInfos[rowIndex], rowIndex, wsSheet, objectPropertyNames);
+            }
+
+            wsSheet.Cells[wsSheet.Dimension.Address].AutoFitColumns();
+        }
+        public static void CreateVariablesExcelTableDataDictionary(List<VariablesInfo> variablesInfos, ExcelWorksheet wsSheet, string tableName, string[] objectPropertyNames)
+        {
+            // place Table in Excel
+
+            CreateExcelTable(wsSheet, variablesInfos.Count(), objectPropertyNames.Length - 1, tableName);
+
+            //Create Excel table  and set Header
+            AddTableHeader(wsSheet, objectPropertyNames);
+
+            for (int rowIndex = 0; rowIndex < variablesInfos.Count(); rowIndex++)
+            {
+                AddExcelTableRowData(variablesInfos[rowIndex], rowIndex, wsSheet, objectPropertyNames);
+            }
+
+            wsSheet.Cells[wsSheet.Dimension.Address].AutoFitColumns();
+        }
+        public static void CreateDMNAndVariablesExcelTableDataDictionary(IEnumerable<DmnInfo> dmns, ExcelWorksheet wsSheet, string tableName, string[] objectPropertyNames)
+        {
+            // place Table in Excel
+            var dmnInfos = dmns as DmnInfo[] ?? dmns.ToArray();
+
+            var totalInputs = dmnInfos.SelectMany(d => d.InputVariablesInfo).ToList();
+            var totalOutputs = dmnInfos.SelectMany(d => d.OutputVariablesInfo).ToList();
+
+            var totalRows = totalInputs.Count + totalOutputs.Count;
+            CreateExcelTable(wsSheet, totalRows, objectPropertyNames.Length - 1, tableName);
+
+            //Create Excel table  and set Header
+            AddTableHeader(wsSheet, objectPropertyNames);
+
+
+
+            var rowIndex = 0;
+            foreach (var dmnInfo in dmnInfos)
+            {
+                foreach (var variablesInfo in dmnInfo.InputVariablesInfo)
                 {
-                    rng1.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    rng1.Style.Fill.BackgroundColor.SetColor(color.Value);
+                    AddVariableInfoExcelTableRowData(dmnInfo, variablesInfo, rowIndex, wsSheet, objectPropertyNames);
+                    rowIndex++;
+                }
+                foreach (var variablesInfo in dmnInfo.OutputVariablesInfo)
+                {
+                    AddVariableInfoExcelTableRowData(dmnInfo, variablesInfo, rowIndex, wsSheet, objectPropertyNames);
+                    rowIndex++;
+                }
+            }
+
+            wsSheet.Cells[wsSheet.Dimension.Address].AutoFitColumns();
+        }
+        public static void CreateSummaryExcelTableDataDictionary(IEnumerable<BpmnInfo> bpmns, ExcelWorksheet wsSheet, string tableName, string[] objectPropertyNames)
+        {
+            var TotalDmns = bpmns.SelectMany(bp => bp.DmnInfos).ToList();
+            var totalDmnImputst = TotalDmns.SelectMany(d => d.InputVariablesInfo).ToList().Count;
+            var totalDmnsOutpust = TotalDmns.SelectMany(d => d.OutputVariablesInfo).ToList().Count;
+            var totalRows = totalDmnImputst + totalDmnsOutpust;
+
+            //var totalRows = totalInputs.Count + totalOutputs.Count;
+            CreateExcelTable(wsSheet, totalRows, objectPropertyNames.Length - 1, tableName);
+
+            //Create Excel table  and set Header
+            AddTableHeader(wsSheet, objectPropertyNames);
+
+            var rowIndex = 0;
+            foreach (var bpmn in bpmns)
+            {
+
+                foreach (var dmnInfo in bpmn.DmnInfos)
+                {
+                    foreach (var variablesInfo in dmnInfo.InputVariablesInfo)
+                    {
+                        AddSummaryRowInfoToExcelTable(bpmn, dmnInfo, variablesInfo, rowIndex, wsSheet, objectPropertyNames, "input");
+                        rowIndex++;
+                    }
+                    foreach (var variablesInfo in dmnInfo.OutputVariablesInfo)
+                    {
+                        AddSummaryRowInfoToExcelTable(bpmn, dmnInfo, variablesInfo, rowIndex, wsSheet, objectPropertyNames, "output");
+                        rowIndex++;
+                    }
                 }
 
-                rng1.Value = value;
+            }
+            wsSheet.Cells[wsSheet.Dimension.Address].AutoFitColumns();
+        }
+
+        private static void CreateExcelTable(ExcelWorksheet wsSheet, int rowNumber, int propertiesNamesCount, string tableName)
+        {
+            var startTableCellAddress = AddRowAndColumnToCellAddress(_StartCell, 0, 0);
+            var endTableCellAddress = AddRowAndColumnToCellAddress(_StartCell, rowNumber, propertiesNamesCount);
+            ExcelTable table;
+            using (ExcelRange rng = wsSheet.Cells[$"{startTableCellAddress}:{endTableCellAddress}"])
+            {
+                table = wsSheet.Tables.Add(rng, tableName);
             }
         }
+
+        private static void AddTableHeader(ExcelWorksheet wsSheet, string[] objectPropertyNames)
+        {
+            var startTableCellAddress = wsSheet.Tables.FirstOrDefault()?.Address.Start.Address;
+            //Add data dictionary Headers to Table
+            for (int i = 0; i < objectPropertyNames.Length; i++)
+            {
+                wsSheet.Cells[AddRowAndColumnToCellAddress(startTableCellAddress, 0, i)].Value = objectPropertyNames[i];
+            }
+        }
+
+        private static void AddExcelTableRowData(object modelData, int rowIndex, ExcelWorksheet wsSheet, string[] dmnFields)
+        {
+            var startTableCellAddress = wsSheet.Tables.FirstOrDefault()?.Address.Start.Address;
+
+            for (int i = 0; i < dmnFields.Length; i++)
+            {
+                var value = GetPropertyStringValue(modelData, dmnFields[i]);
+                var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, rowIndex + 1, i);
+                wsSheet.Cells[cellAdress].Value = value;
+            }
+        }
+        private static void AddVariableInfoExcelTableRowData(DmnInfo dmnInfo, VariablesInfo variableInfo, int rowIndex, ExcelWorksheet wsSheet, string[] dmnFields, string variableUseType = null)
+        {
+            var startTableCellAddress = wsSheet.Tables.FirstOrDefault()?.Address.Start.Address;
+
+            for (int i = 0; i < dmnFields.Length; i++)
+            {
+                var value = GetPropertyStringValue(dmnInfo, dmnFields[i]) ?? GetPropertyStringValue(variableInfo, dmnFields[i]);
+                if (dmnFields[i] == "VariablesUseType" && !string.IsNullOrEmpty(variableUseType))
+                {
+                    value = variableUseType;
+                }
+                var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, rowIndex + 1, i);
+                wsSheet.Cells[cellAdress].Value = value;
+            }
+        }
+        private static void AddSummaryRowInfoToExcelTable(BpmnInfo bpmn, DmnInfo dmnInfo, VariablesInfo variableInfo, int rowIndex, ExcelWorksheet wsSheet, string[] dmnFields, string variableUseType = null)
+        {
+            var startTableCellAddress = wsSheet.Tables.FirstOrDefault()?.Address.Start.Address;
+
+            for (int i = 0; i < dmnFields.Length; i++)
+            {
+                var propertyName = dmnFields[i];
+                var value = (GetPropertyStringValue(dmnInfo, propertyName) ??
+                             GetPropertyStringValue(variableInfo, propertyName)) ??
+                            GetPropertyStringValue(bpmn, propertyName);
+                if (dmnFields[i] == "VariablesUseType" && !string.IsNullOrEmpty(variableUseType))
+                {
+                    value = variableUseType;
+                }
+                var cellAdress = AddRowAndColumnToCellAddress(startTableCellAddress, rowIndex + 1, i);
+                wsSheet.Cells[cellAdress].Value = value;
+            }
+        }
+
+        private static string GetPropertyStringValue(object objectData, string propertyName)
+        {
+            try
+            {
+                foreach (String part in propertyName.Split('.'))
+                {
+                    if (objectData == null) { return null; }
+                    Type type = objectData.GetType();
+                    PropertyInfo info = type.GetProperty(part);
+                    if (info == null) { return null; }
+                    objectData = info.GetValue(objectData, null);
+                }
+                var stringValue = objectData.ToString();
+                return stringValue;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        //------
+
+
+
+
         //-- Comun to all
 
         /// <summary>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Excel2Dmn_15-11-18" name="dmnTest1" namespace="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
+  <decision id="dmnTest02" name="Decision Table Test 02">
+    <decisionTable id="decisionTable" hitPolicy="FIRST">
+      <input id="inp1" label="input 1">
+        <inputExpression id="exp_inp1" label="label_inp1" typeRef="double">        <text>inp1</text>
+</inputExpression>
+      </input>
+      <input id="inp2" label="Input 2" camunda:inputVariable="">
+        <inputExpression id="exp_inp2" label="label_inp2" typeRef="boolean">        <text>inp2</text>
+</inputExpression>
+      </input>
+      <input id="inp3" label="Input 3">
+        <inputExpression id="exp_inp3" label="label_inp3" typeRef="string">        <text>inp3</text>
+</inputExpression>
+      </input>
+      <input id="inp4" label="Input 4" camunda:inputVariable="">
+        <inputExpression id="exp_inp4" label="label_inp4" typeRef="double">        <text>inp4</text>
+</inputExpression>
+      </input>
+      <input id="out3" label="Output 3" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_10vnzjm" typeRef="boolean">        <text>out3</text>
+</inputExpression>
+      </input>
+      <output id="out1_Id" label="Output1" name="out1" typeRef="string" />
+      <output id="out2_Id" label="Output 2" name="out2" typeRef="double" />
+      <rule id="rowRule_7">
+        <description>Annotation 02</description>
+        <inputEntry id="B7">        <text><![CDATA[< 500]]></text>
+</inputEntry>
+        <inputEntry id="C7">        <text>true</text>
+</inputEntry>
+        <inputEntry id="D7">        <text><![CDATA["Uno"]]></text>
+</inputEntry>
+        <inputEntry id="E7">        <text>1.22</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0gub09u">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_F7">        <text><![CDATA["a"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_G7">        <text>1.1</text>
+</outputEntry>
+      </rule>
+      <rule id="rowRule_8">
+        <inputEntry id="B8">        <text>500</text>
+</inputEntry>
+        <inputEntry id="C8">        <text>false</text>
+</inputEntry>
+        <inputEntry id="D8">        <text><![CDATA["Dos"]]></text>
+</inputEntry>
+        <inputEntry id="E8">        <text>1.23</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_178c1sx">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_F8">        <text><![CDATA["b"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_G8">        <text>1.2</text>
+</outputEntry>
+      </rule>
+      <rule id="rowRule_9">
+        <description>Annotation 04</description>
+        <inputEntry id="B9">        <text><![CDATA[>510]]></text>
+</inputEntry>
+        <inputEntry id="C9">        <text>true</text>
+</inputEntry>
+        <inputEntry id="D9">        <text><![CDATA["Tres"]]></text>
+</inputEntry>
+        <inputEntry id="E9">        <text>1.24</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_179arzo">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_F9">        <text><![CDATA["c"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_G9">        <text>1.3</text>
+</outputEntry>
+      </rule>
+      <rule id="rowRule_10">
+        <description>Annotation 05</description>
+        <inputEntry id="B10">        <text></text>
+</inputEntry>
+        <inputEntry id="C10">        <text>true</text>
+</inputEntry>
+        <inputEntry id="D10">        <text><![CDATA["Uno","Dos","Tres"]]></text>
+</inputEntry>
+        <inputEntry id="E10">        <text>1.25</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_08undby">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_F10">        <text><![CDATA["a"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_G10">        <text>1.4</text>
+</outputEntry>
+      </rule>
+      <rule id="rowRule_11">
+        <description>Annotation 06</description>
+        <inputEntry id="B11">        <text>[500..510.6]</text>
+</inputEntry>
+        <inputEntry id="C11">        <text></text>
+</inputEntry>
+        <inputEntry id="D11">        <text></text>
+</inputEntry>
+        <inputEntry id="E11">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_08pum98">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_F11">        <text><![CDATA["åæø"]]></text>
+</outputEntry>
+        <outputEntry id="LiteralExpression_G11">        <text></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

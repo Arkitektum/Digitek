@@ -92,8 +92,6 @@ namespace digitek.brannProsjektering.Tests
                     var property = value.GetProperty("DmnId");
                     String name = (String)(property.GetValue(dmnData, null));
 
-                    submodel = bpmnDataDictionary.Single(b => b.DmnId == "sdsds");
-
                 }
                 catch
                 {

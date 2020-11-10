@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace CamundaClient
 {
@@ -15,7 +16,7 @@ namespace CamundaClient
         public string RestUsername { get; }
         public string RestPassword { get; }
 
-        private static HttpClient client;
+        private static HttpClient httpClient;
 
         public CamundaClientHelper(Uri restUrl, string username, string password)
         {
@@ -26,23 +27,26 @@ namespace CamundaClient
 
         public HttpClient HttpClient()
         {
-            if (client == null)
+            if (httpClient == null)
             {
+                httpClient = new HttpClient();
+                
+                https://stackoverflow.com/a/33091871
+                //specify to use TLS 1.2 as default connection
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
                 if (RestUsername != null)
                 {
-                    var credentials = new NetworkCredential(RestUsername, RestPassword);
-                    client = new HttpClient(new HttpClientHandler() { Credentials = credentials });
+                    var byteArray = Encoding.ASCII.GetBytes($"{RestUsername}:{RestPassword}");
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }
-                else
-                {
-                    client = new HttpClient();
-                }
+
                 // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(CONTENT_TYPE_JSON));
-                client.BaseAddress = RestUrl;
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(CONTENT_TYPE_JSON));
+                httpClient.BaseAddress = RestUrl;
             }
 
-            return client;
+            return httpClient;
         }
 
         public static Dictionary<string, Variable> ConvertVariables(Dictionary<string, object> variables)

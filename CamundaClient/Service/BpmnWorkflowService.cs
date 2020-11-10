@@ -30,6 +30,8 @@ namespace CamundaClient.Service
             request.Variables = CamundaClientHelper.ConvertVariables(variables);
             request.BusinessKey = businessKey;
 
+            
+
             var requestContent = new StringContent(JsonConvert.SerializeObject(request, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }), Encoding.UTF8, CamundaClientHelper.CONTENT_TYPE_JSON);
             var response = http.PostAsync("process-definition/key/" + processDefinitionKey + "/start", requestContent).Result;
             if (response.IsSuccessStatusCode)
@@ -40,7 +42,6 @@ namespace CamundaClient.Service
             else
             {
                 var errorMsg = response.Content.ReadAsStringAsync();
-
                 var error = string.Concat(response.StatusCode.GetHashCode(), "-",errorMsg.Result);
                 return error;
                 //throw new EngineException(response.ReasonPhrase);

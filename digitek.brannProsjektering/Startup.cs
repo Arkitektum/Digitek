@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Cors;
 
 namespace digitek.brannProsjektering
 {
@@ -34,8 +35,9 @@ namespace digitek.brannProsjektering
                     options.AddPolicy(Localhost,
                         builder =>
                         {
-                            builder.WithOrigins("https://localhost:8080",
-                                "https://arkitektum.github.io")
+                            builder
+                                //.WithOrigins("https://localhost:8080","https://arkitektum.github.io")
+                                .AllowAnyOrigin()
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                         });

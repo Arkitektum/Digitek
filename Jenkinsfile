@@ -24,7 +24,7 @@
     stage('Build package') {
       steps {
         bat "dotnet publish --configuration Release ${PROJECT_WEB}/${PROJECT_WEB}.csproj --no-build --output output-app"
-        dir("${PROJECT_WEB}\\output-app") {
+        dir("output-app") {
           bat "octo pack --id ${PACKAGE_NAME} --version ${VERSION_NUMBER}"
           bat "octo push --package ${PACKAGE_NAME}.${VERSION_NUMBER}.nupkg --replace-existing --server http://localhost:8081 --apiKey ${OCTOPUS_API_KEY}"
         }

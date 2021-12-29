@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,11 +8,13 @@ using System.Xml.Serialization;
 using digitek.brannProsjektering.Builder;
 using digitek.brannProsjektering.Models;
 using digitek.brannProsjektering.Models.Schema;
+using digitek.brannProsjektering.services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
+
 
 namespace digitek.brannProsjektering.Controllers
 {
@@ -156,7 +158,7 @@ namespace digitek.brannProsjektering.Controllers
                     MemoryStream stream = new MemoryStream();
                     StreamWriter sw = new StreamWriter(stream, Encoding.UTF8);
 
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(DecisionModelNotation.Shema.tDefinitions));
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(tDefinitions));
                     xmlSerializer.Serialize(sw, newDmn);
 
                     stream.Position = 0;
@@ -236,7 +238,7 @@ namespace digitek.brannProsjektering.Controllers
                 }
                 if (dmn == null)
                 {
-                    if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Can't Deserialize DMN file"}});
+                    if (file != null) return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't Deserialize DMN file" } });
                 }
 
                 // check if DMN have desicion table
@@ -245,7 +247,7 @@ namespace digitek.brannProsjektering.Controllers
                 var tDrgElements = decision as tDRGElement[] ?? decision.ToArray();
                 if (!tDrgElements.Any())
                 {
-                    if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Dmn file have non Decision tables"}});
+                    if (file != null) return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Dmn file have non Decision tables" } });
                 }
 
                 // create Excel Package
@@ -268,7 +270,7 @@ namespace digitek.brannProsjektering.Controllers
                     }
                     catch
                     {
-                        if (file != null) return BadRequest(new Dictionary<string, string>() {{file.FileName + ".dmn", "Can't be create ExcelPackage"}});
+                        if (file != null) return BadRequest(new Dictionary<string, string>() { { file.FileName + ".dmn", "Can't be create ExcelPackage" } });
                     }
                 }
 
@@ -333,51 +335,92 @@ namespace digitek.brannProsjektering.Controllers
             //get information drom DMN files
             foreach (var dmnFile in dmnFormsFiles)
             {
-                tDefinitions dmn;
+                string stringXml = string.Empty;
+                using (Stream dmnStream = dmnFile.OpenReadStream())
+                {
+                    // convert stream to string
+                    StreamReader reader = new StreamReader(dmnStream);
+                    dmnStream.Seek(0, SeekOrigin.Begin);
+                    stringXml = reader.ReadToEnd();
+                }
 
-                //Deserialize DMN file
+
+                //Deserialize DMN 1.2 file
                 try
                 {
-                    using (Stream dmnfile = dmnFile.OpenReadStream())
+                    var dmn = new SerializeUtil().DeserializeByggesakFromString<tDefinitions>(stringXml);
+                    if (dmn != null)
                     {
-                        dmn = DmnConverter.DeserializeStreamDmnFile(dmnfile);
-                    }
-                    if (dmn == null)
-                    {
-                        errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
-                        continue;
-                    }
-                }
-                catch (Exception)
-                {
+                        // check if DMN have desicion table
+                        var items = dmn.Items;
+                        var decision = items.Where(t => t.GetType() == typeof(tDecision));
 
-                    errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
-                    continue;
+                        var tdecisions = decision as tDRGElement[] ?? decision.ToArray();
+                        if (!tdecisions.Any())
+                        {
+                            errorDictionary.Add(dmnFile.FileName, "Dmn file have non decision");
+                            continue;
+                        }
+                        //Add Dmn info
+                        foreach (var tDrgElement in tdecisions)
+                        {
+                            var tdecision = (tDecision)tDrgElement;
+                            try
+                            {
+                                DmnConverter.GetDecisionsVariablesFormDmnV11(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName), ref dmnInfoList);
+                            }
+                            catch
+                            {
+                                errorDictionary.Add(dmnFile.FileName, "Can't add variables info from DMN");
+                            }
+                        }
+                    }
                 }
-                // check if DMN have desicion table
-                var items = dmn.Items;
-                var decision = items.Where(t => t.GetType() == typeof(tDecision));
+                catch 
+                {
+                    //errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
+                    //continue;
+                }
 
-                var tdecisions = decision as tDRGElement[] ?? decision.ToArray();
-                if (!tdecisions.Any())
+                //Deserialize DMN 1.3 file
+                try
                 {
-                    errorDictionary.Add(dmnFile.FileName, "Dmn file have non decision");
-                    continue;
+                var dmnV13 = new SerializeUtil().DeserializeByggesakFromString<digitek.brannProsjektering.Models.Schema.DmnV13.tDefinitions>(stringXml);
+                    if (dmnV13 != null)
+                    {
+                        // check if DMN have desicion table
+                        var items = dmnV13.Items;
+                        var decision = items.Where(t => t.GetType() == typeof(digitek.brannProsjektering.Models.Schema.DmnV13.tDecision));
+
+                        var tdecisions = decision as digitek.brannProsjektering.Models.Schema.DmnV13.tDRGElement[] ?? decision.ToArray();
+                        if (!tdecisions.Any())
+                        {
+                            errorDictionary.Add(dmnFile.FileName, "Dmn file have non decision");
+                            continue;
+                        }
+                        //Add Dmn info
+                        foreach (var tDrgElement in tdecisions)
+                        {
+                            var tdecision = (digitek.brannProsjektering.Models.Schema.DmnV13.tDecision)tDrgElement;
+                            try
+                            {
+                                Dmnv13Services.GetDecisionsVariablesFormDmnV13(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName), ref dmnInfoList);
+                            }
+                            catch
+                            {
+                                errorDictionary.Add(dmnFile.FileName, "Can't add variables info from DMN");
+                            }
+                        }
+                    }
                 }
-                //Add Dmn info
-                foreach (var tDrgElement in tdecisions)
+                catch 
                 {
-                    var tdecision = (tDecision) tDrgElement;
-                    try
-                    {
-                        DmnConverter.GetDecisionsVariables(tdecision, Path.GetFileNameWithoutExtension(dmnFile.FileName),
-                            ref dmnInfoList);
-                    }
-                    catch
-                    {
-                        errorDictionary.Add(dmnFile.FileName, "Can't add variables info from DMN");
-                    }
+                    //errorDictionary.Add(dmnFile.FileName, "DMN Can't be Deserialize. DMN Version 1.2 read more: https://www.omg.org/spec/DMN/1.2");
+                    //continue;
                 }
+
+
+                
             }
 
             foreach (var bpmFile in bpmnFormFiles)

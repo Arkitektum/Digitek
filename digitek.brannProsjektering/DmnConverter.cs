@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -33,6 +33,20 @@ namespace digitek.brannProsjektering
             }
             return resultinMessage;
         }
+        public static digitek.brannProsjektering.Models.Schema.DmnV13.tDefinitions DeserializeStreamDmnV13File(Stream fileStream)
+        {
+            digitek.brannProsjektering.Models.Schema.DmnV13.tDefinitions resultinMessage;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(digitek.brannProsjektering.Models.Schema.DmnV13.tDefinitions));
+                resultinMessage = (digitek.brannProsjektering.Models.Schema.DmnV13.tDefinitions)serializer.Deserialize(new XmlTextReader(fileStream));
+            }
+            catch
+            {
+                resultinMessage = null;
+            }
+            return resultinMessage;
+        }
 
 
         /// <summary>
@@ -58,9 +72,8 @@ namespace digitek.brannProsjektering
         }
 
         //---- Data Dictionary
-        public static void GetDecisionsVariables(tDecision tdecision, string fileName, ref List<DmnInfo> dataDictionaryList)
+        public static void GetDecisionsVariablesFormDmnV11(tDecision tdecision, string fileName, ref List<DmnInfo> dataDictionaryList)
         {
-
             var decisionTable = (tDecisionTable)tdecision.Item;
             var dmnInfo = new DmnInfo()
             {

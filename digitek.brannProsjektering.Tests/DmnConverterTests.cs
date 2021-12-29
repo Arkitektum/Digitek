@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -65,7 +65,7 @@ namespace digitek.brannProsjektering.Tests
                     tDecisionTable decisionTable = null;
                     try
                     {
-                        DmnConverter.GetDecisionsVariables(tdecision, Path.GetFileNameWithoutExtension(filePath1),
+                        DmnConverter.GetDecisionsVariablesFormDmnV11(tdecision, Path.GetFileNameWithoutExtension(filePath1),
                             ref dmnDataDictionaryModels);
                     }
                     catch

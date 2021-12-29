@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using digitek.brannProsjektering.Persistence;
 using Microsoft.AspNetCore;
@@ -19,6 +19,7 @@ namespace digitek.brannProsjektering
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console();
+            var noko = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             var appConfiguration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

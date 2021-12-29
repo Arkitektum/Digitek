@@ -463,7 +463,7 @@ namespace digitek.brannProsjektering.Controllers
 
                 ExcelWorksheet wsSheet1 = excelPkg.Workbook.Worksheets.Add("Variables");
                 var dmnVariablesIds = DmnConverter.GetVariablesFormDmns(dmnInfoList);
-                var dmnVariablesIdstPropertyNames = new[] { "VariabelId", "VariabelName", "VariabelBeskrivelse", "IFC4", "IfcURL" };
+                var dmnVariablesIdstPropertyNames = new[] { "VariabelId", "VariabelName","VariabelType", "VariabelBeskrivelse", "IFC4", "IfcURL" };
                 ExcelConverter.CreateVariablesExcelTableDataDictionary(dmnVariablesIds, wsSheet1, "Variables", dmnVariablesIdstPropertyNames);
 
 

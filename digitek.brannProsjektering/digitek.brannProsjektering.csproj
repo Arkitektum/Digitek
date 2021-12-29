@@ -141,6 +141,7 @@
   <ItemGroup>
     <Folder Include="Models\Schema\" />
     <Folder Include="DataTemp\" />
+    <Folder Include="Models\Schema\DmnV13\" />
     <Folder Include="Worker\" />
   </ItemGroup>
 

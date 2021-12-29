@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-using DecisionModelNotation.Shema;
+using digitek.brannProsjektering.Models.Schema;
 
 
 namespace digitek.brannProsjektering.Builder

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using digitek.brannProsjektering.Models;
+using digitek.brannProsjektering.Models.Schema;
 using FluentAssertions;
 using OfficeOpenXml;
 using Xunit;

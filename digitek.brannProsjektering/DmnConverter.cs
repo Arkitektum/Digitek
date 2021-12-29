@@ -5,8 +5,8 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Models;
+using digitek.brannProsjektering.Models.Schema;
 
 namespace digitek.brannProsjektering
 {

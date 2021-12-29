@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using DecisionModelNotation.Shema;
 using digitek.brannProsjektering.Models;
 using Newtonsoft.Json;
@@ -877,7 +876,7 @@ namespace digitek.brannProsjektering
                     if (info == null) { return null; }
                     objectData = info.GetValue(objectData, null);
                 }
-                var stringValue = objectData.ToString();
+                var stringValue = objectData?.ToString();
                 return stringValue;
             }
             catch

@@ -1,11 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using DecisionModelNotation.Shema;
-using digitek.brannProsjektering.Controllers;
 using digitek.brannProsjektering.Models;
 using FluentAssertions;
 using OfficeOpenXml;
@@ -13,7 +10,7 @@ using Xunit;
 
 namespace digitek.brannProsjektering.Tests
 {
-   public class DmnConverterTests
+    public class DmnConverterTests
     {
         [Fact(DisplayName = "Add dmn Variable info - Test")]
         public void GetRowAndColumIndexTest()

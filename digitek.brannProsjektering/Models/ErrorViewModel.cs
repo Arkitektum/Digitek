@@ -1,5 +1,3 @@
-using System;
-
 namespace digitek.brannProsjektering.Models
 {
     public class ErrorViewModel

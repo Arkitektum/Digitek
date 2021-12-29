@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNetCore.Routing.Constraints;
-
-namespace digitek.brannProsjektering.Models
+﻿namespace digitek.brannProsjektering.Models
 {
     public class BranntekniskProsjekteringObject
     {

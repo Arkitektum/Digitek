@@ -1,7 +1,5 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Reflection;
-using CamundaClient;
 using digitek.brannProsjektering.Persistence;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

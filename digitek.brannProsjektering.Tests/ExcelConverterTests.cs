@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using digitek.brannProsjektering.Models.Schema;
 using DecisionModelNotation.Shema;
 using FluentAssertions;
-using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using Xunit;
 
 namespace digitek.brannProsjektering.Tests
